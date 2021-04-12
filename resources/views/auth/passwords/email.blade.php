@@ -12,6 +12,11 @@
             <div class="d-flex flex-column justify-content-center h-100">
                 <h4 class="text-uppercase text-purple">forgot password</h4>
                 <div class="mb-5">Enter E-Mail Address to recover password</div>
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <div class="form-group">
