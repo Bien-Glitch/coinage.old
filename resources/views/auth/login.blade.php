@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="d-flex flex-column justify-content-center h-100">
+            <div class="d-flex flex-column justify-content-center h-100 login">
                 <h4 class="text-uppercase text-purple mb-5">login</h4>
                 <form method="POST" action="{{route('login')}}">
                     @csrf

@@ -119,8 +119,8 @@
 .header div {
     font-style: normal;
     font-weight: bold;
-    font-size: 40px;
-    line-height: 49px;
+    font-size: 30px;
+    line-height: 39px;
 }
 
 section {
@@ -161,8 +161,8 @@ section {
 
 @media (max-width: 576px) {
     .header div {
-        font-size: 30px;
-        line-height: 39px;
+        font-size: 17px;
+        line-height: 19px;
     }
 
 }
@@ -170,11 +170,11 @@ section {
 
 
 .site-footer {
-    background-color: #26272b;
+    background-color: #ffffff;
     padding: 45px 0 20px;
     font-size: 15px;
     line-height: 24px;
-    color: #737373;
+    color: grey;
 }
 
 .site-footer hr {
@@ -187,7 +187,8 @@ section {
 }
 
 .site-footer h6 {
-    color: #fff;
+    color: black;
+    font-weight:bold;
     font-size: 16px;
     text-transform: uppercase;
     margin-top: 5px;
@@ -332,5 +333,17 @@ section {
         display: block;
         margin-right: 0;
         font-weight: 600
+    }
+    .site-footer{
+        text-align:center !important;
+        align-items: center !important;
+    }
+    .hiw .d-flex{
+        text-align: center !important;
+        align-items: center !important;
+        font-size:12px !important;
+    }
+    .payment-types .d-flex{
+        font-size:12px !important;
     }
 }
