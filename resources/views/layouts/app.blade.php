@@ -101,6 +101,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('design/flickity/flickity.pkgd.min.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -111,6 +112,9 @@
     <link rel="stylesheet" href="{{asset('design/css/bootstrap/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('design/assets/fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('design/css/custom/main.css')}}">
+
+    <!-- Flickity slider-->
+    <link rel="stylesheet" href="{{asset('design/flickity/flickity.css')}}">
 </head>
 
 <body>
@@ -136,7 +140,7 @@
 
             <div class="d-lg-flex flex-grow-1 justify-content-start align-items-center order-lg-0 mb-5 mb-lg-0">
                 <div class="dropdown buy-options mx-md-2 mb-2 mb-md-0">
-                    <a type="button" class="btn btn-sm btn-purple w-100" data-toggle="dropdown">
+                    <a type="button" class="btn btn-sm btn-purple w-100" style="border:none;" data-toggle="dropdown">
                         <span class="mx-2">BUY</span>
                         <i class="fa fa-angle-down"></i>
                     </a>
@@ -160,7 +164,7 @@
             <div class="d-lg-flex flex-fill justify-content-end align-items-center order-lg-2">
                 <ul class="navbar-nav">
                     <li class="nav-item {{ Request::is('login') ? 'active' : '' }} mx-md-2 mb-2 mb-md-0">
-                        <a class="btn btn-sm btn-purple rounded-pill px-4 w-100" href="/login">Login</a>
+                        <a class="btn btn-sm btn-purple rounded-pill px-4 w-100" style="border:none;" href="/login">Login</a>
                     </li>
                     <li class="nav-item {{ Request::is('register') ? 'active' : '' }} mx-md-2 mb-2 mb-md-0">
                         <a class="btn btn-sm btn-outline-purple rounded-pill px-4 w-100" href="/register">Create
@@ -186,22 +190,27 @@
         </div>
     </nav>
 
-    <main class="py-4">
+    <main class="py-1">
         @yield('content')
     </main>
 
     <!-- Site footer -->
     <footer class="site-footer footer">
         <div class="container-fluid">
+            <div class="d-flex mb-3">
+                <img src="./design/img/logo.svg" alt="" class="mr-3">
+                <img src="./design/img/download-app-1.png" alt="" style="width:110px;" class="mr-3">
+                <img src="./design/img/download-app-2.png" alt="" style="width:110px;" class="mr-3">
+            </div>
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-6 pl-5">
                     <h6>About</h6>
-                    <p class="text-justify">
+                    <p class="text-justify w-90">
                         Coinage is a leading peer-to-peer crypto trading platform where you can safely trade with
                         millions of users, using multiple payment methods.</p>
                 </div>
 
-                <div class="col-xs-6 col-md-3">
+                <div class="col-xs-6 col-md-2">
                     <h6>Categories</h6>
                     <ul class="footer-links">
                         <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
@@ -213,7 +222,19 @@
                     </ul>
                 </div>
 
-                <div class="col-xs-6 col-md-3">
+                <div class="col-xs-6 col-md-2">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+                        @guest
+                        <li><a href="/register">Register</a></li>
+                        <li><a href="/login">Login</a></li>
+                        @endguest
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
                     <h6>Quick Links</h6>
                     <ul class="footer-links">
                         <li><a href="/about">About Us</a></li>

@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="d-flex flex-column justify-content-center h-100">
+            <div class="d-flex flex-column justify-content-center h-100 reset">
                 <h4 class="text-uppercase text-purple">forgot password</h4>
                 <div class="mb-5">Enter E-Mail Address to recover password</div>
                 <form method="POST" action="{{ route('password.email') }}">

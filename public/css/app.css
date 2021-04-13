@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+@import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
 @charset "UTF-8";
 
 /*!
@@ -10942,4 +10943,47 @@ a.text-dark:focus {
   }
 }
 
+/* My custom css */
+.txt-sm{
+  font-size:12px;
+}
+.txt-md{
+  font-size:15px;
+}
+.txt-md-2{
+  font-size:17px;
+}
+.txt-lg{
+  font-size:20px;
+}
+.txt-lg-2{
+  font-size:22px;
+}
+.txt-xlg{
+  font-size:25px;
+}
+.testimonial-card{
+  border:1px solid grey;
+  border-radius:6px;
+  padding:5% 5% 2% 5%;
+}
+.w-100{
+  width:100%;
+}
+.w-90{
+  width:90%;
+}
+.w-80{
+  width:80%;
+}
 
+/* Mobile version code */
+@media only screen and (max-width: 600px) {
+  .login h4, .register h4, .reset h4{
+    margin-top:5% !important;
+    text-align: center !important;
+  }
+  .login, .register, .reset{
+    padding:0% 10% 0% 10% !important;
+  }
+}
