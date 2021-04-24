@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OfferController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +25,13 @@ Route::get('/about', function () {
 Auth::routes(['verify' => true]);
 
 Route::middleware('auth', 'verified', 'password.confirm')->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    //Offers
+    Route::get('/offers', [OfferController::class, 'index']);
+    Route::get('/offers/create', [OfferController::class, 'create']);
+    Route::post('/offers/create', [OfferController::class, 'store']);
+    Route::get('/offers/show', [OfferController::class, 'show']);
+    Route::get('/offers/edit', [OfferController::class, 'edit']);
+    Route::post('/offers/update', [OfferController::class, 'update']);
 });
