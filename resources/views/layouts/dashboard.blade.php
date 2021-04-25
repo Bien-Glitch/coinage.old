@@ -10,14 +10,14 @@
     <link rel="shortcut icon" href="{{asset('dashboard/images/favicon.png')}}">
     <!-- Page Title  -->
     <title>Blank - Crypto | DashLite Admin Template</title>
+
     <!-- StyleSheets  -->
-    <link rel="stylesheet" href="{{asset('dashboard/assets/css/dashlite.css?ver=2.4.0')}}">
-    <link id="skin-default" rel="stylesheet" href="{{asset('dashboard/assets/css/theme.css?ver=2.4.0')}}">
+    <link rel="stylesheet" href="{{ asset('dashboard/assets/css/dashlite.css?ver=2.4.0') }}">
+    <link id="skin-default" rel="stylesheet" href="{{ asset('dashboard/assets/css/theme.css?ver=2.4.0') }}">
+    <link rel="stylesheet" href="{{ asset('design/assets/fontawesome/css/all.min.css') }}">
+
     <!--Jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    {{-- font awesome --}}
-    <script src="https://use.fontawesome.com/b85bd5e779.js"></script>
 </head>
 
 <body class="nk-body npc-crypto bg-white has-sidebar ">
@@ -29,8 +29,8 @@
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
                         <a href="index.html" class="logo-link nk-sidebar-logo">
-                            <img class="logo-light logo-img" src="images/logo.png" srcset="{{asset('dashboard/images/logo2x.png')}}" alt="logo">
-                            <img class="logo-dark logo-img" src="images/logo-dark.png" srcset="{{asset('dashboard/images/logo-dark2x.png')}}" alt="logo-dark">
+                            <img class="logo-light logo-img" src="{{ asset('dashboard/images/logo.png') }}" srcset="{{ asset('dashboard/images/logo2x.png')}}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('dashboard/images/logo-dark.png') }}" srcset="{{ asset('dashboard/images/logo-dark2x.png') }}" alt="logo-dark">
                             <span class="nio-version">Crypto</span>
                         </a>
                     </div>
@@ -215,25 +215,25 @@
                                                 <ul class="language-list">
                                                     <li>
                                                         <a href="#" class="language-item">
-                                                            <img src="images/flags/english.png" alt="" class="language-flag">
+                                                            <img src="{{ asset('dashboard/images/flags/english.png') }}" alt="" class="language-flag">
                                                             <span class="language-name">English</span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#" class="language-item">
-                                                            <img src="images/flags/spanish.png" alt="" class="language-flag">
+                                                            <img src="{{ asset('dashboard/images/flags/spanish.png') }}" alt="" class="language-flag">
                                                             <span class="language-name">Español</span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#" class="language-item">
-                                                            <img src="images/flags/french.png" alt="" class="language-flag">
+                                                            <img src="{{ asset('dashboard/images/flags/french.png') }}" alt="" class="language-flag">
                                                             <span class="language-name">Français</span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#" class="language-item">
-                                                            <img src="images/flags/turkey.png" alt="" class="language-flag">
+                                                            <img src="{{ asset('dashboard/images/flags/turkey.png') }}" alt="" class="language-flag">
                                                             <span class="language-name">Türkçe</span>
                                                         </a>
                                                     </li>
@@ -259,8 +259,8 @@
                             </div>
                             <div class="nk-header-brand d-xl-none">
                                 <a href="index.html" class="logo-link">
-                                    <img class="logo-light logo-img" src="images/logo.png" srcset="images/logo2x.png 2x" alt="logo">
-                                    <img class="logo-dark logo-img" src="images/logo-dark.png" srcset="images/logo-dark2x.png 2x" alt="logo-dark">
+                                    <img class="logo-light logo-img" src="{{ asset('dashboard/images/logo.png') }}" srcset="{{ asset('dashboard/images/logo2x.png')}}" alt="logo">
+                                    <img class="logo-dark logo-img" src="{{ asset('dashboard/images/logo-dark.png') }}" srcset="{{ asset('dashboard/images/logo-dark2x.png') }}" alt="logo-dark">
                                     <span class="nio-version">Crypto</span>
                                 </a>
                             </div>
@@ -438,6 +438,9 @@
     <script src="{{asset('dashboard/assets/js/bundle.js?ver=2.4.0')}}"></script>
     <script src="{{asset('dashboard/assets/js/scripts.js?ver=2.4.0')}}"></script>
     <script src="{{asset('dashboard/assets/js/charts/chart-crypto.js?ver=2.4.0')}}"></script>
+
+    <script src="{{ asset('design/js/custom/accounting.min.js') }}"></script>
+    <script src="{{ asset('design/js/custom/accounting.settings.js') }}"></script>
 </body>
 
 </html>
