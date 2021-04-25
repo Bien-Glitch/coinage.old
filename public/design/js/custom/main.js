@@ -1,4 +1,4 @@
-(function () {
+$(function () {
     let price,
         requested = false,
         percentage_inp = '#percentage',
