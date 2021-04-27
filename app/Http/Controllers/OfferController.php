@@ -16,7 +16,8 @@ class OfferController extends Controller
      */
     public function index()
     {
-        return view('offers.index');
+        $offers = Offer::all();
+        return view('offers.index', compact('offers', $offers));
     }
 
     /**
@@ -47,6 +48,7 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'crypto_type' => ['required', 'string'],
             'percentage' => ['required', 'integer', 'min:-10', 'max:10'],
@@ -54,12 +56,15 @@ class OfferController extends Controller
             'max_amount' => ['required', 'numeric'],
         ]);
 
-        Auth::user()->offers->create([
+        Offer::create([
+            'user_id' => auth()->id(),
             'crypto_type' => $request->crypto_type,
             'percentage' => $request->percentage,
             'min_amount' => $request->min_amount,
             'max_amount' => $request->max_amount,
         ]);
+
+        return redirect('/offers');
     }
 
     /**
