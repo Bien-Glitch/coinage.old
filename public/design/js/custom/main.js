@@ -75,6 +75,10 @@ $(function () {
 
                         $('#crypto-total').text(accounting.formatMoney(_price, '₦'));
                         $('#crypto-current').text(accounting.formatMoney(price, '₦'));
+                        $('#crypto-current1').html('<b>'+accounting.formatMoney(price, '₦')+'</b>');
+
+
+
                     }
                     requested = false;
                 }

@@ -9,13 +9,14 @@
                 <div class="card-head">
                     <h5 class="card-title">Create Offer</h5>
                 </div>
-                <form action="#" class="gy-3" name="formA">
+                <form action="/offers/create" method="POST" class="gy-3" name="formA">
                     @csrf
                     <div class="row g-3 align-center">
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <label class="form-label">Percentage</label>
                                 <span class="form-note">Specify the increase or decrease of the current crypto price</span>
+                                <span class="form-note">(Current market value at <span id="crypto-current1"></span>)</span>
                             </div>
                         </div>
                         <div class="col-lg-7">
@@ -53,7 +54,7 @@
                         <div class="col-lg-7">
                             <div class="form-group">
                                 <div class="form-control-wrap">
-                                    <input type="number" class="form-control" id="percentage" value="10">
+                                    <input type="number" class="form-control" id="percentage" name="percentage" value="10">
                                     <span class="form-note">(<span id="crypto-percent"></span>% of <span id="crypto-current"></span> <i class="icon ni ni-arrow-long-right"></i> <span id="crypto-total"></span>)</span>
                                 </div>
                             </div>
@@ -69,7 +70,7 @@
                         <div class="col-lg-7">
                             <div class="form-group">
                                 <div class="form-control-wrap">
-                                    <input type="text" class="form-control" id="site-copyright" value="N1,000">
+                                    <input type="text" class="form-control" id="min-amount" name="min_amount" value="5000">
                                 </div>
                             </div>
                         </div>
@@ -84,7 +85,7 @@
                         <div class="col-lg-7">
                             <div class="form-group">
                                 <div class="form-control-wrap">
-                                    <input type="text" class="form-control" id="site-copyright" value="N100,000">
+                                    <input type="number" class="form-control" id="max-amount" name="max_amount" value="100000">
                                 </div>
                             </div>
                         </div>

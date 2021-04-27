@@ -19,7 +19,7 @@ class CreateOffersTable extends Migration
             $table->string('crypto_type');
             $table->integer('percentage');
             $table->decimal('min_amount');
-            $table->decimal('max-amount');
+            $table->decimal('max_amount');
             $table->timestamps();
         });
     }
