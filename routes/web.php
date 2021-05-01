@@ -24,14 +24,15 @@ Route::get('/about', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::middleware('auth', 'verified', 'password.confirm')->group(function () {
+Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     //Offers
-    Route::get('/offers', [OfferController::class, 'index']);
-    Route::get('/offers/create', [OfferController::class, 'create']);
-    Route::post('/offers/create', [OfferController::class, 'store']);
-    Route::get('/offers/show', [OfferController::class, 'show']);
-    Route::get('/offers/edit', [OfferController::class, 'edit']);
-    Route::post('/offers/update', [OfferController::class, 'update']);
+    Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
+    Route::get('/offers/create', [OfferController::class, 'create'])->name('offers.create');
+    Route::get('/offers/show/{offer:id}', [OfferController::class, 'show'])->name('offers.show');
+    /*Route::get('/offers/edit', [OfferController::class, 'edit'])->name('offers.edit');*/
+
+    Route::post('/offers/create', [OfferController::class, 'store'])->name('offers.store');
+    Route::patch('/offers/update/{offer:id}', [OfferController::class, 'update'])->name('offers.update');
 });
