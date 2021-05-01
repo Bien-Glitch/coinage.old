@@ -17,8 +17,10 @@
     <link rel="stylesheet" href="{{ asset('design/assets/fontawesome/css/all.min.css') }}">
 
     <!--Jquery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ asset('design/js/jquery/jquery.min.js') }}"></script>
 </head>
+
+<div id="user-modal-wrapper"></div>
 
 <body class="nk-body npc-crypto bg-white has-sidebar ">
     <div class="nk-app-root">

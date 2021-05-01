@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Offer;
 use GuzzleHttp\Client;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class OfferController extends Controller
@@ -12,18 +18,18 @@ class OfferController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $offers = Offer::all();
+        $offers = Offer::all()->where('user_id', Auth::id());
         return view('offers.index', compact('offers', $offers));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -43,8 +49,8 @@ class OfferController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
      */
     public function store(Request $request)
     {
@@ -70,19 +76,19 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param Offer $offer
+     * @return Application|Factory|View
      */
     public function show(Offer $offer)
     {
-        //
+        return view('components.show-offer-modal', ['offer' => $offer]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param Offer $offer
+     * @return Response
      */
     public function edit(Offer $offer)
     {
@@ -92,9 +98,9 @@ class OfferController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Offer $offer
+     * @return Response
      */
     public function update(Request $request, Offer $offer)
     {
@@ -104,8 +110,8 @@ class OfferController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Offer  $offer
-     * @return \Illuminate\Http\Response
+     * @param Offer $offer
+     * @return Response
      */
     public function destroy(Offer $offer)
     {
