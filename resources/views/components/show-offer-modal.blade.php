@@ -9,15 +9,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('offers.update', $offer->id) }}" method="POST" class="gy-3" id="formA" name="formA">
+                <form action="{{ route('offers.update', $offer->id) }}" method="POST" class="gy-3" id="update-offer-form" name="update-offer-form">
                     @csrf
                     @method('patch')
                     <x-offer-form :offer="$offer" />
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Delete</button>
-                <button type="submit" class="btn btn-primary" form="formA">Save</button>
+                <button type="button" class="btn btn-danger delete-offer" data-uri="{{ route('offers.destroy', $offer->id) }}">Delete</button>
+                <button type="submit" class="btn btn-primary" form="update-offer-form">Save</button>
             </div>
         </div>
     </div>

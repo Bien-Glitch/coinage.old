@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offer;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -124,10 +125,11 @@ class OfferController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Offer $offer
-     * @return Response
+     * @return bool
+     * @throws Exception
      */
     public function destroy(Offer $offer)
     {
-        //
+        return $offer->delete();
     }
 }

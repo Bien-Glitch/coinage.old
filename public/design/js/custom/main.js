@@ -27,7 +27,7 @@ $(function () {
                 if (typeof callback === 'function')
                     callback();
             } else
-                alert('There was an error loading ' + _slug + '\r\nPlease reload this page.')
+                alert('There was an error loading ' + _slug + '\r\nPlease reload this page.');
         });
     }
 
@@ -50,7 +50,7 @@ $(function () {
             if (val === '')
                 val = 0;
 
-            $('#crypto-percent').text(val)
+            $('#crypto-percent').text(val);
 
             if (typeof callback === 'function')
                 callback();
@@ -93,16 +93,10 @@ $(function () {
      * @param {function} callback
      */
     function selectCryptoOffer(_crypto_type, callback = null) {
-        /*if (requested)
-            return;
-        requested = true;*/
+        let uri = 'https://api.coinbase.com/v2/exchange-rates?currency=' + _crypto_type;
 
         $.ajax({
-            url: 'https://api.coinbase.com/v2/exchange-rates?currency=' + _crypto_type,
-            method: 'GET',
-            timeout: 8000,
-            dataType: 'json',
-            complete: function (xhr) {
+            url: uri, method: 'GET', timeout: 8000, dataType: 'json', complete: function (xhr) {
                 let _percentage,
                     resp = xhr.responseJSON;
 
@@ -124,21 +118,16 @@ $(function () {
 
     $(view_offer).on('click', function (e) {
         e.preventDefault();
-        let uri = $(this).data('uri'),
-            offer_id = $(this).data('id');
+        let uri = $(this).data('uri');
 
-        loadPageData('#user-modal-wrapper', uri, null, 'Offer', () => {
+        loadPageData('#user-modal-wrapper', uri, null, 'View Offer', () => {
             percentage_inp = '#percentage';
             percentage = $(percentage_inp).val();
             crypto_type = $('.crypto_type:checked').val();
 
-            $('.crypto_type').on('change', function () {
-                crypto_type = $(this).val();
-                cryptoOffer();
-            });
-            cryptoOffer();
-
             $('#show-offer-modal').modal({backdrop: true});
+            cryptoOffer();
+            onDeleteOffer();
         });
     });
 
@@ -152,16 +141,43 @@ $(function () {
             setTimeout(() => {
                 selectCryptoOffer(_crypto_type, function () {
                     $('.crypto-total', target).text(accounting.formatMoney(_price, '₦'));
+                    $('.crypto-current', target).text(accounting.formatMoney(price, '₦'));
                 });
                 currentCryptoOffer();
             }, 4000);
         })();
     }
 
-    if (urlLocation.href.includes('create'))
+    /**
+     * Delete an offer
+     */
+    function onDeleteOffer() {
+        $('.delete-offer').on('click', function (e) {
+            e.preventDefault();
+            let uri = $(this).data('uri');
+
+            if (confirm('Are you sure you want to remove this offer?'))
+                $.ajax({
+                    url: uri, method: 'POST', data: {_method: 'delete', _token: token}, dataType: 'json', complete: function (xhr) {
+                        if (xhr.status === 200 || xhr.status === 201)
+                            if (xhr.responseJSON === 1) {
+                                alert('Offer Has been removed!');
+                                urlLocation.reload();
+                            } else
+                                alert('An error has occurred, please refresh this page and try again.\n Please contact us if this continues!');
+                        else
+                            alert('An error has occurred, please refresh this page and try again.\n Please contact us if this continues!');
+                    }
+                });
+            else
+                alert('Offer deletion canceled!');
+        });
+    }
+
+    if (urlLocation.href.includes('offers/create'))
         cryptoOffer();
 
-    if (href_array[href_array.length - 1] === 'offers')
+    if (urlLocation.pathname === '/offers' || urlLocation.pathname === '/offers/')
         $(view_offer).each(function (idx, val) {
             let target = this;
 
@@ -170,6 +186,7 @@ $(function () {
 
             selectCryptoOffer(crypto_type, function () {
                 $('.crypto-total', target).text(accounting.formatMoney(_price, '₦'));
+                $('.crypto-current', target).text(accounting.formatMoney(price, '₦'));
             });
             currentCryptoOffer(target, crypto_type);
         });
