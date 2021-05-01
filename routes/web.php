@@ -34,5 +34,5 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
     /*Route::get('/offers/edit', [OfferController::class, 'edit'])->name('offers.edit');*/
 
     Route::post('/offers/create', [OfferController::class, 'store'])->name('offers.store');
-    Route::post('/offers/update', [OfferController::class, 'update']);
+    Route::patch('/offers/update/{offer:id}', [OfferController::class, 'update'])->name('offers.update');
 });

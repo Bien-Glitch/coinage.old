@@ -100,11 +100,24 @@ class OfferController extends Controller
      *
      * @param Request $request
      * @param Offer $offer
-     * @return Response
+     * @return Application|RedirectResponse|Redirector
      */
-    public function update(Request $request, Offer $offer)
+    public function update(Offer $offer, Request $request)
     {
-        //
+        $request->validate([
+            'crypto_type' => ['required', 'string'],
+            'percentage' => ['required', 'integer', 'min:-10', 'max:10'],
+            'min_amount' => ['required', 'numeric'],
+            'max_amount' => ['required', 'numeric'],
+        ]);
+
+        $offer->update([
+            'crypto_type' => $request->crypto_type,
+            'percentage' => $request->percentage,
+            'min_amount' => $request->min_amount,
+            'max_amount' => $request->max_amount,
+        ]);
+        return redirect('/offers');
     }
 
     /**

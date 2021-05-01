@@ -41,7 +41,7 @@
     <div class="col-lg-7">
         <div class="form-group">
             <div class="form-control-wrap">
-                <input type="number" class="form-control" id="percentage" name="percentage" value="{{ !empty($offer) ? $offer->percentage : 10 }}">
+                <input type="number" min="-10" max="10" class="form-control" id="percentage" name="percentage" value="{{ !empty($offer) ? $offer->percentage : 10 }}">
                 <span class="form-note">(<span id="crypto-percent"></span>% of <span id="crypto-current"></span> <i class="icon ni ni-arrow-long-right"></i> <span id="crypto-total"></span>)</span>
             </div>
         </div>

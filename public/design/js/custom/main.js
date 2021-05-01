@@ -113,7 +113,7 @@ $(function () {
                 }
                 if (typeof callback === 'function')
                     callback();
-           }
+            }
         });
     }
 
@@ -141,18 +141,36 @@ $(function () {
             $('#show-offer-modal').modal({backdrop: true});
         });
     });
-    
+
+    /**
+     * Get Current Crypto rate and assign values every 4000ms(4s)
+     * @param target
+     * @param _crypto_type
+     */
+    function currentCryptoOffer(target, _crypto_type) {
+        (function currentCryptoOffer() {
+            setTimeout(() => {
+                selectCryptoOffer(_crypto_type, function () {
+                    $('.crypto-total', target).text(accounting.formatMoney(_price, '₦'));
+                });
+                currentCryptoOffer();
+            }, 4000);
+        })();
+    }
+
     if (urlLocation.href.includes('create'))
         cryptoOffer();
 
     if (href_array[href_array.length - 1] === 'offers')
         $(view_offer).each(function (idx, val) {
             let target = this;
-                percentage = $(val).data('percent');
-                crypto_type = $('.crypto-currency', this).html();
+
+            percentage = $(val).data('percent');
+            crypto_type = $('.crypto-currency', this).html();
 
             selectCryptoOffer(crypto_type, function () {
                 $('.crypto-total', target).text(accounting.formatMoney(_price, '₦'));
             });
+            currentCryptoOffer(target, crypto_type);
         });
 });
