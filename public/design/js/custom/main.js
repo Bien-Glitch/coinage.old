@@ -67,16 +67,21 @@ $(function () {
                 });
             },
             blur: function () {
-                if ($(percentage_inp).val() === '') {
-                    $(percentage_inp).val(10);
-                    percentage = $(percentage_inp).val();
+                if ($(percentage_inp).val() === '')
+                    $(percentage_inp).val($(percentage_inp).attr('max'));
 
-                    togglePercentage(percentage, function () {
-                        selectCryptoOffer(crypto_type, function () {
-                            assignCryptoValue();
-                        });
+                if (parseFloat($(percentage_inp).val()) > parseFloat($(percentage_inp).attr('max')))
+                    $(percentage_inp).val($(percentage_inp).attr('max'));
+                else if (parseFloat($(percentage_inp).val()) < parseFloat($(percentage_inp).attr('min')))
+                    $(percentage_inp).val($(percentage_inp).attr('min'));
+
+                percentage = $(percentage_inp).val();
+
+                togglePercentage(percentage, function () {
+                    selectCryptoOffer(crypto_type, function () {
+                        assignCryptoValue();
                     });
-                }
+                });
             }
         });
 
