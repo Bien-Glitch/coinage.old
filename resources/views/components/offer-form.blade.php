@@ -1,12 +1,12 @@
 <div class="row g-3 align-center">
-    <div class="col-lg-5">
+    <div class="col-lg-5" {{ !empty($offer) ? 'hidden' : NULL }}>
         <div class="form-group">
-            <label class="form-label">Percentage</label>
-            <span class="form-note">Specify the increase or decrease of the current crypto price</span>
+            {{--<label class="form-label">Percentage</label>
+            <span class="form-note">Specify the increase or decrease of the current crypto price</span>--}}
             <span class="form-note">(Current market value at <span id="crypto-current1"></span>)</span>
         </div>
     </div>
-    <div class="col-lg-7">
+    <div class="col-lg-7" {{ !empty($offer) ? 'hidden' : NULL }}>
         <div class="form-group">
             <div class="custom-control {{--custom-control-sm--}} custom-radio">
                 <input class="custom-control-input crypto_type" type="radio" name="crypto_type" id="crypto-btc" value="BTC" {{ !empty($offer) ? ($offer->crypto_type === 'BTC' ? 'checked' : NULL) : 'checked' }}>

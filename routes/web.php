@@ -35,4 +35,5 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 
     Route::post('/offers/create', [OfferController::class, 'store'])->name('offers.store');
     Route::patch('/offers/update/{offer:id}', [OfferController::class, 'update'])->name('offers.update');
+    Route::delete('/offers/delete/{offer:id}', [OfferController::class, 'destroy'])->name('offers.destroy');
 });

@@ -101,12 +101,12 @@
                         <div class="tranx-amount">
                             <div class="number">
                                 {{--{{ $offer }}--}}
-                                <strong class="crypto-total">0.5384</strong>
+                                <strong class="crypto-total"></strong>
                                 <span class="crypto-currency">{{ $offer->crypto_type }}</span>
                             </div>
                             <div class="number-sm">
-                                3,980.93
-                                <span class="fiat-currency currency-usd">USD</span>
+                                <span>Current Market Value:</span> <strong class="crypto-current"></strong>
+                                <span class="fiat-currency currency-usd">/ 1 {{ $offer->crypto_type }}</span>
                             </div>
                             <span class="number-sm">
                                 {{ $offer->min_amount . ' - ' . $offer->max_amount }}
