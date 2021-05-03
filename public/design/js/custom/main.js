@@ -1,6 +1,8 @@
 $(function () {
     let price,
         _price,
+        index_price,
+        _index_price,
         requested = false,
         percentage_inp = '#percentage',
         view_offer = '.view-offer',
@@ -95,22 +97,33 @@ $(function () {
     /**
      * Get Current Crypto rate and assign values
      * @param {string} _crypto_type
+     * @param {function | string} _percentage
      * @param {function} callback
      */
-    function selectCryptoOffer(_crypto_type, callback = null) {
+    function selectCryptoOffer(_crypto_type, _percentage = percentage, callback = null) {
         let uri = 'https://api.coinbase.com/v2/exchange-rates?currency=' + _crypto_type;
 
         $.ajax({
             url: uri, method: 'GET', timeout: 8000, dataType: 'json', complete: function (xhr) {
-                let _percentage,
+                let /*_percentage,*/
                     resp = xhr.responseJSON;
 
-                if (xhr.status === 200) {
-                    price = parseFloat(resp.data.rates.NGN);
-                    _percentage = ((price * percentage) / 100);
-                    _price = _percentage + price;
-                }
-                if (typeof callback === 'function')
+                if (xhr.status === 200)
+
+                    if (typeof _percentage === 'function') {
+                        price = parseFloat(resp.data.rates.NGN);
+                        _price = ((price * _percentage) / 100) + price;
+                        /*_percentage = ((price * percentage) / 100);
+                        _price = _percentage + price;*/
+                    } else {
+                        index_price = parseFloat(resp.data.rates.NGN);
+                        _index_price = ((index_price * _percentage) / 100) + index_price;
+                        console.log(_index_price)
+                    }
+
+                if (typeof _percentage === 'function')
+                    _percentage();
+                else if (typeof callback === 'function')
                     callback();
             }
         });
@@ -140,13 +153,14 @@ $(function () {
      * Get Current Crypto rate and assign values every 4000ms(4s)
      * @param target
      * @param _crypto_type
+     * @param _percentage
      */
-    function currentCryptoOffer(target, _crypto_type) {
+    function currentCryptoOffer(target, _crypto_type, _percentage) {
         (function currentCryptoOffer() {
             setTimeout(() => {
-                selectCryptoOffer(_crypto_type, function () {
-                    $('.crypto-total', target).text(accounting.formatMoney(_price, '₦'));
-                    $('.crypto-current', target).text(accounting.formatMoney(price, '₦'));
+                selectCryptoOffer(_crypto_type, _percentage, function () {
+                    $('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
+                    $('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
                 });
                 currentCryptoOffer();
             }, 4000);
@@ -184,15 +198,14 @@ $(function () {
 
     if (urlLocation.pathname === '/offers' || urlLocation.pathname === '/offers/')
         $(view_offer).each(function (idx, val) {
-            let target = this;
+            let target = this,
+                _percentage = $(val).data('percent'),
+                _crypto_type = $('.crypto-currency', this).html();
 
-            percentage = $(val).data('percent');
-            crypto_type = $('.crypto-currency', this).html();
-
-            selectCryptoOffer(crypto_type, function () {
-                $('.crypto-total', target).text(accounting.formatMoney(_price, '₦'));
-                $('.crypto-current', target).text(accounting.formatMoney(price, '₦'));
+            selectCryptoOffer(_crypto_type, _percentage, function () {
+                $('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
+                $('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
             });
-            currentCryptoOffer(target, crypto_type);
+            currentCryptoOffer(target, _crypto_type, _percentage);
         });
 });
