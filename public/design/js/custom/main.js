@@ -69,13 +69,16 @@ $(function () {
                 });
             },
             blur: function () {
+                let max = $(percentage_inp).attr('max'),
+                    min = $(percentage_inp).attr('min');
+
                 if ($(percentage_inp).val() === '')
                     $(percentage_inp).val($(percentage_inp).attr('max'));
 
-                if (parseFloat($(percentage_inp).val()) > parseFloat($(percentage_inp).attr('max')))
-                    $(percentage_inp).val($(percentage_inp).attr('max'));
-                else if (parseFloat($(percentage_inp).val()) < parseFloat($(percentage_inp).attr('min')))
-                    $(percentage_inp).val($(percentage_inp).attr('min'));
+                /*if (parseFloat($(percentage_inp).val()) > parseFloat(max) || parseFloat($(percentage_inp).val()) < parseFloat(min)) {
+                    alert('Percentage value must be between ' + $(percentage_inp).attr('min') + ' to ' + $(percentage_inp).attr('max'));
+                } else if (parseFloat($(percentage_inp).val()) < parseFloat($(percentage_inp).attr('min')))
+                    $(percentage_inp).val();*/
 
                 percentage = $(percentage_inp).val();
 
