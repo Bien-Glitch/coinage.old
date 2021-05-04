@@ -112,7 +112,7 @@ $(function () {
 
                     if (typeof _percentage === 'function') {
                         price = parseFloat(resp.data.rates.NGN);
-                        _price = ((price * _percentage) / 100) + price;
+                        _price = ((price * percentage) / 100) + price;
                         /*_percentage = ((price * percentage) / 100);
                         _price = _percentage + price;*/
                     } else {
