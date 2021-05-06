@@ -17,11 +17,11 @@ $(function () {
 
     /**
      * Function to load Page Data Asynchronously
-     * @param {selector | string} _wrapper: Element to place BIO information when loaded.
-     * @param {string} _uri: URI for the given operation
-     * @param {string | object} data: Additional data to be passed with the URI (** optional **)
+     * @param {selector | string} _wrapper: Element to load data into when loaded.
+     * @param {string} _uri: URI for the given operation (i.e where to load the data from)
+     * @param {string | object} data: Additional data to be passed with the URI (** optional [set to null if empty] **)
      * @param {string} _slug: Name of Page to be loaded
-     * @param {function} callback: Callback function to be called on load completion (** optional **)
+     * @param {function} callback: Callback function to be called on load completion (** optional [set to null if empty] **)
      */
     function loadPageData(_wrapper, _uri, data = null, _slug, callback = null) {
         $(_wrapper).load(_uri, data, function (response, status, xhr) {
@@ -121,7 +121,6 @@ $(function () {
                     } else {
                         index_price = parseFloat(resp.data.rates.NGN);
                         _index_price = ((index_price * _percentage) / 100) + index_price;
-                        console.log(_index_price)
                     }
 
                 if (typeof _percentage === 'function')
