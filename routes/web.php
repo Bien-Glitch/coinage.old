@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,10 +24,36 @@ Route::get('/about', function () {
     return view('about');
 });
 
+// Route::get('/p', function () {
+//     return view('profile.profile', ['user' => Auth::user()]);
+// });
+
+// Route::get('/a', function () {
+//     return view('profile.verify.phone');
+// });
+
+// Route::get('/b', function () {
+//     return view('profile.verify.bank');
+// });
+
+// Route::get('/v', function () {
+//     return view('profile.verify.verification', ['user' => Auth::user()]);
+// });
+
 Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    //profile
+    Route::get('/profile', [ProfileController::class, 'profile']);
+    Route::get('/profile/verify', [ProfileController::class, 'profileVerify']);
+    Route::get('profile/verify/phone', [ProfileController::class, 'veriifyPhone']);
+    Route::get('profile/verify/bank', [ProfileController::class, 'verifyBank']);
+    Route::get('profile/verify/id', [ProfileController::class, 'verifyId']);
+
+    Route::post('profile/verify/phone/sendOtp', [ProfileController::class, 'sendOtp']);
+    Route::post('profile/verify/phone/verifyOtp', [ProfileController::class, 'verifyOtp']);
 
     //Offers
     Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');

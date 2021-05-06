@@ -17,6 +17,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | BulkSmsNigeria Parameters
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of your application. This value is used when the
+    | framework needs to place the application's name in a notification or
+    | any other location as required by the application or its packages.
+    |
+    */
+
+    'bulksmsnigeria_api_key' => env('BULKSMSNIGERIA_API_KEY', 'API_KEY'),
+    'bulksmsnigeria_sender_id' => env('BULKSMSNIGERIA_SENDER_ID', 'COINAGE'),
+    'bulksmsnigeria_dnd' => env('BULKSMSNIGERIA_DND', '3'),
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

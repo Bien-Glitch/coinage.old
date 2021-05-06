@@ -20,7 +20,10 @@ class CreateOffersTable extends Migration
             $table->integer('percentage');
             $table->decimal('min_amount');
             $table->decimal('max_amount');
+
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -69,7 +69,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="phone" class="text-muted">Phone Number</label>
                         <div class="input-group align-items-center">
                             <i class="text-purple fad fa-phone p-2"></i>
@@ -81,7 +81,7 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group">
                         <label for="password" class="text-muted">Password</label>

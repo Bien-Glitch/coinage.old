@@ -130,7 +130,7 @@
                                         <li><a href="#" class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-in"></em></a></li>
                                     </ul>
                                     <ul class="link-list">
-                                        <li><a href="profile.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                        <li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                         <li><a href="profile-security.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                         <li><a href="profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                     </ul>
@@ -182,21 +182,25 @@
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="user-verification.html" class="nk-menu-link">
+                                        <a href="/profile/verify" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni ni-user-check-fill"></em></span>
                                             <span class="nk-menu-text">User Verification</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="profile.html" class="nk-menu-link">
+                                        <a href="/profile" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
                                             <span class="nk-menu-text">My Profile</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="chats.html" class="nk-menu-link">
+                                        <a href="#" class="nk-menu-link" onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
                                             <span class="nk-menu-icon"><em class="icon ni ni-signout"></em></span>
                                             <span class="nk-menu-text">Logout</span>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
                                         </a>
                                     </li>
                                 </ul><!-- .nk-menu -->
@@ -315,7 +319,7 @@
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="profile.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                    <li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                     <li><a href="profile-security.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
