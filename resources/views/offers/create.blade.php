@@ -9,6 +9,12 @@
                 <div class="card-head">
                     <h5 class="card-title">Create Offer</h5>
                 </div>
+                @if (session('message'))
+                    <div class="alert alert-danger alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close"></a>
+                        <strong><i class="fa fa-thumbs-up"></i></strong> {{session('message')}}
+                    </div>
+                @endif
                 <form action="{{ route('offers.store') }}" method="POST" class="gy-3" name="formA">
                     @csrf
                     <x-offer-form />
