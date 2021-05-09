@@ -65,17 +65,12 @@ class ProfileController extends Controller
         ]);
 
         $otp = rand(100000, 999999);
-        // dd($otp);
 
-        $bulkSms = new BulkSmsNigeria();
+        $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone)->getData();
 
-        $bulkSmsResponse = $bulkSms->sendSms($otp, $request->phone);
-
-        // dd($bulkSmsResponse);
-
-        if ($bulkSmsResponse['error']) {
+        if ($bulkSmsResponse->error) {
             $response['error'] = true;
-            $response['message'] = $bulkSmsResponse['message'];
+            $response['message'] = 'Sending sms failed. Contact admin.';
         } else {
 
             $request->session()->put([
@@ -89,7 +84,6 @@ class ProfileController extends Controller
         }
 
         // return json_encode($response);
-        // echo json_encode($response);
         return redirect('profile/verify/phone')->with('message', 'OTP has been sent');
     }
 
