@@ -63,6 +63,12 @@ class OfferController extends Controller
             'max_amount' => ['required', 'numeric'],
         ]);
 
+        $user = auth()->user();
+
+        $crpyo_exists = $user->offers->where('crypto_type', $request->crypto_type)->first();
+        if ($crpyo_exists) {
+            return redirect(route('offers.create'))->with('message', "You already have a $request->crypto_type offer, you should consider editting it.");
+        }
         Offer::create([
             'user_id' => auth()->id(),
             'crypto_type' => $request->crypto_type,

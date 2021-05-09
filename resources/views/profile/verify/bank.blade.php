@@ -15,16 +15,26 @@
                 <p>Please type carefully and fill out the form with your personal details. Your can’t edit these details
                     once you submitted the form.</p>
             </div>
-            <form action="#" method="POST">
+            <form action="{{URL('profile/verify/bank/process')}}" method="POST">
                 @csrf
                 <div class="row g-4">
                     <div class="col-md-12">
+
                         <div class="form-group">
                             <div class="form-label-group">
-                                <label class="form-label">Account Number <span class="text-danger">*</span></label>
+                                <label class="form-label">Account Number<span class="text-danger">*</span></label>
                             </div>
-                            <div class="form-control-group">
-                                <input type="text" class="form-control form-control-lg">
+                            <div class="input-group mb-3">
+                                <input type="number" name="account_number" value="{{ old('account_number') }}" class="form-control form-control-lg @error('account_number') is-invalid @enderror">
+                                <div class="input-group-append">
+                                  <button class="btn btn-outline-primary" type="submit">Verify</button>
+                                </div>
+
+                                @error('account_number')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div><!-- .col -->
@@ -36,7 +46,7 @@
                             <div class="form-control-group">
                                     <div class="form-control-wrap" data-select2-id="12">
                                         <select class="form-select form-control form-control-lg select2-hidden-accessible"
-                                            >
+                                            name="account_type">
                                             <option value="savings">Savings Account</option>
                                             <option value="current">Current Account</option>
                                         </select>
@@ -50,7 +60,7 @@
                                 <label class="form-label">Account Name <span class="text-danger">*</span></label>
                             </div>
                             <div class="form-control-group">
-                                <input type="text" class="form-control">
+                                <input type="text" name="account_name" class="form-control">
                             </div>
                         </div>
                     </div><!-- .col -->
@@ -61,7 +71,7 @@
                             </div>
                             <div class="form-control-group">
                                     <div class="form-control-wrap">
-                                        <select class="form-select form-control " data-search="on">
+                                        <select class="form-select form-control" name="bank_name" data-search="on">
                                             <option value="fidelity">Fidelity Bank</option>
                                             <option value="firstbank">First Bank</option>
                                             <option value="GTB"> Guarantee Trust Bank </option>
@@ -76,7 +86,7 @@
                                 <label class="form-label">Bank Code <span class="text-danger">*</span></label>
                             </div>
                             <div class="form-control-group">
-                                <input type="text" class="form-control ">
+                                <input type="text" name="bank_code" class="form-control ">
                             </div>
                         </div>
                     </div><!-- .col -->

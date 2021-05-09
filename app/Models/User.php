@@ -53,8 +53,14 @@ class User extends Authenticatable implements MustVerifyEmail
             BankDetail::create([
                 'user_id' => $model->id,
             ]);
+
+            Identification::create([
+                'user_id' => $model->id,
+            ]);
         });
     }
+
+    // Relationships
 
     public function offers()
     {
@@ -66,8 +72,26 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(BankDetail::class);
     }
 
+    public function identification()
+    {
+        return $this->hasOne(Identification::class);
+    }
+
+
+    /// Helper Methods
+
     public function hasVerifiedPhone()
     {
         return $this->is_phone_verified;
+    }
+
+    public function hasVerifiedBank()
+    {
+        return $this->bankDetail->is_verified;
+    }
+
+    public function hasVerifiedId()
+    {
+        return $this->identification->is_verified;
     }
 }

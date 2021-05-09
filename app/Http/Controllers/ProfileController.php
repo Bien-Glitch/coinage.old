@@ -55,7 +55,7 @@ class ProfileController extends Controller
         // dd($request->phone);
 
         //Removing Session variable
-        $request->session()->forget(['OTP', 'Phone']);
+        $request->session()->forget(['OTP', 'phone']);
 
         $response = array();
         $user = auth()->user();
@@ -100,8 +100,9 @@ class ProfileController extends Controller
      */
     public function verifyOtp(Request $request)
     {
+        // dd($request->session()->get('phone'));
         $request->validate([
-            'otp' => ['required', 'numeric'],
+            'otp' => ['required', 'digits:6'],
         ]);
 
         $response = array();
@@ -114,7 +115,7 @@ class ProfileController extends Controller
         if ($OTP == $enteredOtp) {
 
             // Updating user's status "isVerified" as 1.
-            $phone = $request->session()->get('Phone');
+            $phone = $request->session()->get('phone');
 
             $user->update([
                 'phone' => $phone,
@@ -122,14 +123,14 @@ class ProfileController extends Controller
             ]);
 
             //Removing Session variable
-            $request->session()->forget(['OTP', 'Phone']);
+            $request->session()->forget(['OTP', 'phone']);
 
             $response['error'] = false;
             $response['isPhoneVerified'] = true;
             $response['message'] = "Your Phone Number is Verified.";
         } else {
             //Removing Session variable
-            $request->session()->forget(['OTP', 'Phone']);
+            $request->session()->forget(['OTP', 'phone']);
 
             $response['error'] = true;
             $response['isPhoneVerified'] = false;
@@ -138,5 +139,35 @@ class ProfileController extends Controller
 
         // return json_encode($response);
         return redirect('profile/verify');
+    }
+
+    public function updateBank(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'bank_name' => ['required', 'string'],
+            'account_name' => ['required', 'string'],
+            'account_number' => ['required', 'string', 'digits:10'],
+            'account_type' => ['required', 'string'],
+            'bank_code' => ['required', 'string'],
+        ]);
+
+        $user = auth()->user();
+
+        $user->bankDetail->update([
+            'bank_name' => $request->bank_name,
+            'account_name' => $request->account_name,
+            'account_number' => $request->account_number,
+            'account_type' => $request->account_type,
+            'bank_code' => $request->bank_code,
+            'is_verified' => true,
+        ]);
+
+        return redirect('profile/verify');
+    }
+
+    public function uploadId(Request $request)
+    {
+        dd($request);
     }
 }

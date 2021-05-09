@@ -46,7 +46,7 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     //profile
-    Route::get('/profile', [ProfileController::class, 'profile']);
+    Route::get('/my-account', [ProfileController::class, 'profile']);
     Route::get('/profile/verify', [ProfileController::class, 'profileVerify']);
     Route::get('profile/verify/phone', [ProfileController::class, 'veriifyPhone']);
     Route::get('profile/verify/bank', [ProfileController::class, 'verifyBank']);
@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 
     Route::post('profile/verify/phone/sendOtp', [ProfileController::class, 'sendOtp']);
     Route::post('profile/verify/phone/verifyOtp', [ProfileController::class, 'verifyOtp']);
+    Route::post('profile/verify/bank/process', [ProfileController::class, 'updateBank']);
+    Route::post('profile/verify/id/process', [ProfileController::class, 'uploadId']);
 
     //Offers
     Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');

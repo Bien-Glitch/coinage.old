@@ -145,11 +145,23 @@
                                             @if ($user->hasVerifiedEmail())
                                                 <li class="list-group-item py-2 border-0 text-success font-weight-bold">Email is Verified</li>
                                             @else
-                                            <a href="#" class="text-danger font-weight-bold"><li class="list-group-item py-2 border-0">Email Verification</li></a>
+                                                <a href="#" class="text-danger font-weight-bold"><li class="list-group-item py-2 border-0">Email Verification</li></a>
                                             @endif
-                                            <a href="profile/verify/phone" class="text-danger font-weight-bold"><li class="list-group-item py-2 border-0">Phone Verification</li></a>
-                                            <a href="profile/verify/bank" class="text-danger font-weight-bold"><li class="list-group-item py-2 border-0">Bank Verification</li></a>
-                                            <a href="profile/verify/id" class="text-danger font-weight-bold"><li class="list-group-item py-2 border-0">ID Verification</li></a>
+                                            @if ($user->hasVerifiedPhone())
+                                                <li class="list-group-item py-2 border-0 text-success font-weight-bold">Phone number is verified</li>
+                                            @else
+                                                <a href="profile/verify/phone" class="text-danger font-weight-bold"><li class="list-group-item py-2 border-0">Phone Verification</li></a>
+                                            @endif
+                                            @if ($user->hasVerifiedBank())
+                                                <li class="list-group-item py-2 border-0 text-success font-weight-bold">Bank account is verified</li>
+                                            @else
+                                                <a href="profile/verify/bank" class="text-danger font-weight-bold"><li class="list-group-item py-2 border-0">Bank Verification</li></a>
+                                            @endif
+                                            @if ($user->hasVerifiedId())
+                                                <li class="list-group-item py-2 border-0 text-success font-weight-bold">ID is verified</li>
+                                            @else
+                                                <a href="profile/verify/id" class="text-danger font-weight-bold"><li class="list-group-item py-2 border-0">ID Verification</li></a>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div><!-- .card-inner -->

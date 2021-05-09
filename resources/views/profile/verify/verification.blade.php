@@ -40,11 +40,11 @@
         <div class="nk-kycfm-head">
             <a href="{{URL("profile/verify/bank")}}">
                 <div class=""><img class="w-70 d-block d-sm-none"
-                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedEmail() ? 'success' : 'pending'}}.png"
+                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedBank() ? 'success' : 'pending'}}.png"
                         alt="" srcset=""></div>
                 {{-- Hidden on only sm --}}
                 <div class=""><img class="w-40 	 d-none d-sm-block"
-                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedEmail() ? 'success' : 'pending'}}.png"
+                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedBank() ? 'success' : 'pending'}}.png"
                         alt="" srcset=""></div>
             </a>
             <div class="nk-kycfm-title">
@@ -56,11 +56,11 @@
         <div class="nk-kycfm-head">
             <a href="{{URL("profile/verify/id")}}">
                 <div class=""><img class="w-70 d-block d-sm-none"
-                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedEmail() ? 'success' : 'pending'}}.png"
+                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedId() ? 'success' : 'pending'}}.png"
                         alt="" srcset=""></div>
                 {{-- Hidden on only sm --}}
                 <div class=""><img class="w-40 	 d-none d-sm-block"
-                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedEmail() ? 'success' : 'pending'}}.png"
+                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedId() ? 'success' : 'pending'}}.png"
                         alt="" srcset=""></div>
             </a>
             <div class="nk-kycfm-title">
