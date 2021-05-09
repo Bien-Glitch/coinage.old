@@ -24,22 +24,6 @@ Route::get('/about', function () {
     return view('about');
 });
 
-// Route::get('/p', function () {
-//     return view('profile.profile', ['user' => Auth::user()]);
-// });
-
-// Route::get('/a', function () {
-//     return view('profile.verify.phone');
-// });
-
-// Route::get('/b', function () {
-//     return view('profile.verify.bank');
-// });
-
-// Route::get('/v', function () {
-//     return view('profile.verify.verification', ['user' => Auth::user()]);
-// });
-
 Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
