@@ -1,213 +1,172 @@
-$(function () {
-    let price,
-        _price,
-        index_price,
-        _index_price,
-        requested = false,
-        percentage_inp = '#percentage',
-        view_offer = '.view-offer',
-        percentage = $(percentage_inp).val(),
-        crypto_type = $('.crypto_type:checked').val(),
+/**
+ * i - Variable Declarations
+ *
+ * 1. - General Functions
+ * 2. - Crypto Functions
+ **/
 
-        urlLocation = window.location,
-        href = urlLocation.href,
-        href_array = href.split('/'),
-        token = $('meta[name="csrf-token"]').attr('content');
+/**================ i - Variable Declarations ================**/
+let price,
+    _price,
+    index_price,
+    _index_price,
 
+    percentage_inp = '#percentage',
+    view_offer = '.view-offer',
+    percentage = $(percentage_inp).val(),
+    crypto_type = $('.crypto_type:checked').val(),
 
-    /**
-     * Function to load Page Data Asynchronously
-     * @param {selector | string} _wrapper: Element to load data into when loaded.
-     * @param {string} _uri: URI for the given operation (i.e where to load the data from)
-     * @param {string | object} data: Additional data to be passed with the URI (** optional [set to null if empty] **)
-     * @param {string} _slug: Name of Page to be loaded
-     * @param {function} callback: Callback function to be called on load completion (** optional [set to null if empty] **)
-     */
-    function loadPageData(_wrapper, _uri, data = null, _slug, callback = null) {
-        $(_wrapper).load(_uri, data, function (response, status, xhr) {
-            if (status === 'success') {
-                if (typeof callback === 'function')
-                    callback();
-            } else
-                alert('There was an error loading ' + _slug + '\r\nPlease reload this page.');
-        });
-    }
+    requested = false,
+    urlLocation = window.location,
+    href = urlLocation.href,
+    href_array = href.split('/'),
+    token = $('meta[name="csrf-token"]').attr('content');
 
-    /**
-     * All Functions for Create Offer Operation
-     */
-    function cryptoOffer() {
-        function assignCryptoValue() {
-            $('#crypto-total').text(accounting.formatMoney(_price, '₦'));
-            $('#crypto-current').text(accounting.formatMoney(price, '₦'));
-            $('#crypto-current1').html('<b>' + accounting.formatMoney(price, '₦') + '</b>');
-        }
+/**================ 1. - General Functions ================**/
+/**
+ * Function to return the action attribute of given form
+ * @param {selector | string} _form
+ * @returns {string | jQuery}
+ */
+function formAction(_form) {
+    return $(_form).attr('action');
+}
 
-        /**
-         * Change the percentage value in the <span> element
-         * @param {any} val
-         * @param {function} callback
-         */
-        function togglePercentage(val, callback) {
-            if (val === '')
-                val = 0;
+/**
+ *Function to return all elements of the given form, and the forms' ID
+ * @param {selector | string} form
+ * @returns {{that: *, form: string}}
+ */
+function formAttr(form) {
+    let ele = $(form)[0].elements,
+        _form = '#' + $(form).attr('id');
 
-            $('#crypto-percent').text(val);
+    return {
+        that: ele,
+        form: _form,
+    };
+}
 
+/**
+ * Function to load Page Data Asynchronously
+ * @param {selector | string} _wrapper: Element to load data into when loaded.
+ * @param {string} _uri: URI for the given operation (i.e where to load the data from)
+ * @param {string | object} data: Additional data to be passed with the URI (** optional [set to null if empty] **)
+ * @param {string} _slug: Name of Page to be loaded
+ * @param {function} callback: Callback function to be called on load completion (** optional [set to null if empty] **)
+ */
+function loadPageData(_wrapper, _uri, data = null, _slug, callback = null) {
+    $(_wrapper).load(_uri, data, function (response, status, xhr) {
+        if (status === 'success') {
             if (typeof callback === 'function')
                 callback();
+        } else
+            alert('There was an error loading ' + _slug + '\r\nPlease reload this page.');
+    });
+}
+
+// Display Error message(s) and add the error class (** Requires the instance of the form field, the error array, the single error message (optional), and the addRegErr() & message() functions)
+function displaySuccess(form, that, mess) {
+    for (let i = 0; i < that.length; i++) {
+        let element_id = that[i].id;
+        console.log(element_id)
+        if (element_id in mess && (mess[element_id] !== '')) {
+            $(form + ' #' + element_id)
+                .removeClass('is-invalid')
+                .removeClass('is-valid')
+                .addClass('is-valid');
+            $(form + ' #' + element_id + 'Valid')
+                .removeClass('invalid-feedback')
+                .removeClass('valid-feedback')
+                .addClass('valid-feedback');
+
+            $(form + ' #' + element_id + 'Valid > strong').html(mess[element_id]);
         }
-
-        $(percentage_inp).on({
-            input: function () {
-                percentage = $(percentage_inp).val();
-
-                togglePercentage(percentage, function () {
-                    selectCryptoOffer(crypto_type, function () {
-                        assignCryptoValue();
-                    });
-                });
-            },
-            blur: function () {
-                let max = $(percentage_inp).attr('max'),
-                    min = $(percentage_inp).attr('min');
-
-                if ($(percentage_inp).val() === '')
-                    $(percentage_inp).val($(percentage_inp).attr('max'));
-
-                /*if (parseFloat($(percentage_inp).val()) > parseFloat(max) || parseFloat($(percentage_inp).val()) < parseFloat(min)) {
-                    alert('Percentage value must be between ' + $(percentage_inp).attr('min') + ' to ' + $(percentage_inp).attr('max'));
-                } else if (parseFloat($(percentage_inp).val()) < parseFloat($(percentage_inp).attr('min')))
-                    $(percentage_inp).val();*/
-
-                percentage = $(percentage_inp).val();
-
-                togglePercentage(percentage, function () {
-                    selectCryptoOffer(crypto_type, function () {
-                        assignCryptoValue();
-                    });
-                });
-            }
-        });
-
-        togglePercentage(percentage, function () {
-            selectCryptoOffer(crypto_type, function () {
-                assignCryptoValue();
-            });
-        });
     }
+}
 
-    /**
-     * Get Current Crypto rate and assign values
-     * @param {string} _crypto_type
-     * @param {function | string} _percentage
-     * @param {function} callback
-     */
-    function selectCryptoOffer(_crypto_type, _percentage = percentage, callback = null) {
-        let uri = 'https://api.coinbase.com/v2/exchange-rates?currency=' + _crypto_type;
+// Display Error message(s) and add the error class (** Requires the instance of the form field, the error array, the single error message (optional), and the addRegErr() & message() functions)
+function displayError(form, that, error, mess, mess_tag) {
+    for (let i = 0; i < that.length; i++) {
+        let element_id = that[i].id;
+        if (element_id in error && (error[element_id] !== '')) {
+            $(form + ' #' + element_id)
+                .removeClass('is-valid')
+                .removeClass('is-invalid')
+                .addClass('is-invalid');
+            $(form + ' #' + element_id + 'Valid')
+                .removeClass('valid-feedback')
+                .removeClass('invalid-feedback')
+                .addClass('invalid-feedback');
 
-        $.ajax({
-            url: uri, method: 'GET', timeout: 8000, dataType: 'json', complete: function (xhr) {
-                let /*_percentage,*/
-                    resp = xhr.responseJSON;
-
-                if (xhr.status === 200)
-
-                    if (typeof _percentage === 'function') {
-                        price = parseFloat(resp.data.rates.NGN);
-                        _price = ((price * percentage) / 100) + price;
-                        /*_percentage = ((price * percentage) / 100);
-                        _price = _percentage + price;*/
-                    } else {
-                        index_price = parseFloat(resp.data.rates.NGN);
-                        _index_price = ((index_price * _percentage) / 100) + index_price;
-                    }
-
-                if (typeof _percentage === 'function')
-                    _percentage();
-                else if (typeof callback === 'function')
-                    callback();
-            }
-        });
+            $(form + ' #' + element_id + 'Valid > strong').html(error[element_id]);
+        }
     }
+    /*if (mess) message(danger_rem_class, fa_exc, mess, mess_tag);*/
+}
 
-    $('.crypto_type').on('change', function () {
-        crypto_type = $(this).val();
-        cryptoOffer();
+/**================ 2. - Crypto Functions ================**/
+/**
+ * Get Current Crypto rate and assign values
+ * @param {string} _crypto_type
+ * @param {function | string} _percentage
+ * @param {function} callback
+ */
+function selectCryptoOffer(_crypto_type, _percentage = percentage, callback = null) {
+    let uri = 'https://api.coinbase.com/v2/exchange-rates?currency=' + _crypto_type;
+
+    $.ajax({
+        url: uri, method: 'GET', timeout: 8000, dataType: 'json', complete: function (xhr) {
+            let /*_percentage,*/
+                resp = xhr.responseJSON;
+
+            if (xhr.status === 200)
+
+                if (typeof _percentage === 'function') {
+                    price = parseFloat(resp.data.rates.NGN);
+                    _price = ((price * percentage) / 100) + price;
+                    /*_percentage = ((price * percentage) / 100);
+                    _price = _percentage + price;*/
+                } else {
+                    index_price = parseFloat(resp.data.rates.NGN);
+                    _index_price = ((index_price * _percentage) / 100) + index_price;
+                }
+
+            if (typeof _percentage === 'function')
+                _percentage();
+            else if (typeof callback === 'function')
+                callback();
+        }
     });
+}
 
-    $(view_offer).on('click', function (e) {
-        e.preventDefault();
-        let uri = $(this).data('uri');
-
-        loadPageData('#user-modal-wrapper', uri, null, 'View Offer', () => {
-            percentage_inp = '#percentage';
-            percentage = $(percentage_inp).val();
-            crypto_type = $('.crypto_type:checked').val();
-
-            $('#show-offer-modal').modal({backdrop: true});
-            cryptoOffer();
-            onDeleteOffer();
-        });
-    });
-
-    /**
-     * Get Current Crypto rate and assign values every 4000ms(4s)
-     * @param target
-     * @param _crypto_type
-     * @param _percentage
-     */
-    function currentCryptoOffer(target, _crypto_type, _percentage) {
-        (function currentCryptoOffer() {
-            setTimeout(() => {
-                selectCryptoOffer(_crypto_type, _percentage, function () {
-                    $('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
-                    $('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
-                });
-                currentCryptoOffer();
-            }, 4000);
-        })();
-    }
-
-    /**
-     * Delete an offer
-     */
-    function onDeleteOffer() {
-        $('.delete-offer').on('click', function (e) {
-            e.preventDefault();
-            let uri = $(this).data('uri');
-
-            if (confirm('Are you sure you want to remove this offer?'))
-                $.ajax({
-                    url: uri, method: 'POST', data: {_method: 'delete', _token: token}, dataType: 'json', complete: function (xhr) {
-                        if (xhr.status === 200 || xhr.status === 201)
-                            if (xhr.responseJSON === 1) {
-                                alert('Offer Has been removed!');
-                                urlLocation.reload();
-                            } else
-                                alert('An error has occurred, please refresh this page and try again.\n Please contact us if this continues!');
-                        else
-                            alert('An error has occurred, please refresh this page and try again.\n Please contact us if this continues!');
-                    }
-                });
-            else
-                alert('Offer deletion canceled!');
-        });
-    }
-
-    if (urlLocation.href.includes('offers/create'))
-        cryptoOffer();
-
-    if (urlLocation.pathname === '/offers' || urlLocation.pathname === '/offers/')
-        $(view_offer).each(function (idx, val) {
-            let target = this,
-                _percentage = $(val).data('percent'),
-                _crypto_type = $('.crypto-currency', this).html();
-
+/**
+ * Get Current Crypto rate and assign values every 4000ms(4s)
+ * @param target
+ * @param _crypto_type
+ * @param _percentage
+ */
+function currentCryptoOffer(target, _crypto_type, _percentage) {
+    (function currentCryptoOffer() {
+        setTimeout(() => {
             selectCryptoOffer(_crypto_type, _percentage, function () {
                 $('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
                 $('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
             });
-            currentCryptoOffer(target, _crypto_type, _percentage);
+            currentCryptoOffer();
+        }, 4000);
+    })();
+}
+
+if (urlLocation.pathname === '/offers' || urlLocation.pathname === '/offers/')
+    $(view_offer).each(function (idx, val) {
+        let target = this,
+            _percentage = $(val).data('percent'),
+            _crypto_type = $('.crypto-currency', this).html();
+
+        selectCryptoOffer(_crypto_type, _percentage, function () {
+            $('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
+            $('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
         });
-});
+        currentCryptoOffer(target, _crypto_type, _percentage);
+    });

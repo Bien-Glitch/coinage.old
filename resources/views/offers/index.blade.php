@@ -135,5 +135,5 @@
             <a href="#" class="link link-soft"><em class="icon ni ni-redo"></em><span>Load More</span></a>
         </div>
     </div>
-    <script src="{{ asset('design/js/custom/main.js') }}"></script>
+    <script src="{{ asset('design/js/custom/user.js') }}"></script>
 @endsection

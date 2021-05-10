@@ -31,7 +31,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="944402c1-1961-4806-916a-d9087040a488" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/design/assets/bfh/css/bootstrap-formhelpers.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/design/assets/bfh/js/bootstrap-formhelpers.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/design/js/custom/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/design/js/custom/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/design/js/custom/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/offers/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/offers/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/offers/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/offers/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile/verify/phone.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile/verify/phone.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,6 +205,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
@@ -258,10 +272,14 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="493" y="275" key="#Composer/0.0.1366.768@0.0.1366.768" timestamp="1619260959766" />
-    <state x="309" y="62" key="#Inspections" timestamp="1619280834454">
+    <state x="309" y="62" key="#Inspections" timestamp="1620682105259">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="309" y="62" key="#Inspections/0.0.1366.768@0.0.1366.768" timestamp="1619280834454" />
+    <state x="309" y="62" key="#Inspections/0.0.1366.768@0.0.1366.768" timestamp="1620682105259" />
+    <state x="402" y="0" width="566" height="768" key="#PHP" timestamp="1620682103907">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="402" y="0" width="566" height="768" key="#PHP/0.0.1366.768@0.0.1366.768" timestamp="1620682103907" />
     <state x="413" y="163" key="#com.intellij.ide.scriptingContext.ui.PerFileMappingsDialogWrapper" timestamp="1619571879141">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
@@ -286,17 +304,17 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="275" y="116" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1619332677053" />
-    <state x="418" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1619840205397">
+    <state x="418" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1620676615011">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="418" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.768@0.0.1366.768" timestamp="1619840205397" />
+    <state x="418" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.768@0.0.1366.768" timestamp="1620676615011" />
     <state x="339" y="172" key="run.anything.popup" timestamp="1620016174566">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="339" y="172" key="run.anything.popup/0.0.1366.768@0.0.1366.768" timestamp="1620016174566" />
-    <state x="346" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1619731088376">
+    <state x="346" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1620675130466">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="346" y="89" width="672" height="678" key="search.everywhere.popup/0.0.1366.768@0.0.1366.768" timestamp="1619731088376" />
+    <state x="346" y="89" width="672" height="678" key="search.everywhere.popup/0.0.1366.768@0.0.1366.768" timestamp="1620675130466" />
   </component>
 </project>
