@@ -136,6 +136,38 @@ class ProfileController extends Controller
         return redirect('profile/verify');
     }
 
+    public function resendOtp(Request $request)
+    {
+        $response = array();
+
+        $phone = $request->session()->get('phone');
+        if ($phone) {
+            $otp = $request->session()->get('OTP');
+
+            $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone);
+
+            if ($bulkSmsResponse->error) {
+                $response['error'] = true;
+                $response['message'] = 'Sending sms failed. Contact admin.';
+            } else {
+
+                $request->session()->put([
+                    'OTP' => $otp,
+                    'phone' => $request->phone,
+                ]);
+
+                $response['error'] = false;
+                $response['message'] = 'Your OTP is created.';
+                $response['OTP'] = $otp;
+            }
+            return json_encode($response);
+        } else {
+            $response['error'] = true;
+            $response['message'] = 'phone number not available';
+            return json_encode($response);
+        }
+    }
+
     public function updateBank(Request $request)
     {
         // dd($request);
