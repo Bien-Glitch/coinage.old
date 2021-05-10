@@ -65,17 +65,13 @@ class ProfileController extends Controller
         ]);
 
         $otp = rand(100000, 999999);
-        // dd($otp);
 
-        $bulkSms = new BulkSmsNigeria();
+        $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone);
 
-        $bulkSmsResponse = $bulkSms->sendSms($otp, $request->phone);
 
-        // dd($bulkSmsResponse);
-
-        if ($bulkSmsResponse['error']) {
+        if ($bulkSmsResponse->error) {
             $response['error'] = true;
-            $response['message'] = $bulkSmsResponse['message'];
+            $response['message'] = 'Sending sms failed. Contact admin.';
         } else {
 
             $request->session()->put([
@@ -89,7 +85,6 @@ class ProfileController extends Controller
         }
 
         // return json_encode($response);
-        // echo json_encode($response);
         return redirect('profile/verify/phone')->with('message', 'OTP has been sent');
     }
 
@@ -139,6 +134,38 @@ class ProfileController extends Controller
 
         // return json_encode($response);
         return redirect('profile/verify');
+    }
+
+    public function resendOtp(Request $request)
+    {
+        $response = array();
+
+        $phone = $request->session()->get('phone');
+        if ($phone) {
+            $otp = $request->session()->get('OTP');
+
+            $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone);
+
+            if ($bulkSmsResponse->error) {
+                $response['error'] = true;
+                $response['message'] = 'Sending sms failed. Contact admin.';
+            } else {
+
+                $request->session()->put([
+                    'OTP' => $otp,
+                    'phone' => $request->phone,
+                ]);
+
+                $response['error'] = false;
+                $response['message'] = 'Your OTP is created.';
+                $response['OTP'] = $otp;
+            }
+            return json_encode($response);
+        } else {
+            $response['error'] = true;
+            $response['message'] = 'phone number not available';
+            return json_encode($response);
+        }
     }
 
     public function updateBank(Request $request)
