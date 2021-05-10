@@ -66,7 +66,8 @@ class ProfileController extends Controller
 
         $otp = rand(100000, 999999);
 
-        $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone)->getData();
+        $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone);
+
 
         if ($bulkSmsResponse->error) {
             $response['error'] = true;

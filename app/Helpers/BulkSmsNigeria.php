@@ -111,12 +111,12 @@ class BulkSmsNigeria
 
             return response()->json([
                 'error' => false,
-            ]);
+            ])->getData();
         } catch (GuzzleException $e) {
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage(),
-            ], 500);
+            ], 500)->getData();
         }
     }
 }
