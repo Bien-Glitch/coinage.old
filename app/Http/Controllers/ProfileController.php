@@ -71,7 +71,9 @@ class ProfileController extends Controller
             'phone' => ['required', 'string', 'min:11', 'max:16'],
         ]);
 
-        $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone);
+        $phone = str_replace(' ', '', $request->phone);
+
+        $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, str_replace(['+234 '], '0', $phone));
 
 
         if ($bulkSmsResponse->error) {
@@ -80,7 +82,7 @@ class ProfileController extends Controller
         } else {
             $request->session()->put([
                 'OTP' => $otp,
-                'phone' => $request->phone,
+                'phone' => $phone,
             ]);
 
             $response['error'] = false;
