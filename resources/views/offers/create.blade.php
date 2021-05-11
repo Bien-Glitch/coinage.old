@@ -17,11 +17,11 @@
                 @endif
                 <form action="{{ route('offers.store') }}" method="POST" class="gy-3" name="formA">
                     @csrf
-                    <x-offer-form />
+                    <x-offer-form/>
                 </form>
             </div>
         </div><!-- card -->
     </div>
-    <script src="{{ asset('design/js/custom/main.js') }}"></script>
+    <script src="{{ asset('design/js/custom/user.js') }}"></script>
 @endsection
 

@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('dashboard/assets/css/dashlite.css?ver=2.4.0') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('dashboard/assets/css/theme.css?ver=2.4.0') }}">
     <link rel="stylesheet" href="{{ asset('design/assets/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('design/assets/bfh/css/bootstrap-formhelpers.min.css') }}">
 
     <!--Jquery-->
     <script src="{{ asset('design/js/jquery/jquery.min.js') }}"></script>
@@ -449,6 +450,10 @@
 
     <script src="{{ asset('design/js/custom/accounting.min.js') }}"></script>
     <script src="{{ asset('design/js/custom/accounting.settings.js') }}"></script>
+
+    <script src="{{ asset('design/js/jquery/jquery.form.js') }}"></script>
+    <script src="{{ asset('design/assets/bfh/js/bootstrap-formhelpers.min.js') }}"></script>
+    <script src="{{ asset('design/js/custom/main.js') }}"></script>
 </body>
 
 </html>

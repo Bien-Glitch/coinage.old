@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    private int $status = 300;
+
     /**
      * Returns a view
      */
@@ -16,6 +18,7 @@ class ProfileController extends Controller
     {
         return view('profile.profile', ['user' => Auth::user()]);
     }
+
     /**
      * Returns a view
      */
@@ -23,6 +26,7 @@ class ProfileController extends Controller
     {
         return view('profile.verify.verification', ['user' => Auth::user()]);
     }
+
     /**
      * Returns a view
      */
@@ -30,6 +34,7 @@ class ProfileController extends Controller
     {
         return view('profile.verify.phone');
     }
+
     /**
      * Returns a view
      */
@@ -37,6 +42,7 @@ class ProfileController extends Controller
     {
         return view('profile.verify.bank');
     }
+
     /**
      * Returns a view
      */
@@ -48,44 +54,43 @@ class ProfileController extends Controller
     /**
      * Function to send OTP.
      *
-     * @return Response
+     * @param Request $request
+     * @return false|string
      */
     public function sendOtp(Request $request)
     {
+        $response = [];
+        $user = auth()->user();
+        $otp = rand(100000, 999999);
         // dd($request->phone);
 
         //Removing Session variable
         $request->session()->forget(['OTP', 'phone']);
 
-        $response = array();
-        $user = auth()->user();
-
         $request->validate([
-            'phone' => ['required', 'string', 'min:11', 'max:14'],
+            'phone' => ['required', 'string', 'min:11', 'max:16'],
         ]);
-
-        $otp = rand(100000, 999999);
 
         $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone);
 
 
         if ($bulkSmsResponse->error) {
             $response['error'] = true;
-            $response['message'] = 'Sending sms failed. Contact admin.';
+            $response['message']['phone'] = 'Sending sms failed. Contact admin.';
         } else {
-
             $request->session()->put([
                 'OTP' => $otp,
                 'phone' => $request->phone,
             ]);
 
             $response['error'] = false;
-            $response['message'] = 'Your OTP is created.';
             $response['OTP'] = $otp;
+            $response['session'] = $request->session()->all();
+            $response['message']['phone'] = 'Your OTP is created.';
+            $this->status = 200;
         }
-
-        // return json_encode($response);
-        return redirect('profile/verify/phone')->with('message', 'OTP has been sent');
+        return response($response, $this->status);
+        // return redirect('profile/verify/phone')->with('message', 'OTP has been sent');
     }
 
     /**
