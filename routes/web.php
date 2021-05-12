@@ -32,14 +32,15 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
     //profile
     Route::get('/my-account', [ProfileController::class, 'profile']);
     Route::get('/profile/verify', [ProfileController::class, 'profileVerify']);
-    Route::get('profile/verify/phone', [ProfileController::class, 'veriifyPhone']);
-    Route::get('profile/verify/bank', [ProfileController::class, 'verifyBank']);
-    Route::get('profile/verify/id', [ProfileController::class, 'verifyId']);
+    Route::get('/profile/verify/phone', [ProfileController::class, 'verifyPhone'])->name('profile.verify.phone');
+    Route::get('/profile/verify/bank', [ProfileController::class, 'verifyBank']);
+    Route::get('/profile/verify/id', [ProfileController::class, 'verifyId']);
 
-    Route::post('profile/verify/phone/sendOtp', [ProfileController::class, 'sendOtp']);
-    Route::post('profile/verify/phone/verifyOtp', [ProfileController::class, 'verifyOtp']);
-    Route::post('profile/verify/bank/process', [ProfileController::class, 'updateBank']);
-    Route::post('profile/verify/id/process', [ProfileController::class, 'uploadId']);
+    Route::post('/profile/verify/phone/sendOtp', [ProfileController::class, 'sendOtp'])->name('phone.otp.send');
+    Route::post('/profile/verify/phone/resendOtp', [ProfileController::class, 'resendOtp'])->name('phone.otp.resend');
+    Route::post('/profile/verify/phone/verifyOtp', [ProfileController::class, 'verifyOtp'])->name('phone.otp.verify');
+    Route::post('/profile/verify/bank/process', [ProfileController::class, 'updateBank']);
+    Route::post('/profile/verify/id/process', [ProfileController::class, 'uploadId']);
 
     //Offers
     Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
