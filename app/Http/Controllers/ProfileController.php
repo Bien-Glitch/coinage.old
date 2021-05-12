@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\BulkSmsNigeria;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -30,7 +33,7 @@ class ProfileController extends Controller
     /**
      * Returns a view
      */
-    public function veriifyPhone()
+    public function verifyPhone()
     {
         return view('profile.verify.phone');
     }
@@ -55,7 +58,7 @@ class ProfileController extends Controller
      * Function to send OTP.
      *
      * @param Request $request
-     * @return false|string
+     * @return Application|ResponseFactory|Response
      */
     public function sendOtp(Request $request)
     {
@@ -65,7 +68,12 @@ class ProfileController extends Controller
         // dd($request->phone);
 
         //Removing Session variable
-        $request->session()->forget(['OTP', 'phone']);
+        /*$request->session()->forget(['OTP', 'phone']);*/
+
+        $request->session()->put([
+            'OTP' => $otp,
+            'phone' => str_replace(' ', '', $request->phone),
+        ]);
 
         $request->validate([
             'phone' => ['required', 'string', 'min:11', 'max:16'],
@@ -73,8 +81,14 @@ class ProfileController extends Controller
 
         $phone = str_replace(' ', '', $request->phone);
 
-        $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, str_replace(['+234 '], '0', $phone));
+        $response['error'] = false;
+        $response['OTP'] = $otp;
+        $response['session'] = $request->session()->all();
+        $response['message']['phone'] = 'Your OTP is created.';
+        $this->status = 200;
+        return response($response, $this->status);
 
+        $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, str_replace(['+234 '], '0', $phone));
 
         if ($bulkSmsResponse->error) {
             $response['error'] = true;
@@ -98,16 +112,17 @@ class ProfileController extends Controller
     /**
      * Function to verify OTP.
      *
-     * @return Response
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
      */
     public function verifyOtp(Request $request)
     {
+        $response = [];
+
         // dd($request->session()->get('phone'));
         $request->validate([
             'otp' => ['required', 'digits:6'],
         ]);
-
-        $response = array();
 
         $enteredOtp = $request->otp;
         $user = auth()->user();
@@ -115,7 +130,6 @@ class ProfileController extends Controller
         $OTP = $request->session()->get('OTP');
 
         if ($OTP == $enteredOtp) {
-
             // Updating user's status "isVerified" as 1.
             $phone = $request->session()->get('phone');
 
@@ -127,52 +141,52 @@ class ProfileController extends Controller
             //Removing Session variable
             $request->session()->forget(['OTP', 'phone']);
 
-            $response['error'] = false;
-            $response['isPhoneVerified'] = true;
-            $response['message'] = "Your Phone Number is Verified.";
+            /*$response['error'] = false;
+            $response['isPhoneVerified'] = true;*/
+            $response['message']['otp'] = "Your Phone Number is Verified. Please wait...";
+            $this->status = 200;
         } else {
             //Removing Session variable
-            $request->session()->forget(['OTP', 'phone']);
+            $request->session()->forget(['OTP']);
 
-            $response['error'] = true;
-            $response['isPhoneVerified'] = false;
-            $response['message'] = "Invalid OTP";
+            /*$response['error'] = true;
+            $response['isPhoneVerified'] = false;*/
+            $response['message']['otp'] = "Invalid OTP. Please resend OTP";
         }
-
-        // return json_encode($response);
-        return redirect('profile/verify');
+        return response($response, $this->status);
+        /*return redirect('profile/verify');*/
     }
 
     public function resendOtp(Request $request)
     {
-        $response = array();
-
+        $response = [];
         $phone = $request->session()->get('phone');
+
         if ($phone) {
             $otp = $request->session()->get('OTP');
-
-            $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $request->phone);
+            $phone = str_replace(' ', '', $phone);
+            $bulkSmsResponse = BulkSmsNigeria::sendSms($otp, $phone);
 
             if ($bulkSmsResponse->error) {
                 $response['error'] = true;
-                $response['message'] = 'Sending sms failed. Contact admin.';
+                $response['message']['phone'] = 'Sending sms failed. Contact admin.';
             } else {
-
                 $request->session()->put([
                     'OTP' => $otp,
-                    'phone' => $request->phone,
+                    'phone' => $phone,
                 ]);
 
                 $response['error'] = false;
-                $response['message'] = 'Your OTP is created.';
                 $response['OTP'] = $otp;
+                $response['session'] = $request->session()->all();
+                $response['message']['phone'] = 'Your OTP is created.';
+                $this->status = 200;
             }
-            return json_encode($response);
         } else {
             $response['error'] = true;
-            $response['message'] = 'phone number not available';
-            return json_encode($response);
+            $response['message']['phone'] = 'phone number not available.';
         }
+        return response($response, $this->status);
     }
 
     public function updateBank(Request $request)

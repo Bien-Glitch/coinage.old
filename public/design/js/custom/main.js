@@ -16,6 +16,13 @@ let price,
     percentage = $(percentage_inp).val(),
     crypto_type = $('.crypto_type:checked').val(),
 
+    wait_text = '#wait-text',
+    wait_count = wait_text + ' #count',
+
+    otp_wrapper = '#verify-otp-wrapper',
+    phone_otp_btn = '#send-phone-otp-form button',
+    resend_phone_otp_btn = '#send-phone-otp-form .resend',
+
     requested = false,
     urlLocation = window.location,
     href = urlLocation.href,
@@ -156,6 +163,119 @@ function currentCryptoOffer(target, _crypto_type, _percentage) {
             currentCryptoOffer();
         }, 4000);
     })();
+}
+
+function cancelPhoneOTPSendCount(callback) {
+    let left = parseInt(localStorage.getItem('phone-otp-send-wait-count'));
+    // Count from x to y
+    $({countNum: left}).animate({countNum: 0}, {
+        duration: left * 1000,
+        easing: 'linear',
+        step: function () {
+            // What todo on every count
+            localStorage.setItem('phone-otp-send-wait-count', this.countNum.toFixed(0));
+        },
+        complete: function () {
+            localStorage.removeItem('phone-otp-resend-count');
+            localStorage.removeItem('phone-otp-send-wait-count');
+
+            if (typeof callback === 'function')
+                callback();
+        }
+    });
+}
+
+/**
+ *
+ * @param a
+ * @param b
+ * @param c
+ * @param callback
+ */
+function resendWait(a, b, c, callback = null) {
+    $(a).fadeIn(800);
+    $(c)[1].disabled = true;
+
+    if ($(resend_phone_otp_btn).css('display') === 'none')
+        $(c).animate({width: 'toggle', fade: 'toggle'}, -1, 'linear');
+
+    // Count from x to y
+    $({countNum: 10}).animate({countNum: 0}, {
+        duration: 10000,
+        easing: 'linear',
+        step: function () {
+            // What todo on every count
+            $(b).text(this.countNum.toFixed(0));
+        },
+        complete: function () {
+            $(a).fadeOut(800, function () {
+                $(c)[1].disabled = false;
+
+                if (typeof callback === 'function')
+                    callback();
+            });
+        }
+    });
+}
+
+function resendPhoneOTP(e, form) {
+    let uri = $(e).data('uri'),
+        resend_count = parseInt(localStorage.getItem('phone-otp-resend-count'));
+
+    $(e).on('click', function (e) {
+        e.preventDefault();
+
+        if (resend_count < 2) {
+            $(otp_wrapper).slideUp(800);
+
+            $.ajax({
+                url: uri, method: 'POST', data: {_token: token}, dataType: 'json', complete: function (xhr) {
+                    let resp = xhr.responseJSON;
+                    console.log(xhr);
+                    if (xhr.status === 200 || xhr.status === 201) {
+                        resend_count += 1;
+                        otp = resp['OTP'];
+                        localStorage.setItem('phone-otp-resend-count', resend_count);
+
+                        displaySuccess(formAttr(form).form, formAttr(form).that, resp.message)
+
+                        if (resp.session['OTP'] !== '' || resp.session['OTP'] !== undefined) {
+                            $(otp_wrapper).slideDown(800, () => {
+                                resendWait(wait_text, wait_count, phone_otp_btn, function () {
+                                    resendPhoneOTP(e, form);
+                                });
+                            });
+                        } else if ($(otp_wrapper).css('display') !== 'none')
+                            $(otp_wrapper).slideUp(800);
+                    } else
+                        displayError(formAttr(form).form, formAttr(form).that, resp.message);
+                }
+            });
+        } else {
+            let error = {phone: 'Number of resend exceeded! Please wait for 120s'}
+            localStorage.setItem('phone-otp-send-wait-count', '120');
+            displayError(formAttr(form).form, formAttr(form).that, error);
+            cancelPhoneOTPSendCount(() => {
+                urlLocation.reload();
+            });
+        }
+    });
+}
+
+if (localStorage.getItem('phone-otp-send-wait-count') !== null && localStorage.getItem('phone-otp-send-wait-count') !== undefined) {
+    $(phone_otp_btn).prop({disabled: true})
+    cancelPhoneOTPSendCount(() => {
+        if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/')
+            urlLocation.reload();
+    });
+} else if (parseInt(localStorage.getItem('phone-otp-resend-count')) > 0) {
+    if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/') {
+        $(phone_otp_btn).animate({width: 'toggle', fade: 'toggle'}, -1, 'linear');
+        resendPhoneOTP(resend_phone_otp_btn, '#send-phone-otp-form')
+    }
+} else {
+    if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/')
+        $(phone_otp_btn).prop({disabled: false});
 }
 
 if (urlLocation.pathname === '/offers' || urlLocation.pathname === '/offers/')
