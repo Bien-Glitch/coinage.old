@@ -83,11 +83,9 @@
     </div><!-- .card -->
     <script>
         $(function () {
-            let otp;
-
             function setResendCount() {
-                localStorage.removeItem('phone-otp-resend-count');
-                localStorage.setItem('phone-otp-resend-count', '0');
+                localStorage.removeItem('phone-otp-resend-count-'+user_id);
+                localStorage.setItem('phone-otp-send-wait-count-'+user_id, '0');
             }
 
             function verifyPhoneOTP() {

@@ -6,28 +6,31 @@
  **/
 
 /**================ i - Variable Declarations ================**/
-let price,
-    _price,
-    index_price,
-    _index_price,
+let otp,
+	price,
+	_price,
+	index_price,
+	_index_price,
 
-    percentage_inp = '#percentage',
-    view_offer = '.view-offer',
-    percentage = $(percentage_inp).val(),
-    crypto_type = $('.crypto_type:checked').val(),
+	percentage_inp = '#percentage',
+	view_offer = '.view-offer',
+	percentage = $(percentage_inp).val(),
+	crypto_type = $('.crypto_type:checked').val(),
 
-    wait_text = '#wait-text',
-    wait_count = wait_text + ' #count',
+	wait_text = '#wait-text',
+	wait_count = wait_text + ' #count',
 
-    otp_wrapper = '#verify-otp-wrapper',
-    phone_otp_btn = '#send-phone-otp-form button',
-    resend_phone_otp_btn = '#send-phone-otp-form .resend',
+	otp_wrapper = '#verify-otp-wrapper',
+	phone_otp_btn = '#send-phone-otp-form button',
+	resend_phone_otp_btn = '#send-phone-otp-form .resend',
 
-    requested = false,
-    urlLocation = window.location,
-    href = urlLocation.href,
-    href_array = href.split('/'),
-    token = $('meta[name="csrf-token"]').attr('content');
+	requested = false,
+	urlLocation = window.location,
+	href = urlLocation.href,
+	href_array = href.split('/'),
+	user_id = $('meta[name="user-id"]').attr('content'),
+	token = $('meta[name="csrf-token"]').attr('content');
+
 
 /**================ 1. - General Functions ================**/
 /**
@@ -36,7 +39,7 @@ let price,
  * @returns {string | jQuery}
  */
 function formAction(_form) {
-    return $(_form).attr('action');
+	return $(_form).attr('action');
 }
 
 /**
@@ -45,13 +48,13 @@ function formAction(_form) {
  * @returns {{that: *, form: string}}
  */
 function formAttr(form) {
-    let ele = $(form)[0].elements,
-        _form = '#' + $(form).attr('id');
+	let ele = $(form)[0].elements,
+		_form = '#' + $(form).attr('id');
 
-    return {
-        that: ele,
-        form: _form,
-    };
+	return {
+		that: ele,
+		form: _form,
+	};
 }
 
 /**
@@ -63,53 +66,53 @@ function formAttr(form) {
  * @param {function} callback: Callback function to be called on load completion (** optional [set to null if empty] **)
  */
 function loadPageData(_wrapper, _uri, data = null, _slug, callback = null) {
-    $(_wrapper).load(_uri, data, function (response, status, xhr) {
-        if (status === 'success') {
-            if (typeof callback === 'function')
-                callback();
-        } else
-            alert('There was an error loading ' + _slug + '\r\nPlease reload this page.');
-    });
+	$(_wrapper).load(_uri, data, function (response, status, xhr) {
+		if (status === 'success') {
+			if (typeof callback === 'function')
+				callback();
+		} else
+			alert('There was an error loading ' + _slug + '\r\nPlease reload this page.');
+	});
 }
 
 // Display Error message(s) and add the error class (** Requires the instance of the form field, the error array, the single error message (optional), and the addRegErr() & message() functions)
 function displaySuccess(form, that, mess) {
-    for (let i = 0; i < that.length; i++) {
-        let element_id = that[i].id;
-        console.log(element_id)
-        if (element_id in mess && (mess[element_id] !== '')) {
-            $(form + ' #' + element_id)
-                .removeClass('is-invalid')
-                .removeClass('is-valid')
-                .addClass('is-valid');
-            $(form + ' #' + element_id + 'Valid')
-                .removeClass('invalid-feedback')
-                .removeClass('valid-feedback')
-                .addClass('valid-feedback');
+	for (let i = 0; i < that.length; i++) {
+		let element_id = that[i].id;
+		console.log(element_id)
+		if (element_id in mess && (mess[element_id] !== '')) {
+			$(form + ' #' + element_id)
+				.removeClass('is-invalid')
+				.removeClass('is-valid')
+				.addClass('is-valid');
+			$(form + ' #' + element_id + 'Valid')
+				.removeClass('invalid-feedback')
+				.removeClass('valid-feedback')
+				.addClass('valid-feedback');
 
-            $(form + ' #' + element_id + 'Valid > strong').html(mess[element_id]);
-        }
-    }
+			$(form + ' #' + element_id + 'Valid > strong').html(mess[element_id]);
+		}
+	}
 }
 
 // Display Error message(s) and add the error class (** Requires the instance of the form field, the error array, the single error message (optional), and the addRegErr() & message() functions)
 function displayError(form, that, error, mess, mess_tag) {
-    for (let i = 0; i < that.length; i++) {
-        let element_id = that[i].id;
-        if (element_id in error && (error[element_id] !== '')) {
-            $(form + ' #' + element_id)
-                .removeClass('is-valid')
-                .removeClass('is-invalid')
-                .addClass('is-invalid');
-            $(form + ' #' + element_id + 'Valid')
-                .removeClass('valid-feedback')
-                .removeClass('invalid-feedback')
-                .addClass('invalid-feedback');
+	for (let i = 0; i < that.length; i++) {
+		let element_id = that[i].id;
+		if (element_id in error && (error[element_id] !== '')) {
+			$(form + ' #' + element_id)
+				.removeClass('is-valid')
+				.removeClass('is-invalid')
+				.addClass('is-invalid');
+			$(form + ' #' + element_id + 'Valid')
+				.removeClass('valid-feedback')
+				.removeClass('invalid-feedback')
+				.addClass('invalid-feedback');
 
-            $(form + ' #' + element_id + 'Valid > strong').html(error[element_id]);
-        }
-    }
-    /*if (mess) message(danger_rem_class, fa_exc, mess, mess_tag);*/
+			$(form + ' #' + element_id + 'Valid > strong').html(error[element_id]);
+		}
+	}
+	/*if (mess) message(danger_rem_class, fa_exc, mess, mess_tag);*/
 }
 
 /**================ 2. - Crypto Functions ================**/
@@ -120,31 +123,31 @@ function displayError(form, that, error, mess, mess_tag) {
  * @param {function} callback
  */
 function selectCryptoOffer(_crypto_type, _percentage = percentage, callback = null) {
-    let uri = 'https://api.coinbase.com/v2/exchange-rates?currency=' + _crypto_type;
+	let uri = 'https://api.coinbase.com/v2/exchange-rates?currency=' + _crypto_type;
 
-    $.ajax({
-        url: uri, method: 'GET', timeout: 8000, dataType: 'json', complete: function (xhr) {
-            let /*_percentage,*/
-                resp = xhr.responseJSON;
+	$.ajax({
+		url: uri, method: 'GET', timeout: 8000, dataType: 'json', complete: function (xhr) {
+			let /*_percentage,*/
+				resp = xhr.responseJSON;
 
-            if (xhr.status === 200)
+			if (xhr.status === 200)
 
-                if (typeof _percentage === 'function') {
-                    price = parseFloat(resp.data.rates.NGN);
-                    _price = ((price * percentage) / 100) + price;
-                    /*_percentage = ((price * percentage) / 100);
-                    _price = _percentage + price;*/
-                } else {
-                    index_price = parseFloat(resp.data.rates.NGN);
-                    _index_price = ((index_price * _percentage) / 100) + index_price;
-                }
+				if (typeof _percentage === 'function') {
+					price = parseFloat(resp.data.rates.NGN);
+					_price = ((price * percentage) / 100) + price;
+					/*_percentage = ((price * percentage) / 100);
+					_price = _percentage + price;*/
+				} else {
+					index_price = parseFloat(resp.data.rates.NGN);
+					_index_price = ((index_price * _percentage) / 100) + index_price;
+				}
 
-            if (typeof _percentage === 'function')
-                _percentage();
-            else if (typeof callback === 'function')
-                callback();
-        }
-    });
+			if (typeof _percentage === 'function')
+				_percentage();
+			else if (typeof callback === 'function')
+				callback();
+		}
+	});
 }
 
 /**
@@ -154,35 +157,40 @@ function selectCryptoOffer(_crypto_type, _percentage = percentage, callback = nu
  * @param _percentage
  */
 function currentCryptoOffer(target, _crypto_type, _percentage) {
-    (function currentCryptoOffer() {
-        setTimeout(() => {
-            selectCryptoOffer(_crypto_type, _percentage, function () {
-                $('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
-                $('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
-            });
-            currentCryptoOffer();
-        }, 4000);
-    })();
+	(function currentCryptoOffer() {
+		setTimeout(() => {
+			selectCryptoOffer(_crypto_type, _percentage, function () {
+				$('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
+				$('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
+			});
+			currentCryptoOffer();
+		}, 4000);
+	})();
 }
 
 function cancelPhoneOTPSendCount(callback) {
-    let left = parseInt(localStorage.getItem('phone-otp-send-wait-count'));
-    // Count from x to y
-    $({countNum: left}).animate({countNum: 0}, {
-        duration: left * 1000,
-        easing: 'linear',
-        step: function () {
-            // What todo on every count
-            localStorage.setItem('phone-otp-send-wait-count', this.countNum.toFixed(0));
-        },
-        complete: function () {
-            localStorage.removeItem('phone-otp-resend-count');
-            localStorage.removeItem('phone-otp-send-wait-count');
+	let left = parseInt(localStorage.getItem('phone-otp-send-wait-count-' + user_id));
 
-            if (typeof callback === 'function')
-                callback();
-        }
-    });
+	$(resend_phone_otp_btn).prop({disabled: true});
+	// Count from x to y
+	$({countNum: left}).animate({countNum: 0}, {
+		duration: left * 1000,
+		easing: 'linear',
+		step: function () {
+			// What todo on every count
+			if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/')
+				$('#otp-send-count').text(this.countNum.toFixed(0));
+			localStorage.setItem('phone-otp-send-wait-count-' + user_id, this.countNum.toFixed(0));
+		},
+		complete: function () {
+			$(resend_phone_otp_btn).prop({disabled: false});
+			localStorage.removeItem('phone-otp-resend-count-' + user_id);
+			localStorage.removeItem('phone-otp-send-wait-count-' + user_id);
+
+			if (typeof callback === 'function')
+				callback();
+		}
+	});
 }
 
 /**
@@ -193,100 +201,105 @@ function cancelPhoneOTPSendCount(callback) {
  * @param callback
  */
 function resendWait(a, b, c, callback = null) {
-    $(a).fadeIn(800);
-    $(c)[1].disabled = true;
+	$(a).fadeIn(800);
+	$(c)[1].disabled = true;
 
-    if ($(resend_phone_otp_btn).css('display') === 'none')
-        $(c).animate({width: 'toggle', fade: 'toggle'}, -1, 'linear');
+	if ($(resend_phone_otp_btn).css('display') === 'none')
+		$(c).animate({width: 'toggle', fade: 'toggle'}, -1, 'linear');
 
-    // Count from x to y
-    $({countNum: 10}).animate({countNum: 0}, {
-        duration: 10000,
-        easing: 'linear',
-        step: function () {
-            // What todo on every count
-            $(b).text(this.countNum.toFixed(0));
-        },
-        complete: function () {
-            $(a).fadeOut(800, function () {
-                $(c)[1].disabled = false;
+	// Count from x to y
+	$({countNum: 10}).animate({countNum: 0}, {
+		duration: 10000,
+		easing: 'linear',
+		step: function () {
+			// What todo on every count
+			$(b).text(this.countNum.toFixed(0));
+		},
+		complete: function () {
+			$(a).fadeOut(800, function () {
+				$(c)[1].disabled = false;
 
-                if (typeof callback === 'function')
-                    callback();
-            });
-        }
-    });
+				if (typeof callback === 'function')
+					callback();
+			});
+		}
+	});
 }
 
 function resendPhoneOTP(e, form) {
-    let uri = $(e).data('uri'),
-        resend_count = parseInt(localStorage.getItem('phone-otp-resend-count'));
+	let uri = $(e).data('uri'),
+		resend_count = parseInt(localStorage.getItem('phone-otp-resend-count-' + user_id));
 
-    $(e).on('click', function (e) {
-        e.preventDefault();
+	$(e).on('click', function (e) {
+		e.preventDefault();
 
-        if (resend_count < 2) {
-            $(otp_wrapper).slideUp(800);
+		if (resend_count < 2) {
+			$(otp_wrapper).slideUp(800);
 
-            $.ajax({
-                url: uri, method: 'POST', data: {_token: token}, dataType: 'json', complete: function (xhr) {
-                    let resp = xhr.responseJSON;
-                    console.log(xhr);
-                    if (xhr.status === 200 || xhr.status === 201) {
-                        resend_count += 1;
-                        otp = resp['OTP'];
-                        localStorage.setItem('phone-otp-resend-count', resend_count);
+			$.ajax({
+				url: uri, method: 'POST', data: {_token: token}, dataType: 'json', complete: function (xhr) {
+					let resp = xhr.responseJSON;
+					console.log(xhr);
+					if (xhr.status === 200 || xhr.status === 201) {
+						resend_count += 1;
+						/*otp = resp['OTP'];*/
+						localStorage.setItem('phone-otp-resend-count-' + user_id, resend_count);
 
-                        displaySuccess(formAttr(form).form, formAttr(form).that, resp.message)
+						displaySuccess(formAttr(form).form, formAttr(form).that, resp.message)
 
-                        if (resp.session['OTP'] !== '' || resp.session['OTP'] !== undefined) {
-                            $(otp_wrapper).slideDown(800, () => {
-                                resendWait(wait_text, wait_count, phone_otp_btn, function () {
-                                    resendPhoneOTP(e, form);
-                                });
-                            });
-                        } else if ($(otp_wrapper).css('display') !== 'none')
-                            $(otp_wrapper).slideUp(800);
-                    } else
-                        displayError(formAttr(form).form, formAttr(form).that, resp.message);
-                }
-            });
-        } else {
-            let error = {phone: 'Number of resend exceeded! Please wait for 120s'}
-            localStorage.setItem('phone-otp-send-wait-count', '120');
-            displayError(formAttr(form).form, formAttr(form).that, error);
-            cancelPhoneOTPSendCount(() => {
-                urlLocation.reload();
-            });
-        }
-    });
+						if (resp.session['OTP'] !== '' || resp.session['OTP'] !== undefined) {
+							$(otp_wrapper).slideDown(800, () => {
+								resendWait(wait_text, wait_count, phone_otp_btn, function () {
+									resendPhoneOTP(e, form);
+								});
+							});
+						} else if ($(otp_wrapper).css('display') !== 'none')
+							$(otp_wrapper).slideUp(800);
+					} else
+						displayError(formAttr(form).form, formAttr(form).that, resp.message);
+				}
+			});
+		} else {
+			let error = {phone: 'Number of resend exceeded! Please wait for <span id="otp-send-count">60</span>s'}
+			localStorage.setItem('phone-otp-send-wait-count-' + user_id, '60');
+			displayError(formAttr(form).form, formAttr(form).that, error);
+			cancelPhoneOTPSendCount(() => {
+				urlLocation.reload();
+			});
+		}
+	});
 }
 
-if (localStorage.getItem('phone-otp-send-wait-count') !== null && localStorage.getItem('phone-otp-send-wait-count') !== undefined) {
-    $(phone_otp_btn).prop({disabled: true})
-    cancelPhoneOTPSendCount(() => {
-        if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/')
-            urlLocation.reload();
-    });
-} else if (parseInt(localStorage.getItem('phone-otp-resend-count')) > 0) {
-    if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/') {
-        $(phone_otp_btn).animate({width: 'toggle', fade: 'toggle'}, -1, 'linear');
-        resendPhoneOTP(resend_phone_otp_btn, '#send-phone-otp-form')
-    }
+if (localStorage.getItem('phone-otp-send-wait-count-' + user_id) !== null && localStorage.getItem('phone-otp-send-wait-count-' + user_id) !== undefined) {
+	if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/') {
+		let error = {phone: 'Number of resend exceeded! Please wait for <span id="otp-send-count">' + parseInt(localStorage.getItem('phone-otp-send-wait-count-' + user_id)) + '</span>s'}
+		displayError(formAttr('#send-phone-otp-form').form, formAttr('#send-phone-otp-form').that, error);
+		$(phone_otp_btn).prop({disabled: true})
+	}
+
+	cancelPhoneOTPSendCount(() => {
+		if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/')
+			urlLocation.reload();
+	});
+} else if (parseInt(localStorage.getItem('phone-otp-resend-count-' + user_id)) > 0) {
+	if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/') {
+		$(phone_otp_btn).animate({width: 'toggle', fade: 'toggle'}, -1, 'linear');
+		resendPhoneOTP(resend_phone_otp_btn, '#send-phone-otp-form')
+	}
 } else {
-    if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/')
-        $(phone_otp_btn).prop({disabled: false});
+	if (urlLocation.pathname === '/profile/verify/phone' || urlLocation.pathname === '/profile/verify/phone/')
+		$(phone_otp_btn).prop({disabled: false});
 }
 
 if (urlLocation.pathname === '/offers' || urlLocation.pathname === '/offers/')
-    $(view_offer).each(function (idx, val) {
-        let target = this,
-            _percentage = $(val).data('percent'),
-            _crypto_type = $('.crypto-currency', this).html();
+	$(view_offer).each(function (idx, val) {
+		let target = this,
+			_percentage = $(val).data('percent'),
+			_crypto_type = $('.crypto-currency', this).html();
 
-        selectCryptoOffer(_crypto_type, _percentage, function () {
-            $('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
-            $('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
-        });
-        currentCryptoOffer(target, _crypto_type, _percentage);
-    });
+		selectCryptoOffer(_crypto_type, _percentage, function () {
+			$('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
+			$('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
+		});
+		currentCryptoOffer(target, _crypto_type, _percentage);
+	});

@@ -31,14 +31,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="944402c1-1961-4806-916a-d9087040a488" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/symfony2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/.editorconfig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/laravel-plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/laravel-plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/design/js/custom/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/design/js/custom/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/profile/verify/phone.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile/verify/phone.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/profile/verify/verification.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile/verify/verification.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +53,9 @@
     <execution>
       <phar pharPath="C:\ProgramData\ComposerSetup\bin\composer.phar" interpreterId="a7603df4-4b72-4bc2-8f66-b56d502fd28b" />
     </execution>
+  </component>
+  <component name="EditorConfigPreviewManager">
+    <editorConfig file="$PROJECT_DIR$/.editorconfig" previewFile="$PROJECT_DIR$/resources/views/profile/verify/verification.blade.php" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -66,16 +72,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="JsBowerSettings">
     <node-interpreter value="project" />
     <bower-package value="" />
     <bower.json value="" />
-  </component>
-  <component name="JsFlowSettings">
-    <service-enabled>true</service-enabled>
-    <exe-path />
-    <other-services-enabled>true</other-services-enabled>
-    <auto-save>true</auto-save>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
     <include_path>
@@ -205,7 +213,7 @@
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/composer.json" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
+    <property name="settings.editor.selected.configurable" value="Configurable.PHP.Blade" />
     <property name="show.migrate.to.gradle.popup" value="false" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2020.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
@@ -215,6 +223,7 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>C:\Users\fusion\AppData\Roaming\Subversion</configuration>
   </component>
@@ -232,11 +241,21 @@
       <workItem from="1619895697548" duration="11728000" />
       <workItem from="1620158513396" duration="2624000" />
       <workItem from="1620779015078" duration="15896000" />
+      <workItem from="1620873542405" duration="574000" />
+      <workItem from="1620876076925" duration="381000" />
+      <workItem from="1620876989550" duration="569000" />
+      <workItem from="1620878819914" duration="923000" />
+      <workItem from="1620884641625" duration="340000" />
+      <workItem from="1620886567676" duration="8000" />
+      <workItem from="1620886652845" duration="2882000" />
+      <workItem from="1621029606786" duration="49000" />
+      <workItem from="1621031016594" duration="279000" />
+      <workItem from="1621061670976" duration="5611000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -262,54 +281,8 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="493" y="275" key="#Composer" timestamp="1619260959766">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="493" y="275" key="#Composer/0.0.1366.768@0.0.1366.768" timestamp="1619260959766" />
-    <state x="309" y="62" key="#Inspections" timestamp="1620790555026">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="309" y="62" key="#Inspections/0.0.1366.768@0.0.1366.768" timestamp="1620790555026" />
-    <state x="402" y="0" width="566" height="768" key="#PHP" timestamp="1620790552576">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="402" y="0" width="566" height="768" key="#PHP/0.0.1366.768@0.0.1366.768" timestamp="1620790552576" />
-    <state x="413" y="163" key="#com.intellij.ide.scriptingContext.ui.PerFileMappingsDialogWrapper" timestamp="1619571879141">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="413" y="163" key="#com.intellij.ide.scriptingContext.ui.PerFileMappingsDialogWrapper/0.0.1366.768@0.0.1366.768" timestamp="1619571879141" />
-    <state x="487" y="274" key="ComposerInitDialogKey" timestamp="1619262407656">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="487" y="274" key="ComposerInitDialogKey/0.0.1366.768@0.0.1366.768" timestamp="1619262407656" />
-    <state x="463" y="138" key="FileChooserDialogImpl" timestamp="1619262478404">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="463" y="138" key="FileChooserDialogImpl/0.0.1366.768@0.0.1366.768" timestamp="1619262478404" />
-    <state x="184" y="28" key="SettingsEditor" timestamp="1619571881228">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="184" y="28" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1619571881228" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1619274483868">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state width="498" height="446" key="SwitcherDM/0.0.1366.768@0.0.1366.768" timestamp="1619274483868" />
-    <state x="275" y="116" key="Vcs.Push.Dialog.v2" timestamp="1619332677053">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="275" y="116" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1619332677053" />
-    <state x="418" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1620792600937">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="418" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.768@0.0.1366.768" timestamp="1620792600937" />
-    <state x="339" y="172" key="run.anything.popup" timestamp="1620791526484">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="339" y="172" key="run.anything.popup/0.0.1366.768@0.0.1366.768" timestamp="1620791526484" />
-    <state x="346" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1620795142968">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="346" y="89" width="672" height="678" key="search.everywhere.popup/0.0.1366.768@0.0.1366.768" timestamp="1620795142968" />
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
