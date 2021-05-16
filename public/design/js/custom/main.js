@@ -168,6 +168,7 @@ function currentCryptoOffer(target, _crypto_type, _percentage) {
 	})();
 }
 
+/**================ 3. - Phone Verification Functions ================**/
 function cancelPhoneOTPSendCount(callback) {
 	let left = parseInt(localStorage.getItem('phone-otp-send-wait-count-' + user_id));
 

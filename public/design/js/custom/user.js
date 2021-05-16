@@ -1,4 +1,5 @@
 $(function () {
+	/**================ 1. - Create Offer Functions ================**/
     /**
      * All Functions for Create Offer Operation
      */
@@ -40,11 +41,6 @@ $(function () {
 
                 if ($(percentage_inp).val() === '')
                     $(percentage_inp).val($(percentage_inp).attr('max'));
-
-                /*if (parseFloat($(percentage_inp).val()) > parseFloat(max) || parseFloat($(percentage_inp).val()) < parseFloat(min)) {
-                    alert('Percentage value must be between ' + $(percentage_inp).attr('min') + ' to ' + $(percentage_inp).attr('max'));
-                } else if (parseFloat($(percentage_inp).val()) < parseFloat($(percentage_inp).attr('min')))
-                    $(percentage_inp).val();*/
 
                 percentage = $(percentage_inp).val();
 
@@ -108,6 +104,61 @@ $(function () {
         crypto_type = $(this).val();
         cryptoOffer();
     });
+
+	/**================ 2. - Phone Verification Functions ================**/
+	function setResendCount() {
+		localStorage.removeItem('phone-otp-resend-count-'+user_id);
+		localStorage.setItem('phone-otp-send-wait-count-'+user_id, '0');
+	}
+
+	function verifyPhoneOTP() {
+		$('#verify-phone-otp-form').on('submit', function (e) {
+			e.preventDefault();
+			let target = this;
+
+			$(target).ajaxSubmit({
+				method: 'POST', url: formAction(target), data: {_token: token}, dataType: 'json', complete: function (xhr) {
+					let resp = xhr.responseJSON;
+					console.log(xhr);
+					if (xhr.status === 200 || xhr.status === 201) {
+						displaySuccess(formAttr(target).form, formAttr(target).that, resp.message)
+						setTimeout(() => {
+							urlLocation.href = '/profile/verify';
+						}, 2000);
+					} else
+						displayError(formAttr(target).form, formAttr(target).that, resp.message);
+				}
+			});
+		});
+	}
+
+	$('#send-phone-otp-form').on('submit', function (e) {
+		e.preventDefault();
+		let target = this;
+
+		$(target).ajaxSubmit({
+			method: 'POST', url: formAction(target), data: {_token: token}, dataType: 'json', complete: function (xhr) {
+				let resp = xhr.responseJSON;
+				console.log(xhr);
+				if (xhr.status === 200 || xhr.status === 201) {
+					otp = resp['OTP'];
+					displaySuccess(formAttr(target).form, formAttr(target).that, resp.message)
+
+					if (resp.session['OTP'] !== '' || resp.session['OTP'] !== undefined) {
+						$(otp_wrapper).slideDown(800, () => {
+							resendWait(wait_text, wait_count, phone_otp_btn, function () {
+								setResendCount();
+								resendPhoneOTP(resend_phone_otp_btn, target);
+							});
+							verifyPhoneOTP();
+						});
+					} else if ($(otp_wrapper).css('display') !== 'none')
+						$(otp_wrapper).slideUp(800);
+				} else
+					displayError(formAttr(target).form, formAttr(target).that, resp.message);
+			}
+		});
+	});
 
     if (urlLocation.href.includes('offers/create'))
         cryptoOffer();

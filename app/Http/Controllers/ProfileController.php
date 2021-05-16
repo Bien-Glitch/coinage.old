@@ -11,6 +11,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller {
 	private int $status = 300;
@@ -33,7 +35,9 @@ class ProfileController extends Controller {
 	 * Returns a view
 	 */
 	public function verifyPhone() {
-		return view('profile.verify.phone');
+		if (!Auth::user()->hasVerifiedPhone())
+			return view('profile.verify.phone');
+		return back();
 	}
 
 	/**
@@ -175,19 +179,27 @@ class ProfileController extends Controller {
 		return response($response, $this->status);
 	}
 
+	/**
+	 * @param Request $request
+	 * @return mixed
+	 * @throws ValidationException
+	 */
 	public function updateBank(Request $request) {
 		// dd($request);
-		$request->validate([
-			'bank_name' => ['required', 'string'],
-			'account_name' => ['required', 'string'],
-			'account_number' => ['required', 'string', 'digits:10'],
-			'account_type' => ['required', 'string'],
-			'bank_code' => ['required', 'string'],
-		]);
+		Validator::make($request->all(), [
+			'bank_name' => ['bail', 'required', 'string'],
+			'account_name' => ['bail', 'required', 'string'],
+			'account_number' => ['bail', 'required', 'string', 'digits:10'],
+			'account_type' => ['bail', 'required', 'string'],
+			'bank_code' => ['bail', 'required', 'string'],
+		])->validate();
+		/*$request->validate([
+
+		]);*/
 
 		$user = auth()->user();
 
-		$user->bankDetail->update([
+		return $user->bankDetail->update([
 			'bank_name' => $request->bank_name,
 			'account_name' => $request->account_name,
 			'account_number' => $request->account_number,
@@ -195,8 +207,6 @@ class ProfileController extends Controller {
 			'bank_code' => $request->bank_code,
 			'is_verified' => true,
 		]);
-
-		return redirect('profile/verify');
 	}
 
 	public function uploadId(Request $request) {

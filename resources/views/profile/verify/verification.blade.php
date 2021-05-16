@@ -32,7 +32,7 @@
             </div><!-- .nk-kycfm-head -->
 
             <div class="nk-kycfm-head">
-                <a href="{{URL("profile/verify/bank")}}">
+                <a {!! !$user->hasVerifiedBank() ? 'href="' . route('profile.verify.bank') . '"' : NULL !!}>
                     <div class=""><img class="w-70 d-block d-sm-none"
                                        src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedBank() ? 'success' : 'pending'}}.png"
                                        alt="" srcset=""></div>
