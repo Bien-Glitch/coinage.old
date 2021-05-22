@@ -77,8 +77,8 @@
 								</ul>
 								<div class="user-account-actions">
 									<ul class="g-3">
-										<li><a href="#" class="btn btn-lg btn-primary"><span>Deposit</span></a></li>
-										<li><a href="#" class="btn btn-lg btn-warning"><span>Withdraw</span></a></li>
+										<li><a href="{{route('buy.btc')}}" class="btn btn-lg btn-primary"><span>Buy</span></a></li>
+										<li><a href="{{route('offers.create')}}" class="btn btn-lg btn-warning"><span>Sell</span></a></li>
 									</ul>
 								</div>
 							</div><!-- .nk-sidebar-widget -->
@@ -132,7 +132,7 @@
 										<li><a href="#" class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-in"></em></a></li>
 									</ul>
 									<ul class="link-list">
-										<li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+										<li><a href="/my-account"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
 										<li><a href="profile-security.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
 										<li><a href="profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
 									</ul>
@@ -297,7 +297,7 @@
 												</div>
 												<div class="user-info d-none d-md-block">
 													<div class="user-status user-status-unverified">Unverified</div>
-													<div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+													<div class="user-name dropdown-indicator">{{Auth::User()->fullName}}</div>
 												</div>
 											</div>
 										</a>
@@ -305,11 +305,11 @@
 											<div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
 												<div class="user-card">
 													<div class="user-avatar">
-														<span>AB</span>
+														<span>{{Auth::User()->Initials}}</span>
 													</div>
 													<div class="user-info">
-														<span class="lead-text">Igboeli Gabriel Moses</span>
-														<span class="sub-text">infooftnio.com</span>
+														<span class="lead-text">{{Auth::User()->fullName}}</span>
+														<span class="sub-text">{{Auth::User()->email}}</span>
 													</div>
 												</div>
 											</div>
@@ -321,7 +321,7 @@
 											</div>
 											<div class="dropdown-inner">
 												<ul class="link-list">
-													<li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+													<li><a href="/my-account"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
 													<li><a href="profile-security.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
 													<li><a href="profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
 													<li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>

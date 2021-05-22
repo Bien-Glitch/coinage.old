@@ -14,27 +14,31 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class ProfileController extends Controller {
+class ProfileController extends Controller
+{
 	private int $status = 300;
 
 	/**
 	 * Returns a view
 	 */
-	public function profile() {
+	public function profile()
+	{
 		return view('profile.profile', ['user' => Auth::user()]);
 	}
 
 	/**
 	 * Returns a view
 	 */
-	public function profileVerify() {
+	public function profileVerify()
+	{
 		return view('profile.verify.verification', ['user' => Auth::user()]);
 	}
 
 	/**
 	 * Returns a view
 	 */
-	public function verifyPhone() {
+	public function verifyPhone()
+	{
 		if (!Auth::user()->hasVerifiedPhone())
 			return view('profile.verify.phone');
 		return back();
@@ -43,14 +47,18 @@ class ProfileController extends Controller {
 	/**
 	 * Returns a view
 	 */
-	public function verifyBank() {
-		return view('profile.verify.bank');
+	public function verifyBank()
+	{
+		if (!Auth::user()->hasVerifiedBank())
+			return view('profile.verify.bank');
+		return back();
 	}
 
 	/**
 	 * Returns a view
 	 */
-	public function verifyId() {
+	public function verifyId()
+	{
 		return view('profile.verify.id');
 	}
 
@@ -60,7 +68,8 @@ class ProfileController extends Controller {
 	 * @param Request $request
 	 * @return Application|ResponseFactory|Response
 	 */
-	public function sendOtp(Request $request) {
+	public function sendOtp(Request $request)
+	{
 		$response = [];
 		$user = auth()->user();
 		$otp = rand(100000, 999999);
@@ -107,7 +116,8 @@ class ProfileController extends Controller {
 	 * @param Request $request
 	 * @return Application|ResponseFactory|Response
 	 */
-	public function verifyOtp(Request $request) {
+	public function verifyOtp(Request $request)
+	{
 		$response = [];
 
 		// dd($request->session()->get('phone'));
@@ -148,7 +158,8 @@ class ProfileController extends Controller {
 		/*return redirect('profile/verify');*/
 	}
 
-	public function resendOtp(Request $request) {
+	public function resendOtp(Request $request)
+	{
 		$response = [];
 		$phone = $request->session()->get('phone');
 
@@ -184,7 +195,8 @@ class ProfileController extends Controller {
 	 * @return mixed
 	 * @throws ValidationException
 	 */
-	public function updateBank(Request $request) {
+	public function updateBank(Request $request)
+	{
 		// dd($request);
 		Validator::make($request->all(), [
 			'bank_name' => ['bail', 'required', 'string'],
@@ -209,7 +221,8 @@ class ProfileController extends Controller {
 		]);
 	}
 
-	public function uploadId(Request $request) {
+	public function uploadId(Request $request)
+	{
 		dd($request);
 	}
 }
