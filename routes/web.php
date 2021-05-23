@@ -30,9 +30,12 @@ Auth::routes(['verify' => true]);
 Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 	Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+	Route::middleware(['verified.profile'])->group(function () {
+		Route::get('/offers/create', [OfferController::class, 'create'])->name('offers.create');
+	});
 	//profile
 	Route::get('/my-account', [ProfileController::class, 'profile']);
-	Route::get('/profile/verify', [ProfileController::class, 'profileVerify']);
+	Route::get('/profile/verify', [ProfileController::class, 'profileVerify'])->name('profile.verify');
 	Route::get('/profile/verify/phone', [ProfileController::class, 'verifyPhone'])->name('profile.verify.phone');
 	Route::get('/profile/verify/bank', [ProfileController::class, 'verifyBank'])->name('profile.verify.bank');
 	Route::get('/profile/verify/id', [ProfileController::class, 'verifyId']);
@@ -46,7 +49,6 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 
 	//Offers
 	Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
-	Route::get('/offers/create', [OfferController::class, 'create'])->name('offers.create');
 	Route::get('/offers/show/{offer:id}', [OfferController::class, 'show'])->name('offers.show');
 	/*Route::get('/offers/edit', [OfferController::class, 'edit'])->name('offers.edit');*/
 

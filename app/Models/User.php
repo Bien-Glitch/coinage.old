@@ -95,6 +95,11 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->identification->is_verified;
 	}
 
+	public function hasVerifiedProfile()
+	{
+		return $this->hasVerifiedEmail() && $this->hasVerifiedPhone() && $this->hasVerifiedBank() && $this->hasVerifiedId();
+	}
+
 	// Attribute
 
 	public function getFullNameAttribute()
