@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\BulkSmsNigeria;
+use App\Models\Offer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Session\Session;
@@ -23,7 +24,8 @@ class ProfileController extends Controller
 	 */
 	public function profile()
 	{
-		return view('profile.profile', ['user' => Auth::user()]);
+		$offers = Offer::all()->where('user_id', Auth::id());
+		return view('profile.profile', ['user' => Auth::user(), 'offers' => $offers]);
 	}
 
 	/**

@@ -87,11 +87,11 @@
 									<div class="user-card-wrap">
 										<div class="user-card">
 											<div class="user-avatar">
-												<span>AB</span>
+												<span>{{Auth::User()->initials}}</span>
 											</div>
 											<div class="user-info">
-												<span class="lead-text">Igboeli Gabriel Moses</span>
-												<span class="sub-text">infooftnio.com</span>
+												<span class="lead-text">{{Auth::User()->fullName}}</span>
+												<span class="sub-text">{{Auth::User()->email}}</span>
 											</div>
 											<div class="user-action">
 												<em class="icon ni ni-chevron-down"></em>
@@ -439,7 +439,7 @@
 				</div>
 				<!-- footer  -->
 			</div>
-			<!-- wrap  -->
+			<!-- wrap  --
 		</div>
 		<!-- main  -->
 	</div>

@@ -65,33 +65,55 @@
                             </div><!-- data-list -->
                             <div class="nk-data data-list">
                                 <div class="data-head">
-                                    <h6 class="overline-title">Preferences</h6>
+                                    <h6 class="overline-title">Active Offers</h6>
                                 </div>
-                                <div class="data-item">
-                                    <div class="data-col">
-                                        <span class="data-label">Language</span>
-                                        <span class="data-value">English (United State)</span>
-                                    </div>
-                                    <div class="data-col data-col-end"><a href="#" data-toggle="modal"
-                                            data-target="#profile-language" class="link link-primary">Change
-                                            Language</a></div>
-                                </div><!-- data-item -->
-                                <div class="data-item">
-                                    <div class="data-col">
-                                        <span class="data-label">Date Format</span>
-                                        <span class="data-value">M d, YYYY</span>
-                                    </div>
-                                    <div class="data-col data-col-end"><a href="#" data-toggle="modal"
-                                            data-target="#profile-language" class="link link-primary">Change</a></div>
-                                </div><!-- data-item -->
-                                <div class="data-item">
-                                    <div class="data-col">
-                                        <span class="data-label">Timezone</span>
-                                        <span class="data-value">Bangladesh (GMT +6)</span>
-                                    </div>
-                                    <div class="data-col data-col-end"><a href="#" data-toggle="modal"
-                                            data-target="#profile-language" class="link link-primary">Change</a></div>
-                                </div><!-- data-item -->
+                                <div class="tranx-list tranx-list-stretch card card-bordered">
+									@forelse ($offers as $offer )
+										<a type="button" class="tranx-item view-offer" data-id="{{ $offer->id }}" data-percent="{{ $offer->percentage }}" data-uri="{{ route('offers.show', $offer->id) }}">
+											<div class="tranx-col">
+												<div class="tranx-info">
+													<div class="tranx-badge">
+														<span class="tranx-icon icon ni ni-sign-btc"></span>
+													</div>
+													<div class="tranx-data">
+														<div class="tranx-label">{{ $offer->crypto_type }}</div>
+														<div class="tranx-date" hidden>{{ $offer->percentage }}</div>
+													</div>
+												</div>
+											</div>
+											<div class="tranx-col">
+												<div class="tranx-amount">
+													<div class="number">
+														{{--{{ $offer }}--}}
+														<strong class="crypto-total"></strong>
+														<span class="crypto-currency">{{ $offer->crypto_type }}</span>
+													</div>
+													<div class="number-sm">
+														<span>Current Market Value:</span> <strong class="crypto-current"></strong>
+														<span class="fiat-currency currency-usd">/ 1 {{ $offer->crypto_type }}</span>
+													</div>
+													<span class="number-sm">
+														{{ $offer->min_amount . ' - ' . $offer->max_amount }}
+														<span>(min - max)</span>
+													</span>
+												</div>
+											</div>
+										</a><!-- .nk-tranx-item -->
+									@empty
+										<div class="tranx-item alert alert-danger p-1">
+											<div class="tranx-col">
+												<div class="tranx-info">
+													<div class="tranx-badge">
+														<span class="tranx-icon icon ni ni-info"></span>
+													</div>
+													<div class="tranx-data">
+														You do not have any orders yet!
+													</div>
+												</div>
+											</div>
+										</div><!-- .nk-tranx-item -->
+									@endforelse
+								</div><!-- .card -->
                             </div><!-- data-list -->
                         </div><!-- .nk-block -->
                     </div>
@@ -101,11 +123,11 @@
                             <div class="card-inner">
                                 <div class="user-card">
                                     <div class="user-avatar bg-primary">
-                                        <span>AB</span>
+                                        <span>{{Auth::User()->initials}}</span>
                                     </div>
                                     <div class="user-info">
-                                        <span class="lead-text">Abu Bin Ishtiyak</span>
-                                        <span class="sub-text">info@softnio.com</span>
+                                        <span class="lead-text">{{Auth::User()->fullname}}</span>
+                                        <span class="sub-text">{{Auth::User()->email}}</span>
                                     </div>
                                     <div class="user-action">
                                         <div class="dropdown">
@@ -308,4 +330,5 @@
         </div><!-- .modal-content -->
     </div><!-- .modal-dialog -->
 </div><!-- .modal -->
+<script src="{{ asset('design/js/custom/user.js') }}"></script>
 @endsection
