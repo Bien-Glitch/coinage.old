@@ -35,15 +35,17 @@ class ProfileController extends Controller {
 	 * Returns a view
 	 */
 	public function verifyPhone() {
-		if (!Auth::user()->hasVerifiedPhone())
-			return view('profile.verify.phone');
-		return back();
+		if (Auth::user()->hasVerifiedPhone())
+			return redirect(route('profile.verify.index'));
+		return view('profile.verify.phone');
 	}
 
 	/**
 	 * Returns a view
 	 */
 	public function verifyBank() {
+		if (Auth::user()->hasVerifiedBank())
+			return redirect(route('profile.verify.index'));
 		return view('profile.verify.bank');
 	}
 

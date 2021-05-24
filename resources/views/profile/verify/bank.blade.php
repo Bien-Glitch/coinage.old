@@ -38,6 +38,8 @@
 					</div><!-- .row -->
 				</form>
 
+				<div class="text-center throbber" style="display: none"><img src="{{ asset('dashboard/assets/images/jsTree/throbber.gif') }}" alt="{{ __('Loading') }}" class="img-fluid" width="20px"></div>
+
 				<form action="{{ route('profile.bank.update') }}" method="POST" id="verify-bank-form">
 					<section id="verify-account-wrapper" style="display: none">
 						<div class="row g-4">
@@ -115,77 +117,5 @@
 
 		</div><!-- .nk-kycfm -->
 	</div><!-- .card -->
-	<script>
-		$(function () {
-			let _acc_no,
-				acc_no_form = '#verify-acc-no',
-				bank_form = '#verify-bank-form',
-				acc_no = acc_no_form + ' #account_number',
-				verify_account_wrapper = '#verify-account-wrapper';
-
-			function completeBankVerification(form, acc_name, bank_name, acc_no, code) {
-				$(form).on('submit', function (e) {
-					e.preventDefault();
-					let target = this;
-
-					$(target).ajaxSubmit({
-						url: formAction(form),
-						method: 'POST',
-						data: {
-							account_number: acc_no,
-							account_name: acc_name,
-							bank_name: bank_name,
-							bank_code: code,
-							_token: token
-						},
-						dataType: 'json',
-						beforeSend: function () {
-							$(acc_no_form + ' button[type="submit"]').prop({disabled: true});
-							$('button[type="submit"]', target).prop({disabled: true});
-						},
-						complete: function (xhr) {
-							let resp = xhr.responseJSON;
-
-							if (xhr.status === 200 || xhr.status === 201) {
-								alert('Verification Successful!');
-								urlLocation.href = '/profile/verify';
-							} else
-								displayError(formAttr(target).form, formAttr(target).that, resp.errors)
-
-							$(acc_no_form + ' button[type="submit"]').prop({disabled: false});
-							$('button[type="submit"]', target).prop({disabled: false});
-						}
-					});
-				});
-			}
-
-			$(acc_no_form).on('submit', function (e) {
-				e.preventDefault();
-				let target = this;
-				_acc_no = $(acc_no).val();
-
-				$.ajax({
-					url: 'https://app.nuban.com.ng/api/NUBAN-PKNLOWGQ540?acc_no=' + _acc_no, method: 'GET', timeout: 8000, dataType: 'json', beforeSend: function () {
-						$('button[type="submit"]', target).prop({disabled: true});
-					}, complete: function (xhr) {
-						let resp = xhr.responseJSON;
-						if (xhr.status === 200)
-							if (resp.error === true) {
-								let error = {account_number: resp.message};
-								displayError(formAttr(target).form, formAttr(target).that, error);
-							} else {
-								$(bank_form + ' #account_name').val(resp[0]['account_name']);
-								$(bank_form + ' #bank_name').html('<option value="' + resp[0]['bank_name'] + '" selected>' + resp[0]['bank_name'] + '</option>');
-								$(verify_account_wrapper).slideDown(800, () => {
-									completeBankVerification(bank_form, resp[0]['account_name'], resp[0]['bank_name'], resp[0]['account_number'], resp[0]['bank_code']);
-								});
-							}
-						$('button[type="submit"]', target).prop({disabled: false});
-					}, error: function () {
-						alert('Please check your internet connection and try again!');
-					}
-				});
-			});
-		});
-	</script>
+	<script src="{{ asset('design/js/custom/user.js') }}"></script>
 @endsection

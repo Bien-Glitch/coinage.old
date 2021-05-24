@@ -31,7 +31,7 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 
     //profile
     Route::get('/my-account', [ProfileController::class, 'profile']);
-    Route::get('/profile/verify', [ProfileController::class, 'profileVerify']);
+    Route::get('/profile/verify', [ProfileController::class, 'profileVerify'])->name('profile.verify.index');
     Route::get('/profile/verify/phone', [ProfileController::class, 'verifyPhone'])->name('profile.verify.phone');
     Route::get('/profile/verify/bank', [ProfileController::class, 'verifyBank'])->name('profile.verify.bank');
     Route::get('/profile/verify/id', [ProfileController::class, 'verifyId']);
