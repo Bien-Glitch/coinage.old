@@ -62,58 +62,81 @@
 									</div><!-- data-item -->
 
 
-								</div><!-- data-list -->
-								<div class="nk-data data-list">
-									<div class="data-head">
-										<h6 class="overline-title">Preferences</h6>
-									</div>
-									<div class="data-item">
-										<div class="data-col">
-											<span class="data-label">Language</span>
-											<span class="data-value">English (United State)</span>
-										</div>
-										<div class="data-col data-col-end"><a href="#" data-toggle="modal"
-										                                      data-target="#profile-language" class="link link-primary">Change
-												Language</a></div>
-									</div><!-- data-item -->
-									<div class="data-item">
-										<div class="data-col">
-											<span class="data-label">Date Format</span>
-											<span class="data-value">M d, YYYY</span>
-										</div>
-										<div class="data-col data-col-end"><a href="#" data-toggle="modal"
-										                                      data-target="#profile-language" class="link link-primary">Change</a></div>
-									</div><!-- data-item -->
-									<div class="data-item">
-										<div class="data-col">
-											<span class="data-label">Timezone</span>
-											<span class="data-value">Bangladesh (GMT +6)</span>
-										</div>
-										<div class="data-col data-col-end"><a href="#" data-toggle="modal"
-										                                      data-target="#profile-language" class="link link-primary">Change</a></div>
-									</div><!-- data-item -->
-								</div><!-- data-list -->
-							</div><!-- .nk-block -->
-						</div>
-						<div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
-						     data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
-							<div class="card-inner-group" data-simplebar>
-								<div class="card-inner">
-									<div class="user-card">
-										<div class="user-avatar bg-primary">
-											<span>AB</span>
-										</div>
-										<div class="user-info">
-											<span class="lead-text">Abu Bin Ishtiyak</span>
-											<span class="sub-text">info@softnio.com</span>
-										</div>
-										<div class="user-action">
-											<div class="dropdown">
-												<a class="btn btn-icon btn-trigger mr-n2" data-toggle="dropdown"
-												   href="#"><em class="icon ni ni-more-v"></em></a>
-												<div class="dropdown-menu dropdown-menu-right">
-													<ul class="link-list-opt no-bdr">
-														<li><a href="#"><em class="icon ni ni-camera-fill"></em><span>Change
+                            </div><!-- data-list -->
+                            <div class="nk-data data-list">
+                                <div class="data-head">
+                                    <h6 class="overline-title">Active Offers</h6>
+                                </div>
+                                <div class="tranx-list tranx-list-stretch card card-bordered">
+									@forelse ($offers as $offer )
+										<a type="button" class="tranx-item view-offer" data-id="{{ $offer->id }}" data-percent="{{ $offer->percentage }}" data-uri="{{ route('offers.show', $offer->id) }}">
+											<div class="tranx-col">
+												<div class="tranx-info">
+													<div class="tranx-badge">
+														<span class="tranx-icon icon ni ni-sign-btc"></span>
+													</div>
+													<div class="tranx-data">
+														<div class="tranx-label">{{ $offer->crypto_type }}</div>
+														<div class="tranx-date" hidden>{{ $offer->percentage }}</div>
+													</div>
+												</div>
+											</div>
+											<div class="tranx-col">
+												<div class="tranx-amount">
+													<div class="number">
+														{{--{{ $offer }}--}}
+														<strong class="crypto-total"></strong>
+														<span class="crypto-currency">{{ $offer->crypto_type }}</span>
+													</div>
+													<div class="number-sm">
+														<span>Current Market Value:</span> <strong class="crypto-current"></strong>
+														<span class="fiat-currency currency-usd">/ 1 {{ $offer->crypto_type }}</span>
+													</div>
+													<span class="number-sm">
+														{{ $offer->min_amount . ' - ' . $offer->max_amount }}
+														<span>(min - max)</span>
+													</span>
+												</div>
+											</div>
+										</a><!-- .nk-tranx-item -->
+									@empty
+										<div class="tranx-item alert alert-danger p-1">
+											<div class="tranx-col">
+												<div class="tranx-info">
+													<div class="tranx-badge">
+														<span class="tranx-icon icon ni ni-info"></span>
+													</div>
+													<div class="tranx-data">
+														You do not have any orders yet!
+													</div>
+												</div>
+											</div>
+										</div><!-- .nk-tranx-item -->
+									@endforelse
+								</div><!-- .card -->
+                            </div><!-- data-list -->
+                        </div><!-- .nk-block -->
+                    </div>
+                    <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
+                        data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                        <div class="card-inner-group" data-simplebar>
+                            <div class="card-inner">
+                                <div class="user-card">
+                                    <div class="user-avatar bg-primary">
+                                        <span>{{Auth::User()->initials}}</span>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="lead-text">{{Auth::User()->fullname}}</span>
+                                        <span class="sub-text">{{Auth::User()->email}}</span>
+                                    </div>
+                                    <div class="user-action">
+                                        <div class="dropdown">
+                                            <a class="btn btn-icon btn-trigger mr-n2" data-toggle="dropdown"
+                                                href="#"><em class="icon ni ni-more-v"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="#"><em class="icon ni ni-camera-fill"></em><span>Change
+
                                                                 Photo</span></a></li>
 														<li><a href="#"><em class="icon ni ni-edit-fill"></em><span>Update
                                                                 Profile</span></a></li>
@@ -195,121 +218,122 @@
 		</div>
 	</div>
 
-	<!-- @@ Profile Edit Modal @e -->
-	<div class="modal fade" tabindex="-1" role="dialog" id="profile-edit">
-		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-			<div class="modal-content">
-				<a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
-				<div class="modal-body modal-body-lg">
-					<h5 class="title">Update Profile</h5>
-					<ul class="nk-nav nav nav-tabs">
-						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#personal">Personal</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#address">Address</a>
-						</li>
-					</ul><!-- .nav-tabs -->
-					<div class="tab-content">
-						<div class="tab-pane active" id="personal">
-							<div class="row gy-4">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-label" for="full-name">Surname</label>
-										<input type="text" class="form-control form-control-lg" id="full-name"
-										       value="{{$user->surname}}">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-label" for="display-name">Other Names</label>
-										<input type="text" class="form-control form-control-lg" id="display-name"
-										       value="{{$user->other_names}}">
-									</div>
-								</div>
-								{{-- <div class="col-md-6">
-										<div class="form-group">
-											<label class="form-label" for="phone-no">Phone Number</label>
-											<input type="text" class="form-control form-control-lg" id="phone-no"
-												value="+880" placeholder="Phone Number">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<label class="form-label" for="birth-day">Date of Birth</label>
-											<input type="text" class="form-control form-control-lg date-picker"
-												id="birth-day" placeholder="Enter your name">
-										</div>
-									</div>
-									<div class="col-12">
-										<div class="custom-control custom-switch">
-											<input type="checkbox" class="custom-control-input" id="latest-sale">
-											<label class="custom-control-label" for="latest-sale">Use full name to display
-											</label>
-										</div>
-									</div> --}}
-								<div class="col-12">
-									<ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-										<li>
-											<a href="#" class="btn btn-lg btn-primary">Update Profile</a>
-										</li>
-										<li>
-											<a href="#" data-dismiss="modal" class="link link-light">Cancel</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div><!-- .tab-pane -->
-						<div class="tab-pane" id="address">
-							<div class="row gy-4">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-label" for="address-l1">Address Line 1</label>
-										<input type="text" class="form-control form-control-lg" id="address-l1"
-										       value="2337 Kildeer Drive">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-label" for="address-l2">Address Line 2</label>
-										<input type="text" class="form-control form-control-lg" id="address-l2" value="">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-label" for="address-st">State</label>
-										<input type="text" class="form-control form-control-lg" id="address-st"
-										       value="Kentucky">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-label" for="address-county">Country</label>
-										<select class="form-select" id="address-county" data-ui="lg">
-											<option>Canada</option>
-											<option>United State</option>
-											<option>United Kindom</option>
-											<option>Australia</option>
-											<option>India</option>
-											<option>Bangladesh</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-12">
-									<ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-										<li>
-											<a href="#" class="btn btn-lg btn-primary">Update Address</a>
-										</li>
-										<li>
-											<a href="#" data-dismiss="modal" class="link link-light">Cancel</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div><!-- .tab-pane -->
-					</div><!-- .tab-content -->
-				</div><!-- .modal-body -->
-			</div><!-- .modal-content -->
-		</div><!-- .modal-dialog -->
-	</div><!-- .modal -->
+<!-- @@ Profile Edit Modal @e -->
+<div class="modal fade" tabindex="-1" role="dialog" id="profile-edit">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+            <div class="modal-body modal-body-lg">
+                <h5 class="title">Update Profile</h5>
+                <ul class="nk-nav nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#personal">Personal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#address">Address</a>
+                    </li>
+                </ul><!-- .nav-tabs -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="personal">
+                        <div class="row gy-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="full-name">Surname</label>
+                                    <input type="text" class="form-control form-control-lg" id="full-name"
+                                        value="{{$user->surname}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="display-name">Other Names</label>
+                                    <input type="text" class="form-control form-control-lg" id="display-name"
+                                        value="{{$user->other_names}}">
+                                </div>
+                            </div>
+                            {{-- <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone-no">Phone Number</label>
+                                        <input type="text" class="form-control form-control-lg" id="phone-no"
+                                            value="+880" placeholder="Phone Number">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="birth-day">Date of Birth</label>
+                                        <input type="text" class="form-control form-control-lg date-picker"
+                                            id="birth-day" placeholder="Enter your name">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="latest-sale">
+                                        <label class="custom-control-label" for="latest-sale">Use full name to display
+                                        </label>
+                                    </div>
+                                </div> --}}
+                            <div class="col-12">
+                                <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                    <li>
+                                        <a href="#" class="btn btn-lg btn-primary">Update Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-dismiss="modal" class="link link-light">Cancel</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!-- .tab-pane -->
+                    <div class="tab-pane" id="address">
+                        <div class="row gy-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-l1">Address Line 1</label>
+                                    <input type="text" class="form-control form-control-lg" id="address-l1"
+                                        value="2337 Kildeer Drive">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-l2">Address Line 2</label>
+                                    <input type="text" class="form-control form-control-lg" id="address-l2" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-st">State</label>
+                                    <input type="text" class="form-control form-control-lg" id="address-st"
+                                        value="Kentucky">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-county">Country</label>
+                                    <select class="form-select" id="address-county" data-ui="lg">
+                                        <option>Canada</option>
+                                        <option>United State</option>
+                                        <option>United Kindom</option>
+                                        <option>Australia</option>
+                                        <option>India</option>
+                                        <option>Bangladesh</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                    <li>
+                                        <a href="#" class="btn btn-lg btn-primary">Update Address</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-dismiss="modal" class="link link-light">Cancel</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!-- .tab-pane -->
+                </div><!-- .tab-content -->
+            </div><!-- .modal-body -->
+        </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+</div><!-- .modal -->
+<script src="{{ asset('design/js/custom/user.js') }}"></script>
 @endsection

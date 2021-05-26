@@ -14,8 +14,8 @@
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
                 <ul class="nk-block-tools gx-3">
-                    <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateOffer"><span>Sell</span> <em class="icon ni ni-arrow-long-right"></em></button></li>
-                    <li><a href="offers.html" class="btn btn-white btn-light"><span>Buy</span> <em class="icon ni ni-arrow-long-right d-none d-sm-inline-block"></em></a></li>
+                    <li><a class="btn btn-primary text-white" href="{{route('offers.create')}}"><span>Sell</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
+                    <li><a href="{{route('buy.btc')}}" class="btn btn-white btn-light"><span>Buy</span> <em class="icon ni ni-arrow-long-right d-none d-sm-inline-block"></em></a></li>
                     <li class="opt-menu-md dropdown">
                         <a href="#" class="btn btn-white btn-light btn-icon" data-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
                         <div class="dropdown-menu dropdown-menu-right">
