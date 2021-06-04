@@ -18,6 +18,6 @@ class VerifiedProfile
 	{
 		if (auth()->user()->hasVerifiedProfile())
 			return $next($request);
-		return redirect(route('profile.verify'))->with(['user' => auth()->user()]);
+		return redirect(route('profile.verify.index'))->with(['user' => auth()->user()]);
 	}
 }
