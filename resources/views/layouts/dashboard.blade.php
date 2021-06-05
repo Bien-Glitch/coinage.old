@@ -439,7 +439,7 @@
 				</div>
 				<!-- footer  -->
 			</div>
-			<!-- wrap  --
+			<!-- wrap  -->
 		</div>
 		<!-- main  -->
 	</div>
