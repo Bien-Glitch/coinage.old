@@ -34,6 +34,14 @@ let otp,
 
 /**================ 1. - General Functions ================**/
 /**
+ * Function to check if the given element is hovered on
+ * @returns {boolean | jQuery}
+ */
+jQuery.fn.mouseIsOver = function () {
+	return $(this[0]).is(':hover');
+};
+
+/**
  * Function to return the action attribute of given form
  * @param {selector | string} _form
  * @returns {string | jQuery}

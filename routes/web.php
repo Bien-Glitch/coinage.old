@@ -45,7 +45,7 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 	Route::post('/profile/verify/phone/verifyOtp', [ProfileController::class, 'verifyOtp'])->name('phone.otp.verify');
 
 	Route::post('/profile/verify/bank/process', [ProfileController::class, 'updateBank'])->name('profile.bank.update');
-	Route::post('/profile/verify/id/process', [ProfileController::class, 'uploadId']);
+	Route::post('/profile/verify/id/process', [ProfileController::class, 'uploadId'])->name('profile.verify.id');
 
 	//Offers
 	Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');

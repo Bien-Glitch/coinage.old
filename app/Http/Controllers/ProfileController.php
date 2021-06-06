@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\BulkSmsNigeria;
+use App\Models\Identification;
 use App\Models\Offer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -12,18 +13,17 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class ProfileController extends Controller
-{
-	private int $status = 300;
+class ProfileController extends Controller {
+	private $status = 300;
 
 	/**
 	 * Returns a view
 	 */
-	public function profile()
-	{
+	public function profile() {
 		$offers = Offer::all()->where('user_id', Auth::id());
 		return view('profile.profile', ['user' => Auth::user(), 'offers' => $offers]);
 	}
@@ -31,8 +31,7 @@ class ProfileController extends Controller
 	/**
 	 * Returns a view
 	 */
-	public function profileVerify()
-	{
+	public function profileVerify() {
 		return view('profile.verify.verification', ['user' => Auth::user()]);
 	}
 
@@ -57,8 +56,7 @@ class ProfileController extends Controller
 	/**
 	 * Returns a view
 	 */
-	public function verifyId()
-	{
+	public function verifyId() {
 		return view('profile.verify.id');
 	}
 
@@ -68,8 +66,7 @@ class ProfileController extends Controller
 	 * @param Request $request
 	 * @return Application|ResponseFactory|Response
 	 */
-	public function sendOtp(Request $request)
-	{
+	public function sendOtp(Request $request) {
 		$response = [];
 		$user = auth()->user();
 		$otp = rand(100000, 999999);
@@ -116,8 +113,7 @@ class ProfileController extends Controller
 	 * @param Request $request
 	 * @return Application|ResponseFactory|Response
 	 */
-	public function verifyOtp(Request $request)
-	{
+	public function verifyOtp(Request $request) {
 		$response = [];
 
 		// dd($request->session()->get('phone'));
@@ -158,8 +154,7 @@ class ProfileController extends Controller
 		/*return redirect('profile/verify');*/
 	}
 
-	public function resendOtp(Request $request)
-	{
+	public function resendOtp(Request $request) {
 		$response = [];
 		$phone = $request->session()->get('phone');
 
@@ -195,8 +190,7 @@ class ProfileController extends Controller
 	 * @return mixed
 	 * @throws ValidationException
 	 */
-	public function updateBank(Request $request)
-	{
+	public function updateBank(Request $request) {
 		// dd($request);
 		Validator::make($request->all(), [
 			'bank_name' => ['bail', 'required', 'string'],
@@ -221,8 +215,56 @@ class ProfileController extends Controller
 		]);
 	}
 
-	public function uploadId(Request $request)
-	{
-		dd($request);
+	public function uploadId(Request $request) {
+		Validator::make($request->all(), [
+			'id_type' => ['bail', 'string', 'required'],
+			'id_number' => ['bail', 'string', 'required'],
+			'dob' => ['bail', 'date', 'required'],
+			'id_upload_front' => ['bail', 'image', 'required', 'max:20480'],
+			'id_upload_back' => ['bail', 'image', 'required', 'max:20480'],
+		])->validate();
+
+		$id_back = $request->file('id_upload_back');
+		$id_front = $request->file('id_upload_front');
+
+		$upload_settings = $this->uploadSettings('ID');
+		$db_destination = $upload_settings['db_path'];
+		$destination = $upload_settings['path'];
+
+		$id_back_output = 'id_back_' . Auth::id() . '.' . $id_back->getClientOriginalExtension();
+		$id_front_output = 'id_front_' . Auth::id() . '.' . $id_front->getClientOriginalExtension();
+
+		if (in_array($id_back->getClientOriginalExtension(), $upload_settings['accepted_ext']) && in_array($id_front->getClientOriginalExtension(), $upload_settings['accepted_ext']))
+			if (Storage::makeDirectory($destination))
+				if ($id_front->storeAs($destination, $id_front_output) && $id_back->storeAs($destination, $id_back_output)) {
+					Identification::where('user_id', Auth::id())->update([
+						'dob' => date('Y-m-d', date_timestamp_get(date_create($request['dob']))),
+						'id_number' => $request['id_number'],
+						'id_type' => $request['id_type'],
+						'id_front' => $db_destination . $id_front_output,
+						'id_back' => $db_destination . $id_back_output,
+					]);
+					$message = 'Upload Successful. Verification process will take 24hrs.';
+					$this->status = 200;
+
+				} else {
+					Storage::deleteDirectory($destination);
+					$message = 'Error Uploading your ID please try again. Please contact us if this continues';
+				}
+			else
+				$message = 'An error occurred: Could not access storage. Please contact us if this continues';
+		else
+			$message = 'ID upload must be a JPG or PNG image';
+
+		return Response(['message' => $message], $this->status);
+	}
+
+	private function uploadSettings($dir) {
+		return [
+			'rand' => substr(str_shuffle('1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'), 0, 10),
+			'db_path' => '/storage/user_data/uploads/' . Auth::id() . '/' . $dir . '/',
+			'path' => '/public/user_data/uploads/' . Auth::id() . '/' . $dir . '/',
+			'accepted_ext' => ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG']
+		];
 	}
 }
