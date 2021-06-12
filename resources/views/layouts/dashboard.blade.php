@@ -296,7 +296,11 @@
 													<em class="icon ni ni-user-alt"></em>
 												</div>
 												<div class="user-info d-none d-md-block">
+													@if (Auth::User()->hasVerifiedProfile())
+													<div class="user-status user-status-verified">Verified</div>
+													@else
 													<div class="user-status user-status-unverified">Unverified</div>
+													@endif
 													<div class="user-name dropdown-indicator">{{Auth::User()->fullName}}</div>
 												</div>
 											</div>

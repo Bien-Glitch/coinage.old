@@ -30,6 +30,9 @@ Auth::routes(['verify' => true]);
 Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 	Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+	Route::middleware(['verified.profile'])->group(function () {
+		Route::get('/offers/create', [OfferController::class, 'create'])->name('offers.create');
+	});
 	//profile
 	Route::get('/my-account', [ProfileController::class, 'profile']);
 	Route::get('/profile/verify', [ProfileController::class, 'profileVerify'])->name('profile.verify.index');
@@ -46,7 +49,6 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 
 	//Offers
 	Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
-	Route::get('/offers/create', [OfferController::class, 'create'])->name('offers.create');
 	Route::get('/offers/show/{offer:id}', [OfferController::class, 'show'])->name('offers.show');
 	/*Route::get('/offers/edit', [OfferController::class, 'edit'])->name('offers.edit');*/
 
