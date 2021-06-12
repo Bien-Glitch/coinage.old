@@ -11,6 +11,11 @@ let otp,
 	_price,
 	index_price,
 	_index_price,
+	_dismiss = '',
+
+	mess_tag = '#mess .resp',
+	mess_text = '#mess .mess',
+	mess = $(mess_text).html();
 
 	percentage_inp = '#percentage',
 	view_offer = '.view-offer',
@@ -121,6 +126,40 @@ function displayError(form, that, error, mess, mess_tag) {
 		}
 	}
 	/*if (mess) message(danger_rem_class, fa_exc, mess, mess_tag);*/
+}
+
+/**
+ * Function to display messages
+ * (** Requires html class attributes: bs4 (eg. .alert-danger), fa icon (eg. fa-exclamation), the message, target message element, the dismissible choice (optional), error element ID (optional) and instance of the form fields' error element (optional) and the error message **)
+ * @param {string} class_opt
+ * @param {string} fa_tag
+ * @param {string} mess
+ * @param {selector | string} mess_tag
+ * @param {boolean} dismiss
+ * @param {string} _id
+ * @param {any | context} _context
+ */
+function showMessage(class_opt, fa_tag, mess, mess_tag, dismiss = false, _id = '', _context = null) {
+	let _mess_tag = $(mess_tag);
+
+	if (dismiss === true) {
+		_dismiss = '<a type="button" class="text-danger" data-dismiss="alert"><i class="icon ni ni-stop-circle"></i></a>';
+		class_opt += ' alert-dismissible';
+	} else
+		_dismiss = '';
+
+	if (_context !== null)
+		_mess_tag = $(mess_tag, _context);
+
+	_mess_tag.html('\
+        <div class="alert d-flex justify-content-between align-items-center ' + class_opt + '" data-id="' + _id + '">\n\
+            <div class="mx-1">\
+                <i class="icon ' + fa_tag + '"></i> \n\
+                ' + mess + '\n\
+            </div>\
+            <div>' + _dismiss + '</div>\
+        </div>\
+    ');
 }
 
 /**================ 2. - Crypto Functions ================**/

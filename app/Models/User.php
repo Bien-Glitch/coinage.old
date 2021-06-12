@@ -95,6 +95,10 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->identification->is_verified;
 	}
 
+	public function isPendingIdVerification() {
+		return !empty($this->identification->id_number) && !$this->identification->is_verified;
+	}
+
 	// Attribute
 
 	public function getFullNameAttribute()

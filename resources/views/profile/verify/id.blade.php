@@ -1,25 +1,32 @@
 @extends('layouts.dashboard')
 @section('content')
 	<div class="card card-bordered">
-		<div class="nk-kycfm">
-			<div class="nk-kycfm-head">
-				<div class="nk-kycfm-title">
-					<h5 class="title">ID Document Upload</h5>
-					<p class="sub-title">To verify your identity, please upload any of your document.</p>
-				</div>
-			</div><!-- .nk-kycfm-head -->
-			<div class="nk-kycfm-content">
-				<form action="{{ route('profile.verify.id') }}" method="POST" enctype="multipart/form-data" id="verify-id-form">
-					<div class="nk-kycfm-note">
-						<em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right"
-						    title="Tooltip on right"></em>
-						<p>In order to complete, please upload any of the following personal document.</p>
+		@if( $user->isPendingIdVerification() )
+			<div class="tranx-item alert alert-danger p-2">
+				<span class="tranx-icon ni ni-alert"></span>
+				<div class="tranx-data">Your ID Verification is still in progress...</div>
+			</div>
+		@else
+
+			<div class="nk-kycfm">
+				<div class="nk-kycfm-head">
+					<div class="nk-kycfm-title">
+						<h5 class="title">ID Document Upload</h5>
+						<p class="sub-title">To verify your identity, please upload any of your document.</p>
 					</div>
-					<ul class="nk-kycfm-control-list g-3">
-						<li class="nk-kycfm-control-item">
-							<input class="nk-kycfm-control" value="Passport" type="radio" name="id_type" id="passport"
-							       data-title="Passport" checked>
-							<label class="nk-kycfm-label" for="passport">
+				</div><!-- .nk-kycfm-head -->
+				<div class="nk-kycfm-content">
+					<form action="{{ route('profile.verify.id') }}" method="POST" enctype="multipart/form-data" id="verify-id-form">
+						<div class="nk-kycfm-note">
+							<em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right"
+							    title="Tooltip on right"></em>
+							<p>In order to complete, please upload any of the following personal document.</p>
+						</div>
+						<ul class="nk-kycfm-control-list g-3">
+							<li class="nk-kycfm-control-item">
+								<input class="nk-kycfm-control" value="Passport" type="radio" name="id_type" id="passport"
+								       data-title="Passport" checked>
+								<label class="nk-kycfm-label" for="passport">
                             <span class="nk-kycfm-label-icon">
                                 <div class="label-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71.9904 75.9285">
@@ -28,13 +35,13 @@
 	                                        transform="translate(-3.9995 -2.101)" fill="#6476ff"/></svg>
                                 </div>
                             </span>
-								<span class="nk-kycfm-label-text">Passport</span>
-							</label>
-						</li><!-- .nk-kycfm-control-item -->
-						<li class="nk-kycfm-control-item">
-							<input class="nk-kycfm-control" value="National ID" type="radio" name="id_type" id="national-id"
-							       data-title="National ID">
-							<label class="nk-kycfm-label" for="national-id">
+									<span class="nk-kycfm-label-text">Passport</span>
+								</label>
+							</li><!-- .nk-kycfm-control-item -->
+							<li class="nk-kycfm-control-item">
+								<input class="nk-kycfm-control" value="National ID" type="radio" name="id_type" id="national-id"
+								       data-title="National ID">
+								<label class="nk-kycfm-label" for="national-id">
                             <span class="nk-kycfm-label-icon">
                                 <div class="label-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 63">
@@ -43,13 +50,13 @@
 	                                        transform="translate(-2 -8.9898)" fill="#6476ff"/></svg>
                                 </div>
                             </span>
-								<span class="nk-kycfm-label-text">National ID</span>
-							</label>
-						</li><!-- .nk-kycfm-control-item -->
-						<li class="nk-kycfm-control-item">
-							<input class="nk-kycfm-control" value="Driving License" type="radio" name="id_type"
-							       id="driver-licence" data-title="Driving License">
-							<label class="nk-kycfm-label" for="driver-licence">
+									<span class="nk-kycfm-label-text">National ID</span>
+								</label>
+							</li><!-- .nk-kycfm-control-item -->
+							<li class="nk-kycfm-control-item">
+								<input class="nk-kycfm-control" value="Driving License" type="radio" name="id_type"
+								       id="driver-licence" data-title="Driving License">
+								<label class="nk-kycfm-label" for="driver-licence">
                             <span class="nk-kycfm-label-icon">
                                 <div class="label-icon">
 
@@ -59,13 +66,13 @@
 	                                        transform="translate(-2 -2)" fill="#6476ff"/></svg>
                                 </div>
                             </span>
-								<span class="nk-kycfm-label-text">Driving License</span>
-							</label>
-						</li><!-- .nk-kycfm-control-item -->
-						<li class="nk-kycfm-control-item">
-							<input class="nk-kycfm-control" value="Voters Card" type="radio" name="id_type" id="voters-card"
-							       data-title="Voters Card">
-							<label class="nk-kycfm-label" for="voters-card">
+									<span class="nk-kycfm-label-text">Driving License</span>
+								</label>
+							</li><!-- .nk-kycfm-control-item -->
+							<li class="nk-kycfm-control-item">
+								<input class="nk-kycfm-control" value="Voters Card" type="radio" name="id_type" id="voters-card"
+								       data-title="Voters Card">
+								<label class="nk-kycfm-label" for="voters-card">
                             <span class="nk-kycfm-label-icon">
                                 <div class="label-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 63">
@@ -74,137 +81,170 @@
 	                                        transform="translate(-2 -8.9898)" fill="#6476ff"/></svg>
                                 </div>
                             </span>
-								<span class="nk-kycfm-label-text">Voters Card</span>
-							</label>
-						</li><!-- .nk-kycfm-control-item -->
-					</ul><!-- .nk-kycfm-control-list -->
-					<h6 class="title">To avoid delays when verifying account, Please make sure bellow:</h6>
-					<ul class="list list-sm list-checked">
-						<li>Chosen credential must not be expired.</li>
-						<li>Document should be good condition and clearly visible.</li>
-						<li>Make sure that there is no light glare on the card.</li>
-					</ul>
-					<div class="row">
-						<div class="col-md-6 mb-2">
-							<div class="form-group">
-								<div class="form-control-wrap">
-									<input type="text" maxlength="15"
-									       class="form-control form-control-lg form-control-outlined @error('id_number') is-invalid @enderror"
-									       value="{{ old('id_number') }}" name="id_number" id="id-number" required>
-									<label class="form-label-outlined" for="outlined">ID Number</label>
-									@error('id_number')
-									<span class="invalid-feedback" role="alert">
+									<span class="nk-kycfm-label-text">Voters Card</span>
+								</label>
+							</li><!-- .nk-kycfm-control-item -->
+						</ul><!-- .nk-kycfm-control-list -->
+						<h6 class="title">To avoid delays when verifying account, Please make sure bellow:</h6>
+						<ul class="list list-sm list-checked">
+							<li>Chosen credential must not be expired.</li>
+							<li>Document should be good condition and clearly visible.</li>
+							<li>Make sure that there is no light glare on the card.</li>
+						</ul>
+						<div class="row">
+							<div class="col-md-6 mb-2">
+								<div class="form-group">
+									<div class="form-control-wrap">
+										<input type="text" maxlength="15" class="form-control form-control-lg form-control-outlined" value="{{ old('id_number') }}" name="id_number" id="id_number" required>
+										<label class="form-label-outlined" for="outlined">ID Number</label>
+
+										<span id="id_numberValid" role="alert">
+                                            <strong></strong>
+                                        </span>
+										{{--@error('id_number')
+										<span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-									@enderror
+										@enderror--}}
+									</div>
 								</div>
-							</div>
-						</div><!-- .col -->
-						<div class="col-md-6 mb-2">
-							<div class="form-control-wrap">
-								<div class="form-icon form-icon-right">
-									<em class="icon ni ni-calendar-alt"></em>
-								</div>
-								<input type="text"
-								       class="form-control form-control-lg form-control-outlined date-picker @error('dob') is-invalid @enderror"
-								       name="dob" id="dob" required>
-								<label class="form-label-outlined" for="outlined-date-picker">Date of Birth</label>
-								@error('dob')
-								<span class="invalid-feedback" role="alert">
+							</div><!-- .col -->
+							<div class="col-md-6 mb-2">
+								<div class="form-control-wrap">
+									<div class="form-icon form-icon-right">
+										<em class="icon ni ni-calendar-alt"></em>
+									</div>
+									<input type="text"
+									       class="form-control form-control-lg form-control-outlined date-picker " name="dob" id="dob" required>
+									<label class="form-label-outlined" for="outlined-date-picker">Date of Birth</label>
+
+									<span id="dobValid" role="alert">
+                                        <strong></strong>
+                                    </span>
+									{{--@error('dob')
+									<span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
-								@enderror
+									@enderror--}}
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<div class="my-4 upload-box">
-						<h6 class="title nk-kycfm-upload-title">Upload Here Your Copy (Front)</h6>
-						<div class="d-flex justify-content-between align-items-center main">
-							<div id="front" class="d-flex flex-fill align-items-center flex-column mx-auto p-5" style="border: 1px dashed lightgray;cursor: pointer">
-								<span class="text-muted">Drag and drop file</span>
-								<span class="text-muted">OR</span>
-								<button type="button" class="btn btn-primary">SELECT</button>
-								<input id="id_upload_front" name="id_upload_front" type="file" accept=".jpg, .png" hidden/>
-							</div>
+						<div class="my-4 upload-box">
+							<h6 class="title nk-kycfm-upload-title">Upload Here Your Copy (Front)</h6>
+							<div class="d-flex justify-content-between align-items-center main">
+								<div id="front" class="d-flex flex-fill align-items-center flex-column mx-auto p-5" style="border: 1px dashed lightgray;cursor: pointer">
+									<span class="text-muted">Drag and drop file</span>
+									<span class="text-muted">OR</span>
+									<button type="button" class="btn btn-primary">SELECT</button>
+									<input id="id_upload_front" name="id_upload_front" type="file" accept=".jpg, .png" hidden/>
+								</div>
 
-							<div class="d-flex flex-fill align-items-center w-max-175px">
-								<img src="{{asset('dashboard/images/icons/id-front.svg')}}" class="img-fluid w-100" alt="ID Front">
+								<div class="d-flex flex-fill align-items-center p-1 w-max-175px">
+									<img src="{{asset('dashboard/images/icons/id-front.svg')}}" class="img-fluid w-100" alt="ID Front" style="transform: rotate(-90deg)">
+								</div>
 							</div>
+							<span id="id_upload_frontValid" role="alert">
+                                <strong></strong>
+                            </span>
 						</div>
-					</div>
 
-					<div class="my-4 upload-box">
-						<h6 class="title nk-kycfm-upload-title">Upload Here Your Copy (Back)</h6>
-						<div class="d-flex justify-content-between align-items-center main">
-							<div id="back" class="d-flex flex-fill align-items-center flex-column mx-auto p-5" style="border: 1px dashed lightgray;cursor: pointer">
-								<span class="text-muted">Drag and drop file</span>
-								<span class="text-muted">OR</span>
-								<button type="button" class="btn btn-primary">SELECT</button>
-								<input id="id_upload_back" name="id_upload_back" type="file" accept=".jpg, .png" hidden/>
-							</div>
+						<div class="my-4 upload-box">
+							<h6 class="title nk-kycfm-upload-title">Upload Here Your Copy (Back)</h6>
+							<div class="d-flex justify-content-between align-items-center main">
+								<div id="back" class="d-flex flex-fill align-items-center flex-column mx-auto p-5" style="border: 1px dashed lightgray;cursor: pointer">
+									<span class="text-muted">Drag and drop file</span>
+									<span class="text-muted">OR</span>
+									<button type="button" class="btn btn-primary">SELECT</button>
+									<input id="id_upload_back" name="id_upload_back" type="file" accept=".jpg, .png" hidden/>
+								</div>
 
-							<div class="d-flex flex-fill align-items-center w-max-175px">
-								<img src="{{asset('dashboard/images/icons/id-back.svg')}}" class="img-fluid w-100" alt="ID Back">
+								<div class="d-flex flex-fill align-items-center p-1 w-max-175px">
+									<img src="{{asset('dashboard/images/icons/id-back.svg')}}" class="img-fluid w-100" alt="ID Back" style="transform: rotate(-90deg)">
+								</div>
 							</div>
+							<span id="id_upload_backValid" role="alert">
+                                <strong></strong>
+                            </span>
 						</div>
-					</div>
 
-					{{--<div class="nk-kycfm-upload">
-						<h6 class="title nk-kycfm-upload-title">Upload Here Your Copy</h6>
-						<div class="row align-items-center">
-							<div class="col-sm-8">
-								<div class="nk-kycfm-upload-box">
-									<div class="upload-zone">
-										<div class="dz-message" data-dz-message>
-											<span class="dz-message-text">Drag and drop file</span>
-											<span class="dz-message-or">or</span>
-											<button type="button" class="btn btn-primary">SELECT</button>
+						{{--<div class="nk-kycfm-upload">
+							<h6 class="title nk-kycfm-upload-title">Upload Here Your Copy</h6>
+							<div class="row align-items-center">
+								<div class="col-sm-8">
+									<div class="nk-kycfm-upload-box">
+										<div class="upload-zone">
+											<div class="dz-message" data-dz-message>
+												<span class="dz-message-text">Drag and drop file</span>
+												<span class="dz-message-or">or</span>
+												<button type="button" class="btn btn-primary">SELECT</button>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-sm-4 d-none d-sm-block">
-								<div class="mx-md-4">
-									<img src="{{asset('dashboard/images/icons/id-front.svg')}}" alt="ID Front">
-								</div>
-							</div>
-						</div>
-					</div><!-- nk-kycfm-upload -->
-					<div class="nk-kycfm-upload">
-						<h6 class="title nk-kycfm-upload-title">Upload Here Your Copy</h6>
-						<div class="row align-items-center">
-							<div class="col-sm-8">
-								<div class="nk-kycfm-upload-box">
-									<div class="upload-zone">
-										<div class="dz-message" data-dz-message>
-											<span class="dz-message-text">Drag and drop file</span>
-											<span class="dz-message-or">or</span>
-											<button type="button" class="btn btn-primary">SELECT</button>
-										</div>
+								<div class="col-sm-4 d-none d-sm-block">
+									<div class="mx-md-4">
+										<img src="{{asset('dashboard/images/icons/id-front.svg')}}" alt="ID Front">
 									</div>
 								</div>
 							</div>
-							<div class="col-sm-4 d-none d-sm-block">
-								<div class="mx-md-4">
-									<img src="{{asset('dashboard/images/icons/id-back.svg')}}" alt="ID Back">
+						</div><!-- nk-kycfm-upload -->
+						<div class="nk-kycfm-upload">
+							<h6 class="title nk-kycfm-upload-title">Upload Here Your Copy</h6>
+							<div class="row align-items-center">
+								<div class="col-sm-8">
+									<div class="nk-kycfm-upload-box">
+										<div class="upload-zone">
+											<div class="dz-message" data-dz-message>
+												<span class="dz-message-text">Drag and drop file</span>
+												<span class="dz-message-or">or</span>
+												<button type="button" class="btn btn-primary">SELECT</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4 d-none d-sm-block">
+									<div class="mx-md-4">
+										<img src="{{asset('dashboard/images/icons/id-back.svg')}}" alt="ID Back">
+									</div>
 								</div>
 							</div>
+						</div><!-- nk-kycfm-upload -->--}}
+						<div class="nk-kycfm-action text-center pt-2">
+							<button type="submit" class="btn btn-lg btn-primary">Process for Verify</button>
 						</div>
-					</div><!-- nk-kycfm-upload -->--}}
-					<div class="nk-kycfm-action text-center pt-2">
-						<button type="submit" class="btn btn-lg btn-primary">Process for Verify</button>
-					</div>
-				</form>
-			</div><!-- .nk-kycfm-content -->
 
-		</div><!-- .nk-kycfm -->
+						<div id="mess" class="my-2">
+							<div class="resp" style="display: none;"></div>
+							<div class="mess d-none"><i class="text-danger icon ni ni-alert-fill"></i> <span class="text-primary">Please Wait...</span></div>
+						</div>
+					</form>
+				</div><!-- .nk-kycfm-content -->
+
+			</div><!-- .nk-kycfm -->
+		@endif
 	</div><!-- .card -->
 	<script>
 		let id_front = '#id_upload_front',
-			id_back = '#id_upload_back';
+			id_back = '#id_upload_back',
+			front_only = false;
 
-		$('.upload-box .main').each(function (idx, val) {
+		function idImage(files, ele) {
+			if (files.length > 1)
+				alert('Only one file allowed for upload');
+			else {
+				if (files.length === 1)
+					if (files[0].type !== 'image/jpeg' && files[0].type !== 'image/png')
+						alert('Invalid upload type!\r\nFile must be a jpeg(jpg) or png image')
+					else {
+						let image = files[0];
+						$('img', ele).attr('src', URL.createObjectURL(image));
+						$('input[type="file"]', ele)[0].files = files;
+					}
+			}
+		}
+
+		$('.upload-box .main').each(function () {
 			let target = this,
 				id = '#' + $($(this).children()[0]).attr('id');
 
@@ -231,38 +271,45 @@
 			});
 		});
 
-		function idImage(files, ele) {
-			if (files.length > 1)
-				alert('Only one file allowed for upload');
-			else {
-				if (files[0].type !== 'image/jpeg' && files[0].type !== 'image/png')
-					alert('Invalid upload type!\r\nFile must be a jpeg(jpg) or png image')
-				else {
-					let image = files[0];
-					$('img', ele).attr('src', URL.createObjectURL(image));
-					$('input[type="file"]', ele)[0].files = files;
-				}
+		$('input[name="id_type"]').on('change', function (e) {
+			let target = e.currentTarget;
+
+			if ($(target).attr('id').toLocaleLowerCase() === 'national-id') {
+				front_only = true;
+				$($('.upload-box')[1]).fadeOut(800);
+			} else {
+				front_only = false;
+				$($('.upload-box')[1]).fadeIn(800);
 			}
-		}
+		});
 
 		$('#verify-id-form').on('submit', function (e) {
 			e.preventDefault();
-			if ($(id_front).val().length < 1 || $(id_back).val().length < 1)
+
+			if ((front_only === false) && ($(id_front).val().length < 1 || $(id_back).val().length < 1))
 				alert('Please upload the front and back of your ID');
-			else
+			else if ((front_only === true) && $(id_front).val().length < 1) {
+				alert('Please upload the front your National ID');
+			} else {
+				$(mess_tag).html(mess).fadeIn();
+
 				$(this).ajaxSubmit({
-					method: 'POST', url: formAction(this), data: {_token: token}, dataType: 'json', complete: function (xhr) {
-						console.log(xhr)
+					method: 'POST', url: formAction(this), data: {front_only: front_only, _token: token}, dataType: 'json', complete: function (xhr) {
+						let resp = xhr.responseJSON;
+						console.log(xhr.status)
+						if (xhr.status !== 500 && xhr.status !== 422) {
+							if (xhr.status === 200 || xhr.status === 201) {
+								showMessage('alert-success', 'ni ni-check-circle', resp.message + '<br>Please wait...', mess_tag, false);
+								setTimeout(() => {
+									urlLocation.href = '/profile/verify';
+								}, 2000)
+							} else
+								showMessage('alert-danger', 'ni ni-alert', resp.message, mess_tag, true);
+						} else
+							showMessage('alert-danger', 'ni ni-alert', 'An error occurred, Please try again. Please contact us if this continues.', mess_tag, true);
 					}
 				});
-		})
-
-		/*let image = files[0],
-			file = new FileReader();
-
-		file.onload = function (e) {
-			$('#display').attr('src', e.target.result);
-		}
-		file.readAsDataURL(image);*/
+			}
+		});
 	</script>
 @endsection
