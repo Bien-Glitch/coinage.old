@@ -182,6 +182,11 @@
 												<li class="list-group-item py-2 border-0 text-success font-weight-bold">ID is
 													verified
 												</li>
+											@elseif ($user->isPendingIdVerification())
+												<a href="profile/verify/id" class="text-danger font-weight-bold d-flex">
+													<li class="list-group-item py-2 border-0">ID Verification  <span class="badge badge-outline-primary small">in progress</span></li>
+
+												</a>
 											@else
 												<a href="profile/verify/id" class="text-danger font-weight-bold">
 													<li class="list-group-item py-2 border-0">ID Verification</li>

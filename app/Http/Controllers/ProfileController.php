@@ -20,13 +20,15 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
 use Illuminate\Validation\ValidationException;
 
-class ProfileController extends Controller {
+class ProfileController extends Controller
+{
 	private $status = 300;
 
 	/**
 	 * Returns a view
 	 */
-	public function profile() {
+	public function profile()
+	{
 		$offers = Offer::all()->where('user_id', Auth::id());
 		return view('profile.profile', ['user' => Auth::user(), 'offers' => $offers]);
 	}
@@ -34,14 +36,16 @@ class ProfileController extends Controller {
 	/**
 	 * Returns a view
 	 */
-	public function profileVerify() {
+	public function profileVerify()
+	{
 		return view('profile.verify.verification', ['user' => Auth::user()]);
 	}
 
 	/**
 	 * Returns a view
 	 */
-	public function verifyPhone() {
+	public function verifyPhone()
+	{
 		if (Auth::user()->hasVerifiedPhone())
 			return redirect(route('profile.verify.index'));
 		return view('profile.verify.phone');
@@ -50,7 +54,8 @@ class ProfileController extends Controller {
 	/**
 	 * Returns a view
 	 */
-	public function verifyBank() {
+	public function verifyBank()
+	{
 		if (Auth::user()->hasVerifiedBank())
 			return redirect(route('profile.verify.index'));
 		return view('profile.verify.bank');
@@ -59,7 +64,8 @@ class ProfileController extends Controller {
 	/**
 	 * Returns a view
 	 */
-	public function verifyId() {
+	public function verifyId()
+	{
 		if (Auth::user()->hasVerifiedId())
 			return redirect(route('profile.verify.index'));
 		return view('profile.verify.id', ['user' => Auth::user()]);
@@ -71,7 +77,8 @@ class ProfileController extends Controller {
 	 * @param Request $request
 	 * @return Application|ResponseFactory|Response
 	 */
-	public function sendOtp(Request $request) {
+	public function sendOtp(Request $request)
+	{
 		$response = [];
 		$user = auth()->user();
 		$otp = rand(100000, 999999);
@@ -118,7 +125,8 @@ class ProfileController extends Controller {
 	 * @param Request $request
 	 * @return Application|ResponseFactory|Response
 	 */
-	public function verifyOtp(Request $request) {
+	public function verifyOtp(Request $request)
+	{
 		$response = [];
 
 		// dd($request->session()->get('phone'));
@@ -159,7 +167,8 @@ class ProfileController extends Controller {
 		/*return redirect('profile/verify');*/
 	}
 
-	public function resendOtp(Request $request) {
+	public function resendOtp(Request $request)
+	{
 		$response = [];
 		$phone = $request->session()->get('phone');
 
@@ -195,7 +204,8 @@ class ProfileController extends Controller {
 	 * @return mixed
 	 * @throws ValidationException
 	 */
-	public function updateBank(Request $request) {
+	public function updateBank(Request $request)
+	{
 		// dd($request);
 		Validator::make($request->all(), [
 			'bank_name' => ['bail', 'required', 'string'],
@@ -225,7 +235,8 @@ class ProfileController extends Controller {
 	 * @return Application|ResponseFactory|Response
 	 * @throws ValidationException
 	 */
-	public function uploadId(Request $request) {
+	public function uploadId(Request $request)
+	{
 		Validator::make($request->all(), [
 			'id_type' => ['bail', 'string', 'required'],
 			'id_number' => ['bail', 'string', 'required'],
@@ -258,7 +269,6 @@ class ProfileController extends Controller {
 						]);
 						$message = 'Upload Successful. Verification process will take 24hrs.';
 						$this->status = 200;
-
 					} else {
 						Storage::deleteDirectory($destination);
 						$message = 'Error Uploading your ID please try again. Please contact us if this continues';
@@ -281,7 +291,6 @@ class ProfileController extends Controller {
 						]);
 						$message = 'Upload Successful. Verification process will take 24hrs.';
 						$this->status = 200;
-
 					} else {
 						Storage::deleteDirectory($destination);
 						$message = 'Error Uploading your ID please try again. Please contact us if this continues';
@@ -299,7 +308,8 @@ class ProfileController extends Controller {
 	 * @param $dir
 	 * @return array
 	 */
-	private function uploadSettings($dir) {
+	private function uploadSettings($dir)
+	{
 		return [
 			'rand' => substr(str_shuffle('1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'), 0, 10),
 			'db_path' => '/storage/user_data/uploads/' . Auth::id() . '/' . $dir . '/',
