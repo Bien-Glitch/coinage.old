@@ -12,9 +12,12 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\RequiredIf;
 use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller {
@@ -57,7 +60,9 @@ class ProfileController extends Controller {
 	 * Returns a view
 	 */
 	public function verifyId() {
-		return view('profile.verify.id');
+		if (Auth::user()->hasVerifiedId())
+			return redirect(route('profile.verify.index'));
+		return view('profile.verify.id', ['user' => Auth::user()]);
 	}
 
 	/**
@@ -215,50 +220,85 @@ class ProfileController extends Controller {
 		]);
 	}
 
+	/**
+	 * @param Request $request
+	 * @return Application|ResponseFactory|Response
+	 * @throws ValidationException
+	 */
 	public function uploadId(Request $request) {
 		Validator::make($request->all(), [
 			'id_type' => ['bail', 'string', 'required'],
 			'id_number' => ['bail', 'string', 'required'],
 			'dob' => ['bail', 'date', 'required'],
 			'id_upload_front' => ['bail', 'image', 'required', 'max:20480'],
-			'id_upload_back' => ['bail', 'image', 'required', 'max:20480'],
+			'id_upload_back' => ['bail', Rule::requiredIf($request['front_only'] === 'false'), 'max:20480'],
 		])->validate();
 
-		$id_back = $request->file('id_upload_back');
+		$id_back = !empty($request['id_upload_back']) ? $request->file('id_upload_back') : NULL;
 		$id_front = $request->file('id_upload_front');
 
 		$upload_settings = $this->uploadSettings('ID');
 		$db_destination = $upload_settings['db_path'];
 		$destination = $upload_settings['path'];
 
-		$id_back_output = 'id_back_' . Auth::id() . '.' . $id_back->getClientOriginalExtension();
+		$id_back_output = !empty($id_back) ? 'id_back_' . Auth::id() . '.' . $id_back->getClientOriginalExtension() : NULL;
 		$id_front_output = 'id_front_' . Auth::id() . '.' . $id_front->getClientOriginalExtension();
 
-		if (in_array($id_back->getClientOriginalExtension(), $upload_settings['accepted_ext']) && in_array($id_front->getClientOriginalExtension(), $upload_settings['accepted_ext']))
-			if (Storage::makeDirectory($destination))
-				if ($id_front->storeAs($destination, $id_front_output) && $id_back->storeAs($destination, $id_back_output)) {
-					Identification::where('user_id', Auth::id())->update([
-						'dob' => date('Y-m-d', date_timestamp_get(date_create($request['dob']))),
-						'id_number' => $request['id_number'],
-						'id_type' => $request['id_type'],
-						'id_front' => $db_destination . $id_front_output,
-						'id_back' => $db_destination . $id_back_output,
-					]);
-					$message = 'Upload Successful. Verification process will take 24hrs.';
-					$this->status = 200;
+		if ($request['front_only'] === 'false')
+			if (in_array($id_back->getClientOriginalExtension(), $upload_settings['accepted_ext']) && in_array($id_front->getClientOriginalExtension(), $upload_settings['accepted_ext'])) {
+				Storage::deleteDirectory($destination);
+				if (Storage::makeDirectory($destination))
+					if ($id_front->storeAs($destination, $id_front_output) && $id_back->storeAs($destination, $id_back_output)) {
+						Identification::where('user_id', Auth::id())->update([
+							'dob' => date('Y-m-d', date_timestamp_get(date_create($request['dob']))),
+							'id_number' => $request['id_number'],
+							'id_type' => $request['id_type'],
+							'id_front' => $db_destination . $id_front_output,
+							'id_back' => $db_destination . $id_back_output,
+						]);
+						$message = 'Upload Successful. Verification process will take 24hrs.';
+						$this->status = 200;
 
-				} else {
-					Storage::deleteDirectory($destination);
-					$message = 'Error Uploading your ID please try again. Please contact us if this continues';
-				}
-			else
-				$message = 'An error occurred: Could not access storage. Please contact us if this continues';
-		else
-			$message = 'ID upload must be a JPG or PNG image';
+					} else {
+						Storage::deleteDirectory($destination);
+						$message = 'Error Uploading your ID please try again. Please contact us if this continues';
+					}
+				else
+					$message = 'An error occurred: Could not access storage. Please contact us if this continues';
+			} else
+				$message = 'ID upload must be a JPG or PNG image';
+		else {
+			if (in_array($id_front->getClientOriginalExtension(), $upload_settings['accepted_ext'])) {
+				Storage::deleteDirectory($destination);
+				if (Storage::makeDirectory($destination))
+					if ($id_front->storeAs($destination, $id_front_output)) {
+						Identification::where('user_id', Auth::id())->update([
+							'dob' => date('Y-m-d', date_timestamp_get(date_create($request['dob']))),
+							'id_number' => $request['id_number'],
+							'id_type' => $request['id_type'],
+							'id_front' => $db_destination . $id_front_output,
+							'id_back' => NULL,
+						]);
+						$message = 'Upload Successful. Verification process will take 24hrs.';
+						$this->status = 200;
+
+					} else {
+						Storage::deleteDirectory($destination);
+						$message = 'Error Uploading your ID please try again. Please contact us if this continues';
+					}
+				else
+					$message = 'An error occurred: Could not access storage. Please contact us if this continues';
+			} else
+				$message = 'ID upload must be a JPG or PNG image';
+		}
 
 		return Response(['message' => $message], $this->status);
 	}
 
+	/**
+	 * @param $dir
+	 * @return array
+	 */
 	private function uploadSettings($dir) {
 		return [
 			'rand' => substr(str_shuffle('1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'), 0, 10),

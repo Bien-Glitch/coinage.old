@@ -47,13 +47,15 @@
 
 			<div class="nk-kycfm-head">
 				<a href="{{URL("profile/verify/id")}}">
-					<div class=""><img class="w-70 d-block d-sm-none" src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedId() ? 'success' : 'pending'}}.png" alt="" srcset=""></div>
+					<div class=""><img class="w-70 d-block d-sm-none" src="../../../dashboard/images/email/kyc-{{($user->hasVerifiedId() && !$user->isPendingIdVerification()) ? 'success' : 'pending'}}.png" alt="" srcset=""></div>
 					{{-- Hidden on only sm --}}
-					<div class=""><img class="w-40 	 d-none d-sm-block" src="../../../dashboard/images/email/kyc-{{$user->hasVerifiedId() ? 'success' : 'pending'}}.png" alt="" srcset=""></div>
+					<div class=""><img class="w-40 	 d-none d-sm-block" src="../../../dashboard/images/email/kyc-{{($user->hasVerifiedId() && !$user->isPendingIdVerification()) ? 'success' : 'pending'}}.png" alt="" srcset=""></div>
 				</a>
 				<div class="nk-kycfm-title">
 					<h5 class="title">ID Verification</h5>
-					<p class="sub-title">To verify your identity, please upload any of your document.</p>
+					<p class="sub-title">
+						{{ $user->isPendingIdVerification() ? 'ID Verification in process...' : ($user->hasVerifiedId() ? 'ID has been successfully verified.' : 'To verify your identity, please upload any of your document.') }}
+					</p>
 				</div>
 			</div><!-- .nk-kycfm-head -->
 
