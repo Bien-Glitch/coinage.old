@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="show-offer-modal" tabindex="-1" role="dialog" aria-labelledby="show-address-modal" aria-hidden="true">
+<div class="modal fade" id="show-offer-modal" tabindex="-1" role="dialog" aria-labelledby="show-offer-modal" aria-hidden="true">
     <div class="modal-xl modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
