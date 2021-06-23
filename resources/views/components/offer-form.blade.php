@@ -50,14 +50,14 @@
 <div class="row g-3 align-center">
     <div class="col-lg-5">
         <div class="form-group">
-            <label class="form-label">Minimum Amount</label>
+            <label for="min_amount" class="form-label">Minimum Amount</label>
             <span class="form-note">Minimum price your can sell (in NGN)</span>
         </div>
     </div>
     <div class="col-lg-7">
         <div class="form-group">
             <div class="form-control-wrap">
-                <input type="text" class="form-control" id="min-amount" name="min_amount" value="{{ !empty($offer) ? $offer->min_amount : 5000 }}">
+                <input type="number" class="form-control" id="min_amount" name="min_amount" value="{{ !empty($offer) ? $offer->min_amount : 5000 }}">
             </div>
         </div>
     </div>
@@ -65,14 +65,14 @@
 <div class="row g-3 align-center">
     <div class="col-lg-5">
         <div class="form-group">
-            <label class="form-label">Maximum Amount</label>
+            <label for="max_amount" class="form-label">Maximum Amount</label>
             <span class="form-note">Maximum price your can sell (in NGN)</span>
         </div>
     </div>
     <div class="col-lg-7">
         <div class="form-group">
             <div class="form-control-wrap">
-                <input type="number" class="form-control" id="max-amount" name="max_amount" value="{{ !empty($offer) ? $offer->max_amount : 100000 }}">
+                <input type="number" class="form-control" id="max_amount" name="max_amount" value="{{ !empty($offer) ? $offer->max_amount : 100000 }}">
             </div>
         </div>
     </div>

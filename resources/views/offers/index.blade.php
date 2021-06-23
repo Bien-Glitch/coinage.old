@@ -12,7 +12,7 @@
             <div class="nk-block-head-content">
                 <ul class="nk-block-tools gx-3">
                     <li class="order-md-last"><a href="#" class="btn btn-primary"><span>Filter</span></a></li>
-                    <li class="order-md-last"><a href="/offers/create" class="btn btn-primary"><span>Create Offer</span></a>
+                    <li class="order-md-last"><a href="{{ route('offers.create') }}" class="btn btn-primary"><span>Create Offer</span></a>
                     </li>
                     <li>
                         <div class="form-group">

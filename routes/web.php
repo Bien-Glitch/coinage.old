@@ -63,4 +63,6 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 	Route::get('/buy/ltc', [BuyController::class, 'buyLtc'])->name('buy.ltc');
 	Route::get('/buy/xrp', [BuyController::class, 'buyXrp'])->name('buy.xrp');
 	Route::get('/buy/doge', [BuyController::class, 'buyDoge'])->name('buy.doge');
+
+	Route::get('/buy/{offer:id}', [BuyController::class, 'show'])->name('buy.show');
 });

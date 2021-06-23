@@ -137,7 +137,7 @@
 										<li><a href="profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
 									</ul>
 									<ul class="link-list">
-										<li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+										<li><a href="{{ route('logout') }}" class="logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
 									</ul>
 								</div>
 							</div><!-- .nk-sidebar-widget -->
@@ -297,9 +297,9 @@
 												</div>
 												<div class="user-info d-none d-md-block">
 													@if (Auth::User()->hasVerifiedProfile())
-													<div class="user-status user-status-verified">Verified</div>
+														<div class="user-status user-status-verified">Verified</div>
 													@else
-													<div class="user-status user-status-unverified">Unverified</div>
+														<div class="user-status user-status-unverified">Unverified</div>
 													@endif
 													<div class="user-name dropdown-indicator">{{Auth::User()->fullName}}</div>
 												</div>
@@ -333,7 +333,7 @@
 											</div>
 											<div class="dropdown-inner">
 												<ul class="link-list">
-													<li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+													<li><a href="{{ route('logout') }}" class="logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
 												</ul>
 											</div>
 										</div>

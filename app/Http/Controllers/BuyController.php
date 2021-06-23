@@ -3,10 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offer;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class BuyController extends Controller
 {
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param Offer $offer
+	 * @return Application|Factory|View
+	 */
+	public function show(Offer $offer)
+	{
+		return view('components.show-buy-crypto-modal', ['offer' => $offer]);
+	}
+
 	public function buyBtc()
 	{
 		$offers = Offer::where([

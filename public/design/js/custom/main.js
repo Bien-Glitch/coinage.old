@@ -15,7 +15,7 @@ let otp,
 
 	mess_tag = '#mess .resp',
 	mess_text = '#mess .mess',
-	mess = $(mess_text).html();
+	mess = $(mess_text).html(),
 
 	percentage_inp = '#percentage',
 	view_offer = '.view-offer',
@@ -76,16 +76,26 @@ function formAttr(form) {
  * @param {string} _uri: URI for the given operation (i.e where to load the data from)
  * @param {string | object} data: Additional data to be passed with the URI (** optional [set to null if empty] **)
  * @param {string} _slug: Name of Page to be loaded
+ * @param {selector | string} _modal
  * @param {function} callback: Callback function to be called on load completion (** optional [set to null if empty] **)
  */
-function loadPageData(_wrapper, _uri, data = null, _slug, callback = null) {
+function loadPageData(_wrapper, _uri, data = null, _slug, _modal = null, callback = null) {
 	$(_wrapper).load(_uri, data, function (response, status, xhr) {
 		if (status === 'success') {
+			if (_modal !== null)
+				$(_modal).modal({backdrop: true});
+
 			if (typeof callback === 'function')
 				callback();
 		} else
 			alert('There was an error loading ' + _slug + '\r\nPlease reload this page.');
 	});
+}
+
+function removeInvalidFeedback(field_id) {
+	$(field_id).removeClass('is-invalid');
+	$(field_id + 'Valid').removeClass('invalid-feedback');
+	$(field_id + 'Valid > strong').html('');
 }
 
 // Display Error message(s) and add the error class (** Requires the instance of the form field, the error array, the single error message (optional), and the addRegErr() & message() functions)
@@ -193,6 +203,8 @@ function selectCryptoOffer(_crypto_type, _percentage = percentage, callback = nu
 				_percentage();
 			else if (typeof callback === 'function')
 				callback();
+		}, error: function () {
+			/*alert('Please check your internet connection!');*/
 		}
 	});
 }
@@ -351,3 +363,13 @@ if (urlLocation.pathname === '/offers' || urlLocation.pathname === '/offers/')
 		});
 		currentCryptoOffer(target, _crypto_type, _percentage);
 	});
+
+// Logout of the Application on Logout click
+$('.logout').on('click', function (e) {
+	e.preventDefault();
+	const route = $(this).attr('href');
+	$.post(route, {_token: token}, function (xhr, status) {
+		if (status === 'success')
+			urlLocation.href = '/login'
+	});
+});

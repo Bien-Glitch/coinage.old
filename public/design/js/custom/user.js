@@ -11,8 +11,8 @@ $(function () {
 	 */
 	function cryptoOffer() {
 		function assignCryptoValue() {
-			$('#crypto-total').text(accounting.formatMoney(_price, '₦'));
-			$('#crypto-current').text(accounting.formatMoney(price, '₦'));
+			$('#crypto-total').text(accounting.formatMoney(_price, '₦').toString());
+			$('#crypto-current').text(accounting.formatMoney(price, '₦').toString());
 			$('#crypto-current1').html('<b>' + accounting.formatMoney(price, '₦') + '</b>');
 		}
 
@@ -42,8 +42,8 @@ $(function () {
 				});
 			},
 			blur: function () {
-				let max = $(percentage_inp).attr('max'),
-					min = $(percentage_inp).attr('min');
+				/*let max = $(percentage_inp).attr('max'),
+					min = $(percentage_inp).attr('min');*/
 
 				if ($(percentage_inp).val() === '')
 					$(percentage_inp).val($(percentage_inp).attr('max'));
@@ -95,12 +95,11 @@ $(function () {
 		e.preventDefault();
 		let uri = $(this).data('uri');
 
-		loadPageData('#user-modal-wrapper', uri, null, 'View Offer', () => {
-			percentage_inp = '#percentage';
+		loadPageData('#user-modal-wrapper', uri, null, 'View Offer', '#show-offer-modal', () => {
+			/*percentage_inp = '#percentage';*/
 			percentage = $(percentage_inp).val();
 			crypto_type = $('.crypto_type:checked').val();
 
-			$('#show-offer-modal').modal({backdrop: true});
 			cryptoOffer();
 			onDeleteOffer();
 		});
