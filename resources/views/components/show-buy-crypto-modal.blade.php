@@ -30,8 +30,10 @@
 								<input type="text" class="form-control form-control-lg form-control-number" id="receive_amount" name="recieve_amount" placeholder="{{ old('') }}">
 								<div class="form-dropdown">
 									<div class="text">{{ $offer->crypto_type }}</div>
-
 								</div>
+								<span id="receive_amountValid" role="alert">
+	                                <strong></strong>
+	                            </span>
 							</div>
 
 						</div><!-- .buysell-field -->
