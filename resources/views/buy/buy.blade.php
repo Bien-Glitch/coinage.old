@@ -61,6 +61,7 @@
 				receive_amount_inp = '#receive_amount',
 				sell_crypto_btn = '#buy-crypto-form button[type="submit"]';
 
+			// On click 'buy' crypto button
 			$('.buy-crypto').on('click', function (e) {
 				e.preventDefault();
 				let uri = $(this).data('uri'),
@@ -72,18 +73,20 @@
 					let min_amount = $(buy_amount_inp).attr('min'),
 						max_amount = $(buy_amount_inp).attr('max');
 
-					function currentCryptoValue() {
+					/**
+					 * Get current price for given crypto and update specified fields.
+					 * @param _crypto_type
+					 */
+					function currentCryptoValue(_crypto_type) {
 						(function currentCryptoValue() {
 							currentCryptoVar = setTimeout(() => {
-								selectCryptoOffer(crypto_type, function () {
-									//TODO: Get current crypto value from API and store in '__price'
-									/*console.log(_price)*/
-									/*let __price = Math.fround(10000 + ((10000 * percentage) / 100));*/
+								selectCryptoOffer(_crypto_type, function () {
 									pay_amount = $(buy_amount_inp).val();
-
-									if (pay_amount.length > 0 && receive_amount_inp.length > 0) {
-										$(receive_amount_inp).val(pay_amount / _price);
-									}
+									if (typeof _price !== 'undefined') {
+										if (pay_amount.length > 0 && receive_amount_inp.length > 0)
+											$(receive_amount_inp).val(Math.fround(pay_amount / _price).toFixed(8));
+									} else
+										$(receive_amount_inp).val('');
 								});
 								currentCryptoValue();
 							}, 30000);
@@ -97,26 +100,31 @@
 							$(sell_crypto_btn).prop({disabled: true});
 
 							selectCryptoOffer(crypto_type, function () {
-								//TODO: Get current crypto value from API and store in '__price'
-								/*let __price = Math.fround(10000 + ((10000 * percentage) / 100));*/
-
-								if ($(target).val().length > 0)
-									if (Math.round(pay_amount) < Math.round(min_amount))
-										displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Inputted amount is less than required minimum amount'});
-									else if (Math.round(pay_amount) > Math.round(max_amount))
-										displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Inputted amount is greater than required minimum amount'});
+								if (typeof _price !== 'undefined') {
+									if ($(target).val().length > 0)
+										if (Math.round(pay_amount) < Math.round(min_amount))
+											displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Inputted amount is less than required minimum amount!'});
+										else if (Math.round(pay_amount) > Math.round(max_amount))
+											displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Inputted amount is greater than required minimum amount!'});
+										else {
+											crypto_amount = Math.fround(pay_amount / _price).toFixed(8);
+											$(receive_amount_inp).val(crypto_amount);
+											$(sell_crypto_btn).prop({disabled: false});
+											removeInvalidFeedback('#buy-crypto-form #buy_amount');
+										}
 									else {
-										crypto_amount = (pay_amount / _price);
-										$(receive_amount_inp).val(crypto_amount);
-										$(sell_crypto_btn).prop({disabled: false});
+										$(receive_amount_inp).val('');
 										removeInvalidFeedback('#buy-crypto-form #buy_amount');
 									}
-								else {
-									$(receive_amount_inp).val('');
-									removeInvalidFeedback('#buy-crypto-form #buy_amount');
-								}
+									removeInvalidFeedback('#buy-crypto-form #receive_amount');
+								} else
+									displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {receive_amount: 'Unable to get current crypto price. Please check your internet connection and try again!'});
 							});
 						},
+						blur: function (e) {
+							let target = e.currentTarget;
+							$(target).val(Math.fround($(target).val()).toFixed(2));
+						}
 					});
 
 					$(receive_amount_inp).on({
@@ -126,36 +134,40 @@
 							$(sell_crypto_btn).prop({disabled: true});
 
 							selectCryptoOffer(crypto_type, function () {
-								//TODO: Get current crypto value from API and store in '__price'
-								/*let __price = Math.fround(10000 + ((10000 * percentage) / 100));*/
-								pay_amount = (crypto_amount * _price);
+								if (typeof _price !== 'undefined') {
+									pay_amount = (crypto_amount * _price);
+									if ($(target).val().length > 0) {
+										$(buy_amount_inp).val(Math.fround(pay_amount).toFixed(2));
 
-								if ($(target).val().length > 0) {
-									$(buy_amount_inp).val(pay_amount);
-
-									if (Math.round(pay_amount) < Math.round(min_amount))
-										displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Amount is less than required minimum amount'});
-									else if (Math.round(pay_amount) > Math.round(max_amount))
-										displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Amount is greater than required minimum amount'});
-									else {
-										$(sell_crypto_btn).prop({disabled: false});
+										if (Math.round(pay_amount) < Math.round(min_amount))
+											displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Amount is less than required minimum amount'});
+										else if (Math.round(pay_amount) > Math.round(max_amount))
+											displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Amount is greater than required minimum amount'});
+										else {
+											$(sell_crypto_btn).prop({disabled: false});
+											removeInvalidFeedback('#buy-crypto-form #buy_amount');
+										}
+									} else {
+										$(buy_amount_inp).val('');
 										removeInvalidFeedback('#buy-crypto-form #buy_amount');
 									}
-								} else {
-									$(buy_amount_inp).val('');
-									removeInvalidFeedback('#buy-crypto-form #buy_amount');
-								}
+								} else
+									displayError(formAttr('#buy-crypto-form').form, formAttr('#buy-crypto-form').that, {buy_amount: 'Unable to get current crypto price. Please check your internet connection and try again!'});
 							});
+						},
+						blur: function (e) {
+							let target = e.currentTarget;
+							$(target).val(Math.fround($(target).val()).toFixed(8));
 						}
 					});
 					$(sell_crypto_btn).prop({disabled: true});
-					currentCryptoValue();
+					currentCryptoValue(crypto_type);
 
 					$('#show-buy-crypto-modal').on('hidden.bs.modal', function () {
 						clearTimeout(currentCryptoVar);
 					})
 				});
-			})
+			});
 		});
 	</script>
 @endsection
