@@ -219,8 +219,8 @@ function currentCryptoOffer(target, _crypto_type, _percentage) {
 	(function currentCryptoOffer() {
 		setTimeout(() => {
 			selectCryptoOffer(_crypto_type, _percentage, function () {
-				$('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
-				$('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
+				$('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦').toString());
+				$('.crypto-current', target).text(accounting.formatMoney(index_price, '₦').toString());
 			});
 			currentCryptoOffer();
 		}, 4000);
@@ -358,8 +358,8 @@ if (urlLocation.pathname === '/offers' || urlLocation.pathname === '/offers/')
 			_crypto_type = $('.crypto-currency', this).html();
 
 		selectCryptoOffer(_crypto_type, _percentage, function () {
-			$('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦'));
-			$('.crypto-current', target).text(accounting.formatMoney(index_price, '₦'));
+			$('.crypto-total', target).text(accounting.formatMoney(_index_price, '₦').toString());
+			$('.crypto-current', target).text(accounting.formatMoney(index_price, '₦').toString());
 		});
 		currentCryptoOffer(target, _crypto_type, _percentage);
 	});
