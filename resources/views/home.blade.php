@@ -7,7 +7,7 @@
         </div>
         <div class="nk-block-between-md g-4">
             <div class="nk-block-head-content">
-                <h2 class="nk-block-title fw-normal">Abu Bin Ishityak</h2>
+                <h2 class="nk-block-title fw-normal">{{Auth::User()->fullName}}</h2>
                 <div class="nk-block-des">
                     <p>At a glance summary of your account. Have fun!</p>
                 </div>

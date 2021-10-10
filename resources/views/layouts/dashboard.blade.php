@@ -34,9 +34,9 @@
 			<div class="nk-sidebar nk-sidebar-fixed " data-content="sidebarMenu">
 				<div class="nk-sidebar-element nk-sidebar-head">
 					<div class="nk-sidebar-brand">
-						<a href="index.html" class="logo-link nk-sidebar-logo">
-							<img class="logo-light logo-img" src="{{ asset('dashboard/images/logo.png') }}" srcset="{{ asset('dashboard/images/logo2x.png')}}" alt="logo">
-							<img class="logo-dark logo-img" src="{{ asset('dashboard/images/logo-dark.png') }}" srcset="{{ asset('dashboard/images/logo-dark2x.png') }}" alt="logo-dark">
+						<a href="/home" class="logo-link nk-sidebar-logo">
+							<img src="{{asset('design/img/logo.svg')}}" alt="" srcset="" height="50px" width="100px">
+							{{-- <img class="logo-dark logo-img" src="{{ asset('dashboard/images/logo-dark.png') }}" srcset="{{ asset('dashboard/images/logo-dark2x.png') }}" alt="logo-dark"> --}}
 							<span class="nio-version">Crypto</span>
 						</a>
 					</div>
@@ -268,9 +268,9 @@
 								<a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
 							</div>
 							<div class="nk-header-brand d-xl-none">
-								<a href="index.html" class="logo-link">
-									<img class="logo-light logo-img" src="{{ asset('dashboard/images/logo.png') }}" srcset="{{ asset('dashboard/images/logo2x.png')}}" alt="logo">
-									<img class="logo-dark logo-img" src="{{ asset('dashboard/images/logo-dark.png') }}" srcset="{{ asset('dashboard/images/logo-dark2x.png') }}" alt="logo-dark">
+								<a href="/home" class="logo-link">
+									<img src="{{asset('design/img/logo.svg')}}" alt="" srcset="" height="50px" width="100px">
+									{{-- <img class="logo-dark logo-img" src="{{ asset('dashboard/images/logo-dark.png') }}" srcset="{{ asset('dashboard/images/logo-dark2x.png') }}" alt="logo-dark"> --}}
 									<span class="nio-version">Crypto</span>
 								</a>
 							</div>
