@@ -52,6 +52,7 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 	Route::get('/wallets', [WalletController::class, 'index'])->name('wallets.index');
 	Route::get('/wallets/create', [WalletController::class, 'create'])->name('wallets.create');
 	Route::post('/wallets/store', [WalletController::class, 'store'])->name('wallets.store');
+	Route::get('/wallets/show/{wallet}', [WalletController::class, 'show'])->name('wallets.show');
 
 
 	//Offers

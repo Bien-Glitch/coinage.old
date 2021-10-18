@@ -73,21 +73,25 @@ class WalletController extends Controller
 		// dd($response->error);
 
 		if (!$response->error) {
+			//call get address
+			$addressResponse = $cryptoProcessingWalletApi->callApi('get', '/wallets' . '/' . $response->apiData->data->id . '/addresses', null);
+			// dd($addressResponse);
 			//store wallet data in db
 			$wallet = Wallet::create([
 				'user_id' => auth()->id(),
 				'wallet_id_string' => $response->apiData->data->id,
 				'name' => $response->apiData->data->name,
 				'crypto_type' => $request->crypto_type,
+				'total_received' => $addressResponse->apiData->data[0]->total_received,
+				'total_sent' => $addressResponse->apiData->data[0]->total_sent,
+				'balance' => $addressResponse->apiData->data[0]->final_balance,
 			]);
 
-			//call get address
-			$response = $cryptoProcessingWalletApi->callApi('get', '/wallets' . '/' . $response->apiData->data->id . '/addresses', null);
 
 			//store address info in db
 			Address::create([
 				'wallet_id' => $wallet->id,
-				'address' => $response->apiData->data[0]->address,
+				'address' => $addressResponse->apiData->data[0]->address,
 			]);
 
 			return redirect('/wallets');
@@ -104,7 +108,7 @@ class WalletController extends Controller
 	 */
 	public function show(Wallet $wallet)
 	{
-		//
+		return view('wallets.show', compact('wallet', $wallet));
 	}
 
 	/**

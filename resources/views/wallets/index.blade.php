@@ -157,8 +157,8 @@
 								@endswitch
 							</a>
 							<div class="nk-wgw-balance">
-								<div class="amount">4.434953<span class="currency currency-btc">{{$wallet->crypto_type == 'usdteth'?'USDT' : strtoupper($wallet->crypto_type)}}</span></div>
-								<div class="amount-sm">{{Str::limit($wallet->address->address, 30, '...') }}</span></div>
+								<div class="amount">{{$wallet->balance}}<span class="currency currency-btc">{{$wallet->crypto_type == 'usdteth'?'USDT' : strtoupper($wallet->crypto_type)}}</span></div>
+								<div class="amount-sm">28,247.63<span class="currency currency-usd">USD</span></div>
 							</div>
 						</div>
 						<div class="nk-wgw-actions">
@@ -172,10 +172,10 @@
 							<a href="#" class="btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
 							<div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
 								<ul class="link-list-plain sm">
-									<li><a href="#">Details</a></li>
-									<li><a href="#">Edit</a></li>
+									<li><a href="{{route('wallets.show',$wallet->id)}}">Details</a></li>
+									{{-- <li><a href="#">Edit</a></li>
 									<li><a href="#">Delete</a></li>
-									<li><a href="#">Make Default</a></li>
+									<li><a href="#">Make Default</a></li> --}}
 								</ul>
 							</div>
 						</div>

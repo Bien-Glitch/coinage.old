@@ -19,7 +19,9 @@ class CreateWalletsTable extends Migration
 			$table->string('wallet_id_string')->nullable();
 			$table->string('name')->nullable();
 			$table->string('crypto_type')->nullable();
-			$table->decimal('balance', 10, 5)->nullable();
+			$table->decimal('total_received', 10, 8)->nullable();
+			$table->decimal('total_sent', 10, 8)->nullable();
+			$table->decimal('balance', 10, 8)->nullable();
 			$table->timestamps();
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -14,6 +14,8 @@ class Wallet extends Model
 		'wallet_id_string',
 		'name',
 		'crypto_type',
+		'total_received',
+		'total_sent',
 		'balance',
 	];
 
