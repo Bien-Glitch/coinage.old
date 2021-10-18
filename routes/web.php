@@ -4,6 +4,7 @@ use App\Http\Controllers\BuyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,12 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 	Route::post('/profile/verify/bank/process', [ProfileController::class, 'updateBank'])->name('profile.bank.update');
 	Route::post('/profile/verify/id/process', [ProfileController::class, 'uploadId'])->name('profile.verify.id');
 
+	//Wallets
+	Route::get('/wallets', [WalletController::class, 'index'])->name('wallets.index');
+	Route::get('/wallets/create', [WalletController::class, 'create'])->name('wallets.create');
+	Route::post('/wallets/store', [WalletController::class, 'store'])->name('wallets.store');
+
+
 	//Offers
 	Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
 	Route::get('/offers/show/{offer:id}', [OfferController::class, 'show'])->name('offers.show');
@@ -63,6 +70,8 @@ Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
 	Route::get('/buy/ltc', [BuyController::class, 'buyLtc'])->name('buy.ltc');
 	Route::get('/buy/xrp', [BuyController::class, 'buyXrp'])->name('buy.xrp');
 	Route::get('/buy/doge', [BuyController::class, 'buyDoge'])->name('buy.doge');
+
+
 
 	Route::get('/buy/{offer:id}', [BuyController::class, 'show'])->name('buy.show');
 });

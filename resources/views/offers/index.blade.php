@@ -89,7 +89,7 @@
                     <div class="tranx-col">
                         <div class="tranx-info">
                             <div class="tranx-badge">
-                                <span class="tranx-icon icon ni ni-sign-btc"></span>
+                                <span class="tranx-icon icon ni ni-sign-{{ strtolower($offer->crypto_type) }}"></span>
                             </div>
                             <div class="tranx-data">
                                 <div class="tranx-label">{{ $offer->crypto_type }}</div>

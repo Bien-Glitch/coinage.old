@@ -1,0 +1,143 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Helpers\CryptoProcessingApi;
+use App\Models\Address;
+use App\Models\Wallet;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class WalletController extends Controller
+{
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		$wallets = Wallet::all()->where('user_id', Auth::id());
+
+		return view('wallets.index', compact('wallets', $wallets));
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		return view('wallets.create');
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+		/**
+		 * 		TODO:
+		 * check if wallet type exits already
+		 *
+		 */
+
+		//validate request
+		$request->validate([
+			'crypto_type' => ['required', 'string'],
+		]);
+
+		// check if user has wallet type already
+		$user = auth()->user();
+		$crpyo_exists = $user->wallets->where('crypto_type', $request->crypto_type)->first();
+		if ($crpyo_exists) return redirect(route('wallets.create'))->with('message', "You already have a " . strtoupper($request->crypto_type) . " wallet");
+
+		$cryptoProcessingWalletApi = new CryptoProcessingApi();
+
+		//call the create wallet endpoint
+		$response = $cryptoProcessingWalletApi->callApi(
+			'post',
+			'/wallets',
+			[
+				'name' => strtoupper($request->crypto_type) . ' Wallet ' . auth()->id() . Carbon::now()->timestamp,
+				'currency' => strtoupper($request->crypto_type),
+				'human' => $user->fullname,
+				'description' => 'Customer default ' . strtoupper($request->crypto_type) . ' wallet'
+			]
+		);
+		// dd($response->error);
+
+		if (!$response->error) {
+			//store wallet data in db
+			$wallet = Wallet::create([
+				'user_id' => auth()->id(),
+				'wallet_id_string' => $response->apiData->data->id,
+				'name' => $response->apiData->data->name,
+				'crypto_type' => $request->crypto_type,
+			]);
+
+			//call get address
+			$response = $cryptoProcessingWalletApi->callApi('get', '/wallets' . '/' . $response->apiData->data->id . '/addresses', null);
+
+			//store address info in db
+			Address::create([
+				'wallet_id' => $wallet->id,
+				'address' => $response->apiData->data[0]->address,
+			]);
+
+			return redirect('/wallets');
+		} else {
+			return redirect(route('wallets.create'))->with('message', $response->message);
+		}
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Models\Wallet  $wallet
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(Wallet $wallet)
+	{
+		//
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  \App\Models\Wallet  $wallet
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit(Wallet $wallet)
+	{
+		//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Models\Wallet  $wallet
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, Wallet $wallet)
+	{
+		//
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Models\Wallet  $wallet
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(Wallet $wallet)
+	{
+		//
+	}
+}

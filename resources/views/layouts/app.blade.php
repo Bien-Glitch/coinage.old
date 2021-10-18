@@ -87,6 +87,11 @@
             <div class="d-lg-flex flex-fill justify-content-end align-items-center order-lg-2">
                 <ul class="navbar-nav">
                     <li class="nav-item mx-md-2 mb-2 mb-md-0">
+                        <a class="btn btn-sm btn-purple rounded-pill px-4 w-100" href="/home">
+                            {{ __('Dashboard') }}</a>
+
+                    </li>
+					<li class="nav-item mx-md-2 mb-2 mb-md-0">
                         <a class="btn btn-sm btn-purple rounded-pill px-4 w-100" href="#" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}</a>

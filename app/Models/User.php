@@ -57,6 +57,12 @@ class User extends Authenticatable implements MustVerifyEmail
 			Identification::create([
 				'user_id' => $model->id,
 			]);
+
+			FiatWallet::create([
+				'user_id' => $model->id,
+				'currency' => 'ngn',
+				'balance' => 0.00
+			]);
 		});
 	}
 
@@ -75,6 +81,16 @@ class User extends Authenticatable implements MustVerifyEmail
 	public function identification()
 	{
 		return $this->hasOne(Identification::class);
+	}
+
+	public function wallets()
+	{
+		return $this->hasMany(Wallet::class);
+	}
+
+	public function fiatWallets()
+	{
+		return $this->hasMany(FiatWallet::class);
 	}
 
 
@@ -103,6 +119,13 @@ class User extends Authenticatable implements MustVerifyEmail
 	public function hasVerifiedProfile()
 	{
 		return $this->hasVerifiedEmail() && $this->hasVerifiedPhone() && $this->hasVerifiedBank() && $this->hasVerifiedId();
+	}
+
+	public function getfiatWalletBalance($currency)
+	{
+		$fiatWallet = $this->fiatWallets->where('currency', $currency)->first();
+
+		return $fiatWallet == null ? null : number_format($fiatWallet->balance, 2);
 	}
 
 	// Attribute

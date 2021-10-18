@@ -166,7 +166,7 @@
 										</a>
 									</li>
 									<li class="nk-menu-item">
-										<a href="crypto-wallets.html" class="nk-menu-link">
+										<a href="{{ route('wallets.index') }}" class="nk-menu-link">
 											<span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
 											<span class="nk-menu-text">Crypto Wallets</span>
 										</a>
