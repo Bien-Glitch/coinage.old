@@ -60,8 +60,8 @@
 			<ul class="nk-block-tools gx-3">
 				<li class="btn-wrap"><a href="#" class="btn btn-icon btn-xl btn-dim btn-outline-light"><em
 							class="icon ni ni-arrow-up-right"></em></a><span class="btn-extext">Send</span></li>
-				<li class="btn-wrap"><a href="#" class="btn btn-icon btn-xl btn-dim btn-outline-light"><em
-							class="icon ni ni-arrow-down-left"></em></a><span class="btn-extext">Recive</span></li>
+				<li class="btn-wrap"><a href="#" class="btn btn-icon btn-xl btn-dim btn-outline-light" type="button" data-toggle="modal" data-target="#modalDefault"><em
+							class="icon ni ni-arrow-down-left"></em></a><span class="btn-extext">Receive</span></li>
 			</ul>
 		</div><!-- .nk-block-content -->
 	</div><!-- .nk-block-between -->
@@ -154,4 +154,49 @@
 		</div>
 	</div><!-- .row -->
 </div><!-- .nk-block --> --}}
+
+<!-- Modal Content Code -->
+<div class="modal fade" tabindex="-1" id="modalDefault">
+    <div class="modal-dialog modal-dialog-top" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                <em class="icon ni ni-cross"></em>
+            </a>
+            <div class="modal-header">
+                <h5 class="modal-title">Modal Title</h5>
+            </div>
+			<div class=" m-3 alert alert-warning alert-dismissible">
+				@switch($wallet->crypto_type)
+						@case('btc')
+						Remember to send only Bitcoin (BTC) to this address.
+						Don't send Tether (USDT) or Bitcoin Cash (BCH) to this address as you may not be able to retrieve these funds.
+							@break
+						@case('eth')
+						Make sure you receive only ETH or ERC20-USDT to this wallet address.
+						If you receive any other ERC20 token, you may not be able to retrieve these funds.
+							@break
+						@case('usdteth')
+						Make sure you’re sending only ERC20-USDT tokens to this wallet address. If you send any other USDT token,
+						you may not be able to retrieve these funds.
+							@break
+
+						@default
+
+					@endswitch
+
+			</div>
+            <div class="modal-body">
+                <div class="form-group">
+					<label class="form-label" for="default-01">Your wallet address</label>
+					<div class="form-control-wrap">
+						<input type="text" class="form-control" id="default-01" value="{{$wallet->address->address}}" disabled>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
