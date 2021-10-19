@@ -137,7 +137,7 @@
 				<div class="card card-bordered">
 					<div class="nk-wgw">
 						<div class="nk-wgw-inner">
-							<a class="nk-wgw-name" href="html/crypto/wallet-bitcoin.html">
+							<a class="nk-wgw-name" href="{{route('wallets.show',$wallet->id)}}">
 								<div class="nk-wgw-icon">
 									<em class="icon ni ni-sign-{{$wallet->crypto_type == 'usdteth'?'usdt' : $wallet->crypto_type}}"></em>
 								</div>
@@ -157,8 +157,8 @@
 								@endswitch
 							</a>
 							<div class="nk-wgw-balance">
-								<div class="amount">{{$wallet->balance}}<span class="currency currency-btc">{{$wallet->crypto_type == 'usdteth'?'USDT' : strtoupper($wallet->crypto_type)}}</span></div>
-								<div class="amount-sm">28,247.63<span class="currency currency-usd">USD</span></div>
+								<div class="amount">{{$wallet->getWallet('final_balance')}}<span class="currency currency-btc">{{$wallet->crypto_type == 'usdteth'?'USDT' : strtoupper($wallet->crypto_type)}}</span></div>
+								<div class="amount-sm">28,247.63<span class="currency currency-usd">NGN</span></div>
 							</div>
 						</div>
 						<div class="nk-wgw-actions">

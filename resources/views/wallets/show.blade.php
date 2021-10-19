@@ -48,9 +48,9 @@
 					<div class="nk-wg1-item mr-xl-4">
 						<div class="nk-wg1-title text-soft">Available Balance</div>
 						<div class="nk-wg1-amount">
-							<div class="amount">{{$wallet->balance}} <small class="currency currency-usd">BTC</small></div>
+							<div class="amount">{{$wallet->getWallet('final_balance')}} <small class="currency currency-usd">{{$wallet->crypto_type == 'usdteth'?'USDT' : strtoupper($wallet->crypto_type)}}</small></div>
 							<div class="amount-sm">Balance in <span>2.010550 <span
-										class="currency currency-usd">BTC</span></span></div>
+										class="currency currency-ngn">NGN</span></span></div>
 						</div>
 					</div>
 				</div>
@@ -77,9 +77,9 @@
 						</div>
 						<div class="nk-wg5-text">
 							<div class="nk-wg5-amount">
-								<div class="amount"> {{$wallet->total_sent}} <span class="currency currency-btc">BTC</span>
+								<div class="amount"> {{$wallet->getWallet('total_sent')}} <span class="currency currency-btc">{{$wallet->crypto_type == 'usdteth'?'USDT' : strtoupper($wallet->crypto_type)}}</span>
 								</div>
-								<div class="amount-sm"> 972,360.72 <span class="currency currency-usd">USD</span>
+								<div class="amount-sm"> 972,360.72 <span class="currency currency-usd">NGN</span>
 								</div>
 							</div>
 						</div>
@@ -99,9 +99,9 @@
 						</div>
 						<div class="nk-wg5-text">
 							<div class="nk-wg5-amount">
-								<div class="amount"> {{$wallet->total_received}} <span class="currency currency-btc">BTC</span>
+								<div class="amount"> {{$wallet->getWallet('total_received')}} <span class="currency currency-btc">{{$wallet->crypto_type == 'usdteth'?'USDT' : strtoupper($wallet->crypto_type)}}</span>
 								</div>
-								<div class="amount-sm"> 972,360.72 <span class="currency currency-usd">USD</span>
+								<div class="amount-sm"> 972,360.72 <span class="currency currency-usd">NGN</span>
 								</div>
 							</div>
 						</div>
